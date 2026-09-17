@@ -3,6 +3,8 @@
 This directory contains the production-ready **Django + Django REST Framework (DRF)** backend codebase for **SwapTalent**, featuring:
 
 1. **Models (`models.py`)**:
+
+
    - `UserProfile`: Handles user reputations, completed swap stats, crypto payout wallets, and badges.
    - `TalentListing`: Post what you want to teach, skills offered, skills wanted in exchange, session format, and NOWPayments commitment deposit.
    - `SwapRequest`: Peer-to-peer swap proposal lifecycle with mutual delivery confirmation and automatic escrow release.
