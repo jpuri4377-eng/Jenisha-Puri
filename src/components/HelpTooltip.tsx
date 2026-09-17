@@ -41,7 +41,7 @@ export const HelpTooltip: React.FC<HelpTooltipProps> = ({ text, term, className 
         onMouseEnter={() => setIsOpen(true)}
         onMouseLeave={() => setIsOpen(false)}
         aria-label={term ? `What is ${term}?` : 'Learn more about this term'}
-        className="w-4 h-4 rounded-full text-stone-400 hover:text-[#FF385C] hover:bg-stone-100 transition-colors inline-flex items-center justify-center cursor-pointer focus:outline-none"
+        className="w-4 h-4 rounded-full text-[#8C827A] hover:text-[#D95338] hover:bg-[#FAF7F2] transition-colors inline-flex items-center justify-center cursor-pointer focus:outline-none"
       >
         <HelpCircle className="w-3.5 h-3.5" />
       </button>
@@ -49,18 +49,18 @@ export const HelpTooltip: React.FC<HelpTooltipProps> = ({ text, term, className 
       {isOpen && (
         <div 
           role="tooltip"
-          className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-60 sm:w-68 p-2.5 bg-stone-900 text-white text-xs rounded-2xl shadow-xl z-50 pointer-events-auto animate-in fade-in zoom-in-95 duration-150"
+          className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-60 sm:w-68 p-3 bg-[#2D2623] text-white text-xs rounded-2xl shadow-[0_10px_30px_-5px_rgba(44,37,35,0.3)] z-50 pointer-events-auto animate-in fade-in zoom-in-95 duration-150"
         >
           {term && (
-            <p className="font-semibold text-white/95 pb-1 border-b border-stone-700/80 mb-1 text-[11px]">
+            <p className="font-semibold text-[#FAD5C8] pb-1 border-b border-[#443B38] mb-1.5 text-[11px]">
               {term}
             </p>
           )}
-          <p className="font-normal text-stone-200 text-[11px] leading-relaxed">
+          <p className="font-normal text-[#EAE3D6] text-[11px] leading-relaxed">
             {text}
           </p>
           {/* Subtle triangle indicator */}
-          <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-stone-900" />
+          <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#2D2623]" />
         </div>
       )}
     </span>

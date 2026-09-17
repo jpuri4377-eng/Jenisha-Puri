@@ -5,24 +5,30 @@
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #FAF8F5;
-    color: #222222;
+    background-color: #FAF7F2;
+    color: #2D2623;
+    letter-spacing: 0.012em;
   }
 
-  /* Friendly rounded scrollbar */
+  /* Soft warm rounded scrollbar */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 7px;
+    height: 7px;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: #E5E0D8;
+    background: #E8E1D5;
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #D1CAC0;
+    background: #D8CEBE;
+  }
+
+  ::selection {
+    background-color: #FED7AA;
+    color: #9A3412;
   }
 }
 

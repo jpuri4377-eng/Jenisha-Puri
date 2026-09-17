@@ -234,9 +234,9 @@ export default function App() {
 
   if (!currentUser) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white text-neutral-600">
+      <div className="min-h-screen flex items-center justify-center bg-[#FAF7F2] text-stone-600">
         <div className="flex items-center gap-2">
-          <RefreshCw className="w-4 h-4 animate-spin text-neutral-900" />
+          <RefreshCw className="w-4 h-4 animate-spin text-[#D95338]" />
           <span className="text-sm font-medium">Loading SwapTalent...</span>
         </div>
       </div>
@@ -263,7 +263,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#222222] flex flex-col font-sans selection:bg-[#FFE0E6] selection:text-[#FF385C]">
+    <div className="min-h-screen bg-[#FAF7F2] text-[#2D2623] flex flex-col font-sans selection:bg-[#FED7AA] selection:text-[#9A3412]">
       {/* Navigation */}
       <Navbar
         activeTab={activeTab}
@@ -278,7 +278,7 @@ export default function App() {
 
       {/* Floating Notice Toast */}
       {bannerNotice && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#222222] text-[#FAF8F5] px-5 py-3 rounded-full shadow-xl flex items-center gap-3 text-xs animate-in fade-in slide-in-from-bottom-2">
+        <div className="fixed bottom-6 right-6 z-50 bg-[#2D2623] text-[#FAF7F2] px-5 py-3 rounded-full shadow-[0_12px_32px_-8px_rgba(44,37,35,0.22)] border border-stone-800 flex items-center gap-3 text-xs animate-in fade-in slide-in-from-bottom-2">
           <p className="font-normal">{bannerNotice}</p>
           <button
             onClick={() => setBannerNotice(null)}
@@ -296,11 +296,11 @@ export default function App() {
           <div className="space-y-12 sm:space-y-16">
             {/* Hero Section: Single essential line with generous spacing */}
             <header className="text-center max-w-2xl mx-auto space-y-3 pb-2 sm:pb-4">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-[#222222] leading-tight">
-                Teach what you know. Learn what you want.
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-[#2D2623] leading-tight">
+                Teach what you know. Learn what you love.
               </h1>
-              <p className="text-sm sm:text-base text-[#717171] font-normal leading-relaxed">
-                Exchange skills 1-on-1 with verified peers or hire teachers directly.
+              <p className="text-sm sm:text-base text-[#6E645F] font-normal leading-relaxed">
+                Exchange skills 1-on-1 with friendly peers nearby, or book a relaxed lesson with built-in escrow protection.
               </p>
             </header>
 
@@ -320,16 +320,16 @@ export default function App() {
                 <button
                   id="toggle-filters-panel-btn"
                   onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-                  className={`px-4 sm:px-5 py-3.5 rounded-full text-xs font-medium transition-all duration-200 flex items-center gap-2 cursor-pointer shrink-0 border ${
+                  className={`px-4 sm:px-5 py-3.5 rounded-full text-xs font-medium transition-all duration-300 ease-out flex items-center gap-2 cursor-pointer shrink-0 border ${
                     isFiltersOpen || activeFilterCount > 0
-                      ? 'bg-stone-900 text-white border-stone-900 shadow-xs'
-                      : 'bg-white text-[#222222] border-stone-200/90 hover:bg-stone-50 shadow-2xs'
+                      ? 'bg-[#2D2623] text-white border-[#2D2623] shadow-xs'
+                      : 'bg-white text-[#2D2623] border-[#EAE3D6] hover:bg-[#FAF7F2] shadow-2xs'
                   }`}
                 >
                   <SlidersHorizontal className="w-3.5 h-3.5" />
                   <span>Filters</span>
                   {activeFilterCount > 0 && (
-                    <span className="w-4 h-4 rounded-full bg-[#FF385C] text-white text-[10px] font-bold flex items-center justify-center">
+                    <span className="w-4 h-4 rounded-full bg-[#D95338] text-white text-[10px] font-bold flex items-center justify-center">
                       {activeFilterCount}
                     </span>
                   )}
@@ -338,19 +338,19 @@ export default function App() {
 
               {/* Collapsed Filter Panel (Category, Mode, and Level together) */}
               {isFiltersOpen && (
-                <div className="bg-white rounded-3xl p-6 sm:p-7 border border-stone-200 shadow-md space-y-5 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#EAE3D6] shadow-[0_12px_32px_-8px_rgba(44,37,35,0.08)] space-y-5 animate-in fade-in slide-in-from-top-2 duration-200">
                   {/* Header */}
-                  <div className="flex items-center justify-between pb-3 border-b border-stone-100">
+                  <div className="flex items-center justify-between pb-3 border-b border-[#F2EBE0]">
                     <div className="flex items-center gap-2">
-                      <span className="font-semibold text-sm text-[#222222]">Filters</span>
+                      <span className="font-semibold text-sm text-[#2D2623]">Refine Listings</span>
                       {activeFilterCount > 0 && (
-                        <span className="text-xs text-[#717171]">({activeFilterCount} active)</span>
+                        <span className="text-xs text-[#6E645F]">({activeFilterCount} active)</span>
                       )}
                     </div>
                     {hasActiveFilters && (
                       <button
                         onClick={resetFilters}
-                        className="text-xs text-[#FF385C] hover:text-[#E00B41] font-semibold cursor-pointer transition-colors"
+                        className="text-xs text-[#D95338] hover:text-[#C84634] font-semibold cursor-pointer transition-colors"
                       >
                         Reset all
                       </button>
@@ -359,22 +359,22 @@ export default function App() {
 
                   {/* Section 1: Engagement Mode */}
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-[#222222] block">
-                      Engagement Mode
+                    <label className="text-xs font-semibold text-[#2D2623] block">
+                      Learning Format
                     </label>
                     <div id="mode-filter-bar" className="flex items-center gap-2 flex-wrap">
                       {(['All', 'swap', 'hire'] as const).map((m) => {
-                        const label = m === 'All' ? 'All Modes' : m === 'swap' ? 'Skill Swap' : 'Hire Teacher';
+                        const label = m === 'All' ? 'All Formats' : m === 'swap' ? 'Skill Trade (Free)' : 'Paid Lesson';
                         const isSelected = selectedMode === m;
                         return (
                           <button
                             key={m}
                             id={`filter-mode-${m}`}
                             onClick={() => setSelectedMode(m)}
-                            className={`px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer border ${
+                            className={`px-3.5 py-1.5 rounded-full text-xs transition-all duration-200 cursor-pointer border ${
                               isSelected
-                                ? 'bg-[#222222] text-white border-[#222222] font-semibold shadow-2xs'
-                                : 'bg-stone-50 text-[#717171] border-stone-200/80 hover:border-stone-300 hover:text-[#222222]'
+                                ? 'bg-[#2D2623] text-white border-[#2D2623] font-semibold shadow-2xs'
+                                : 'bg-[#FAF7F2] text-[#6E645F] border-[#EAE3D6] hover:border-[#DDD4C5] hover:text-[#2D2623]'
                             }`}
                           >
                             {label}
@@ -386,8 +386,8 @@ export default function App() {
 
                   {/* Section 2: Proficiency Level */}
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-[#222222] block">
-                      Proficiency Level
+                    <label className="text-xs font-semibold text-[#2D2623] block">
+                      Skill Level
                     </label>
                     <div id="skill-level-filter-bar" className="flex items-center gap-2 flex-wrap">
                       {SKILL_LEVELS.map((lvl) => {
@@ -397,10 +397,10 @@ export default function App() {
                             key={lvl}
                             id={`filter-level-${lvl.toLowerCase()}`}
                             onClick={() => setSelectedLevel(lvl)}
-                            className={`px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer border ${
+                            className={`px-3.5 py-1.5 rounded-full text-xs transition-all duration-200 cursor-pointer border ${
                               isSelected
-                                ? 'bg-[#222222] text-white border-[#222222] font-semibold shadow-2xs'
-                                : 'bg-stone-50 text-[#717171] border-stone-200/80 hover:border-stone-300 hover:text-[#222222]'
+                                ? 'bg-[#2D2623] text-white border-[#2D2623] font-semibold shadow-2xs'
+                                : 'bg-[#FAF7F2] text-[#6E645F] border-[#EAE3D6] hover:border-[#DDD4C5] hover:text-[#2D2623]'
                             }`}
                           >
                             {lvl === 'All' ? 'All Levels' : lvl}
@@ -412,8 +412,8 @@ export default function App() {
 
                   {/* Section 3: Categories */}
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-[#222222] block">
-                      Category
+                    <label className="text-xs font-semibold text-[#2D2623] block">
+                      Topic Area
                     </label>
                     <div id="category-filter-bar" className="flex items-center gap-2 flex-wrap">
                       {CATEGORIES.map((cat) => {
@@ -424,13 +424,13 @@ export default function App() {
                             key={cat}
                             id={`category-pill-${cat.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}
                             onClick={() => setSelectedCategory(cat)}
-                            className={`px-3.5 py-1.5 rounded-full text-xs whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border ${
+                            className={`px-3.5 py-1.5 rounded-full text-xs whitespace-nowrap transition-all duration-200 cursor-pointer flex items-center gap-1.5 border ${
                               isSelected
-                                ? 'bg-[#FF385C] text-white border-[#FF385C] font-semibold shadow-2xs'
-                                : 'bg-stone-50 text-[#717171] border-stone-200/80 hover:border-stone-300 hover:text-[#222222]'
+                                ? 'bg-[#D95338] text-white border-[#D95338] font-semibold shadow-2xs'
+                                : 'bg-[#FAF7F2] text-[#6E645F] border-[#EAE3D6] hover:border-[#DDD4C5] hover:text-[#2D2623]'
                             }`}
                           >
-                            <Icon className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-[#717171]'}`} />
+                            <Icon className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-[#6E645F]'}`} />
                             <span>{cat}</span>
                           </button>
                         );
@@ -439,15 +439,15 @@ export default function App() {
                   </div>
 
                   {/* Footer Action */}
-                  <div className="pt-2 border-t border-stone-100 flex items-center justify-between">
-                    <span className="text-xs text-[#717171]">
-                      {filteredTalents.length} {filteredTalents.length === 1 ? 'listing matches' : 'listings match'}
+                  <div className="pt-2 border-t border-[#F2EBE0] flex items-center justify-between">
+                    <span className="text-xs text-[#6E645F]">
+                      {filteredTalents.length} {filteredTalents.length === 1 ? 'match found' : 'matches found'}
                     </span>
                     <button
                       onClick={() => setIsFiltersOpen(false)}
-                      className="px-5 py-2 rounded-full text-xs font-semibold text-white bg-[#222222] hover:bg-black transition-all cursor-pointer shadow-xs"
+                      className="px-5 py-2 rounded-full text-xs font-semibold text-white bg-[#2D2623] hover:bg-black transition-all cursor-pointer shadow-xs"
                     >
-                      View Results
+                      Show Matches
                     </button>
                   </div>
                 </div>
@@ -455,29 +455,29 @@ export default function App() {
 
               {/* Minimalist Active Filters Summary Pill (Shown when panel is closed and filters exist) */}
               {!isFiltersOpen && activeFilterCount > 0 && (
-                <div className="flex items-center justify-center gap-2 flex-wrap pt-1 text-xs text-[#717171]">
-                  <span>Filters:</span>
+                <div className="flex items-center justify-center gap-2 flex-wrap pt-1 text-xs text-[#6E645F]">
+                  <span>Active filters:</span>
                   {selectedCategory !== 'All' && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white border border-stone-200 text-[#222222] text-[11px]">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white border border-[#EAE3D6] text-[#2D2623] text-[11px]">
                       {selectedCategory}
                       <button onClick={() => setSelectedCategory('All')} className="text-stone-400 hover:text-stone-700 cursor-pointer">✕</button>
                     </span>
                   )}
                   {selectedMode !== 'All' && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white border border-stone-200 text-[#222222] text-[11px]">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white border border-[#EAE3D6] text-[#2D2623] text-[11px]">
                       {selectedMode === 'swap' ? 'Swap' : 'Hire'}
                       <button onClick={() => setSelectedMode('All')} className="text-stone-400 hover:text-stone-700 cursor-pointer">✕</button>
                     </span>
                   )}
                   {selectedLevel !== 'All' && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white border border-stone-200 text-[#222222] text-[11px]">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white border border-[#EAE3D6] text-[#2D2623] text-[11px]">
                       {selectedLevel}
                       <button onClick={() => setSelectedLevel('All')} className="text-stone-400 hover:text-stone-700 cursor-pointer">✕</button>
                     </span>
                   )}
                   <button
                     onClick={resetFilters}
-                    className="text-[#FF385C] hover:underline font-medium text-[11px] ml-1 cursor-pointer"
+                    className="text-[#D95338] hover:underline font-medium text-[11px] ml-1 cursor-pointer"
                   >
                     Clear all
                   </button>
@@ -487,24 +487,24 @@ export default function App() {
 
             {/* Talent Cards Grid (Airbnb 3-column layout with generous spacing) */}
             {loading ? (
-              <div className="py-20 text-center text-[#717171]">
-                <RefreshCw className="w-5 h-5 animate-spin mx-auto mb-2 text-[#717171]" />
-                <p className="text-xs font-normal">Loading listings...</p>
+              <div className="py-20 text-center text-[#6E645F]">
+                <RefreshCw className="w-5 h-5 animate-spin mx-auto mb-2 text-[#D95338]" />
+                <p className="text-xs font-normal">Finding learning sessions...</p>
               </div>
             ) : filteredTalents.length === 0 ? (
-              <div className="bg-white rounded-3xl p-12 text-center space-y-4 shadow-xs">
-                <h3 className="text-base font-medium text-[#222222]">
-                  No listings found
+              <div className="bg-white rounded-3xl p-12 text-center space-y-4 shadow-[0_4px_20px_-4px_rgba(44,37,35,0.05)] border border-[#EAE3D6]">
+                <h3 className="text-base font-semibold text-[#2D2623]">
+                  No listings found yet
                 </h3>
-                <p className="text-xs text-[#717171] max-w-sm mx-auto">
-                  Try adjusting your search query, selecting "All Levels" or "All" categories, or share what you teach first.
+                <p className="text-xs text-[#6E645F] max-w-sm mx-auto leading-relaxed">
+                  Try adjusting your search query, clearing specific filters, or be the first to share a skill you love teaching.
                 </p>
                 <div className="pt-2">
                   <button
                     onClick={() => setIsPostModalOpen(true)}
-                    className="px-5 py-2.5 rounded-full text-xs font-semibold text-white bg-[#FF385C] hover:bg-[#E00B41] transition-all cursor-pointer shadow-xs"
+                    className="px-5 py-2.5 rounded-full text-xs font-semibold text-white bg-[#D95338] hover:bg-[#C84634] active:scale-[0.98] transition-all duration-300 ease-out cursor-pointer shadow-sm shadow-[#D95338]/20"
                   >
-                    Post What You Teach
+                    Share What You Teach
                   </button>
                 </div>
               </div>
@@ -601,29 +601,29 @@ export default function App() {
       />
 
       {/* Footer */}
-      <footer className="mt-auto border-t border-stone-200/60 bg-white/70 py-8">
-        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#717171]">
+      <footer className="mt-auto border-t border-[#EAE3D6] bg-white/70 py-8">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#6E645F]">
           <div className="flex items-center gap-3">
-            <span className="font-semibold text-[#222222]">SwapTalent</span>
+            <span className="font-semibold text-[#2D2623]">SwapTalent</span>
             <span>•</span>
             <span>Peer-to-Peer Skill Exchange</span>
             <span>•</span>
-            <span>NOWPayments Escrow Protected</span>
+            <span>Protected Escrow Payments</span>
           </div>
           <div className="flex items-center gap-5">
-            <button onClick={() => setActiveTab('explore')} className="hover:text-[#FF385C] transition-colors cursor-pointer">
-              Explore
+            <button onClick={() => setActiveTab('explore')} className="hover:text-[#D95338] transition-colors cursor-pointer">
+              Explore Skills
             </button>
-            <button onClick={() => setActiveTab('how-it-works')} className="hover:text-[#FF385C] transition-colors cursor-pointer">
+            <button onClick={() => setActiveTab('how-it-works')} className="hover:text-[#D95338] transition-colors cursor-pointer">
               How it works
             </button>
-            <button onClick={() => setActiveTab('swaps')} className="hover:text-[#FF385C] transition-colors cursor-pointer">
+            <button onClick={() => setActiveTab('swaps')} className="hover:text-[#D95338] transition-colors cursor-pointer">
               My Sessions
             </button>
-            <button onClick={() => setActiveTab('vault')} className="hover:text-[#FF385C] transition-colors cursor-pointer">
-              Escrow Vault
+            <button onClick={() => setActiveTab('vault')} className="hover:text-[#D95338] transition-colors cursor-pointer">
+              Protected Payments
             </button>
-            <button onClick={() => setActiveTab('django')} className="hover:text-[#FF385C] transition-colors cursor-pointer">
+            <button onClick={() => setActiveTab('django')} className="hover:text-[#D95338] transition-colors cursor-pointer">
               Django Specs
             </button>
           </div>

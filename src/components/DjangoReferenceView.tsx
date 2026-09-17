@@ -245,75 +245,75 @@ python manage.py runserver 8000`
   return (
     <div className="space-y-8">
       {/* Title */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-stone-200/80">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-[#EAE3D6]">
         <div>
-          <p className="text-xs font-semibold text-[#FF385C] uppercase tracking-wider">
+          <p className="text-xs font-semibold text-[#D95338] uppercase tracking-wider">
             Backend Architecture
           </p>
-          <h2 className="text-xl sm:text-2xl font-bold text-[#222222] tracking-tight mt-1">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#2D2623] tracking-normal mt-1">
             Django REST Specification
           </h2>
-          <p className="text-xs text-[#717171] mt-1">
+          <p className="text-xs text-[#6E645F] mt-1 leading-relaxed">
             Full Python & Django REST Framework architecture matching the live SwapTalent endpoints.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs font-medium text-[#222222] bg-stone-100 px-3.5 py-1.5 rounded-full flex items-center gap-1.5">
-            <Server className="w-3.5 h-3.5 text-[#FF385C]" /> Django 5.x / DRF
+          <span className="text-xs font-medium text-[#2D2623] bg-[#F4EFE7] border border-[#EAE3D6] px-3.5 py-1.5 rounded-full flex items-center gap-1.5">
+            <Server className="w-3.5 h-3.5 text-[#D95338]" /> Django 5.x / DRF
           </span>
         </div>
       </div>
 
       {/* Code Viewer Container */}
-      <div className="bg-[#1e1e1e] rounded-3xl overflow-hidden border border-stone-200 shadow-sm">
+      <div className="bg-[#231F1D] rounded-3xl overflow-hidden border border-[#3D3532] shadow-[0_10px_30px_-5px_rgba(44,37,35,0.15)]">
         {/* Tab Navigation */}
-        <div className="px-5 py-3.5 bg-[#141414] border-b border-neutral-800 flex items-center justify-between overflow-x-auto gap-2">
-          <div className="flex items-center space-x-1">
+        <div className="px-5 py-3.5 bg-[#1B1716] border-b border-[#352E2B] flex items-center justify-between overflow-x-auto gap-2">
+          <div className="flex items-center space-x-1.5">
             <button
               onClick={() => setActiveFile('models')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-colors cursor-pointer ${
-                activeFile === 'models' ? 'bg-[#FF385C] text-white font-semibold' : 'text-neutral-400 hover:text-white'
+              className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer ${
+                activeFile === 'models' ? 'bg-[#D95338] text-white font-semibold shadow-xs' : 'text-[#A89E97] hover:text-white'
               }`}
             >
               models.py
             </button>
             <button
               onClick={() => setActiveFile('serializers')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-colors cursor-pointer ${
-                activeFile === 'serializers' ? 'bg-[#FF385C] text-white font-semibold' : 'text-neutral-400 hover:text-white'
+              className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer ${
+                activeFile === 'serializers' ? 'bg-[#D95338] text-white font-semibold shadow-xs' : 'text-[#A89E97] hover:text-white'
               }`}
             >
               serializers.py
             </button>
             <button
               onClick={() => setActiveFile('views')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-colors cursor-pointer ${
-                activeFile === 'views' ? 'bg-[#FF385C] text-white font-semibold' : 'text-neutral-400 hover:text-white'
+              className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer ${
+                activeFile === 'views' ? 'bg-[#D95338] text-white font-semibold shadow-xs' : 'text-[#A89E97] hover:text-white'
               }`}
             >
               views.py
             </button>
             <button
               onClick={() => setActiveFile('nowpayments')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-colors cursor-pointer ${
-                activeFile === 'nowpayments' ? 'bg-[#FF385C] text-white font-semibold' : 'text-neutral-400 hover:text-white'
+              className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer ${
+                activeFile === 'nowpayments' ? 'bg-[#D95338] text-white font-semibold shadow-xs' : 'text-[#A89E97] hover:text-white'
               }`}
             >
               nowpayments_service.py
             </button>
             <button
               onClick={() => setActiveFile('urls')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-colors cursor-pointer ${
-                activeFile === 'urls' ? 'bg-[#FF385C] text-white font-semibold' : 'text-neutral-400 hover:text-white'
+              className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer ${
+                activeFile === 'urls' ? 'bg-[#D95338] text-white font-semibold shadow-xs' : 'text-[#A89E97] hover:text-white'
               }`}
             >
               urls.py
             </button>
             <button
               onClick={() => setActiveFile('quickstart')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-colors cursor-pointer ${
-                activeFile === 'quickstart' ? 'bg-[#FF385C] text-white font-semibold' : 'text-neutral-400 hover:text-white'
+              className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer ${
+                activeFile === 'quickstart' ? 'bg-[#D95338] text-white font-semibold shadow-xs' : 'text-[#A89E97] hover:text-white'
               }`}
             >
               Django Quickstart
@@ -322,7 +322,7 @@ python manage.py runserver 8000`
 
           <button
             onClick={handleCopy}
-            className="px-4 py-1.5 rounded-full text-xs font-medium text-neutral-200 hover:text-white bg-neutral-800 hover:bg-neutral-700 transition-colors flex items-center gap-1.5 shrink-0 cursor-pointer"
+            className="px-4 py-1.5 rounded-full text-xs font-medium text-[#FAF7F2] hover:text-white bg-[#352E2B] hover:bg-[#443B38] transition-colors flex items-center gap-1.5 shrink-0 cursor-pointer"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
             {copied ? 'Copied' : 'Copy Code'}
@@ -330,7 +330,7 @@ python manage.py runserver 8000`
         </div>
 
         {/* Code Content */}
-        <pre className="p-6 text-xs text-neutral-300 font-mono overflow-x-auto max-h-[500px] leading-relaxed">
+        <pre className="p-6 text-xs text-[#EAE3D6] font-mono overflow-x-auto max-h-[500px] leading-relaxed">
           <code>{fileContents[activeFile]}</code>
         </pre>
       </div>

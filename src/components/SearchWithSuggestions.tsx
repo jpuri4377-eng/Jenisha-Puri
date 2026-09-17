@@ -120,7 +120,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
 
   return (
     <div ref={containerRef} className="relative flex-1 group">
-      <Search className="w-4 h-4 text-[#717171] absolute left-4 top-1/2 -translate-y-1/2 transition-colors group-focus-within:text-[#FF385C] z-10" />
+      <Search className="w-4 h-4 text-[#8C827A] absolute left-4 top-1/2 -translate-y-1/2 transition-colors duration-200 group-focus-within:text-[#D95338] z-10" />
       
       <input
         ref={inputRef}
@@ -140,7 +140,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
         }}
         onKeyDown={handleKeyDown}
         autoComplete="off"
-        className="w-full pl-11 pr-10 py-3.5 rounded-full bg-white text-sm text-[#222222] placeholder:text-[#717171] shadow-2xs border border-stone-200/90 focus:border-stone-300 focus:ring-2 focus:ring-[#FF385C]/30 focus:outline-none transition-all"
+        className="w-full pl-11 pr-10 py-3.5 rounded-full bg-white text-sm text-[#2D2623] placeholder:text-[#8C827A] shadow-[0_2px_12px_-2px_rgba(44,37,35,0.06)] border border-[#EAE3D6] focus:border-[#D95338] focus:ring-2 focus:ring-[#D95338]/20 focus:outline-none transition-all duration-300 ease-out"
       />
 
       {value && (
@@ -151,7 +151,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
             setIsOpen(false);
             inputRef.current?.focus();
           }}
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-[#222222] text-xs p-1 cursor-pointer z-10"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-[#2D2623] text-xs p-1 cursor-pointer z-10"
           aria-label="Clear search"
         >
           <X className="w-3.5 h-3.5" />
@@ -162,15 +162,15 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
       {isOpen && (
         <div 
           id="search-skills-dropdown"
-          className="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-xl border border-stone-200/90 py-2 z-50 overflow-hidden animate-in fade-in slide-in-from-top-1 duration-150"
+          className="absolute left-0 right-0 top-full mt-2 bg-white rounded-3xl shadow-[0_16px_36px_-8px_rgba(44,37,35,0.12)] border border-[#EAE3D6] py-2.5 z-50 overflow-hidden animate-in fade-in slide-in-from-top-1 duration-200"
         >
           {/* Header */}
-          <div className="px-4 py-1.5 flex items-center justify-between text-[11px] font-semibold text-stone-400 uppercase tracking-wider border-b border-stone-100 mb-1">
-            <span className="flex items-center gap-1.5 text-stone-500">
-              <Sparkles className="w-3 h-3 text-[#FF385C]" />
+          <div className="px-4 py-1.5 flex items-center justify-between text-[11px] font-semibold text-[#8C827A] uppercase tracking-wider border-b border-[#F2EBE0] mb-1">
+            <span className="flex items-center gap-1.5 text-[#6E645F]">
+              <Sparkles className="w-3 h-3 text-[#D95338]" />
               {query ? 'Matching Skill Keywords' : 'Popular Skills'}
             </span>
-            <span className="text-[10px] font-normal text-stone-400 lowercase">
+            <span className="text-[10px] font-normal text-[#8C827A] lowercase">
               {matchingKeywords.length} suggestions
             </span>
           </div>
@@ -191,15 +191,15 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
                     type="button"
                     onClick={() => handleSelect(keyword)}
                     onMouseEnter={() => setSelectedIndex(index)}
-                    className={`w-full px-3.5 py-2 rounded-xl flex items-center justify-between text-left transition-all cursor-pointer ${
+                    className={`w-full px-3.5 py-2.5 rounded-2xl flex items-center justify-between text-left transition-all duration-200 cursor-pointer ${
                       isSelected 
-                        ? 'bg-[#FFF0F2] text-[#FF385C]' 
-                        : 'hover:bg-stone-50 text-[#222222]'
+                        ? 'bg-[#FDF2EE] text-[#D95338]' 
+                        : 'hover:bg-[#FAF7F2] text-[#2D2623]'
                     }`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
-                        isSelected ? 'bg-white text-[#FF385C]' : 'bg-stone-100 text-stone-500'
+                      <div className={`w-7 h-7 rounded-xl flex items-center justify-center shrink-0 ${
+                        isSelected ? 'bg-white text-[#D95338] shadow-2xs' : 'bg-[#F4EFE7] text-[#6E645F]'
                       }`}>
                         <TrendingUp className="w-3.5 h-3.5" />
                       </div>
@@ -207,7 +207,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
                         {matchPos >= 0 ? (
                           <>
                             {keyword.substring(0, matchPos)}
-                            <span className="font-bold underline decoration-[#FF385C]/40 text-[#222222]">
+                            <span className="font-bold underline decoration-[#D95338]/40 text-[#2D2623]">
                               {keyword.substring(matchPos, matchPos + query.length)}
                             </span>
                             {keyword.substring(matchPos + query.length)}
@@ -221,13 +221,13 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
                     <div className="flex items-center gap-1.5 shrink-0 ml-2">
                       <span className={`text-[10px] px-2 py-0.5 rounded-full ${
                         isSelected 
-                          ? 'bg-white/80 text-[#FF385C] font-semibold' 
-                          : 'bg-stone-100 text-[#717171]'
+                          ? 'bg-white text-[#D95338] font-semibold shadow-2xs' 
+                          : 'bg-[#F4EFE7] text-[#6E645F]'
                       }`}>
                         Skill
                       </span>
-                      <ArrowRight className={`w-3.5 h-3.5 transition-transform ${
-                        isSelected ? 'translate-x-0.5 text-[#FF385C]' : 'text-stone-300'
+                      <ArrowRight className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                        isSelected ? 'translate-x-0.5 text-[#D95338]' : 'text-stone-300'
                       }`} />
                     </div>
                   </button>
@@ -235,17 +235,17 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
               })}
             </div>
           ) : (
-            <div className="px-4 py-4 text-center text-xs text-stone-500 space-y-2">
+            <div className="px-4 py-4 text-center text-xs text-[#6E645F] space-y-2">
               <p>No direct skill keyword found for "{value}"</p>
-              <div className="pt-2 border-t border-stone-100">
-                <span className="text-[11px] text-stone-400 block mb-2 font-medium">Try one of these popular skills:</span>
+              <div className="pt-2 border-t border-[#F2EBE0]">
+                <span className="text-[11px] text-[#8C827A] block mb-2 font-medium">Try one of these friendly suggestions:</span>
                 <div className="flex flex-wrap gap-1.5 justify-center">
                   {['React', 'Cooking', 'Guitar', 'Spanish'].map(sk => (
                     <button
                       key={sk}
                       type="button"
                       onClick={() => handleSelect(sk)}
-                      className="px-2.5 py-1 rounded-full text-[11px] bg-stone-100 hover:bg-[#FFF0F2] hover:text-[#FF385C] text-stone-700 transition-colors cursor-pointer font-medium"
+                      className="px-3 py-1 rounded-full text-[11px] bg-[#F4EFE7] hover:bg-[#FDF2EE] hover:text-[#D95338] text-[#2D2623] transition-colors duration-200 cursor-pointer font-medium"
                     >
                       {sk}
                     </button>
@@ -257,15 +257,15 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
 
           {/* Quick Popular Pills Footer */}
           {matchingKeywords.length > 0 && (
-            <div className="mt-1.5 pt-2 px-3 border-t border-stone-100 flex items-center justify-between text-[11px] text-[#717171]">
-              <span className="text-stone-400">Popular:</span>
+            <div className="mt-1.5 pt-2 px-3.5 border-t border-[#F2EBE0] flex items-center justify-between text-[11px] text-[#6E645F]">
+              <span className="text-[#8C827A]">Popular:</span>
               <div className="flex items-center gap-1.5 overflow-x-auto py-0.5">
                 {['React', 'Cooking', 'Guitar'].map(sk => (
                   <button
                     key={sk}
                     type="button"
                     onClick={() => handleSelect(sk)}
-                    className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-stone-100/80 hover:bg-[#FFF0F2] hover:text-[#FF385C] text-[#222222] transition-colors cursor-pointer"
+                    className="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#F4EFE7] hover:bg-[#FDF2EE] hover:text-[#D95338] text-[#2D2623] transition-colors duration-200 cursor-pointer"
                   >
                     {sk}
                   </button>

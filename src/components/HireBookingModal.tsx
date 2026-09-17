@@ -76,51 +76,51 @@ export const HireBookingModal: React.FC<HireBookingModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs overflow-y-auto">
-      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg flex flex-col my-8 overflow-hidden border-0">
+      <div className="bg-white rounded-3xl shadow-[0_20px_50px_-12px_rgba(44,37,35,0.2)] w-full max-w-lg flex flex-col my-8 overflow-hidden border border-[#EAE3D6]">
         
         {/* Header */}
-        <div className="px-6 py-5 border-b border-stone-100 flex items-center justify-between">
+        <div className="px-6 py-5 border-b border-[#F2EBE0] flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold text-[#FF385C] uppercase tracking-wider">
+            <p className="text-xs font-semibold text-[#D95338] uppercase tracking-wider">
               Book a Lesson
             </p>
-            <h2 className="text-lg font-semibold text-[#222222] tracking-normal mt-0.5">
+            <h2 className="text-lg font-semibold text-[#2D2623] tracking-normal mt-0.5">
               Book Session with {targetTalent.user.name}
             </h2>
           </div>
           <button
             id="close-hire-booking-modal"
             onClick={onClose}
-            className="p-2 rounded-full text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors cursor-pointer"
+            className="p-2 rounded-full text-[#8C827A] hover:text-[#2D2623] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-6 sm:p-7 space-y-5 text-[#222222]">
+        <form onSubmit={handleSubmit} className="p-6 sm:p-7 space-y-5 text-[#2D2623]">
           {error && (
-            <div className="p-3 rounded-2xl bg-[#FFF0F2] text-[#FF385C] text-xs font-medium">
+            <div className="p-3 rounded-2xl bg-[#FDF2EE] text-[#D95338] border border-[#FAD5C8] text-xs font-medium">
               {error}
             </div>
           )}
 
           {/* Teacher & Session Summary Card */}
-          <div className="p-4 rounded-2xl bg-stone-50 border border-stone-100 flex items-center justify-between gap-3">
+          <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#EAE3D6] flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <img
                 src={targetTalent.user.avatar}
                 alt={targetTalent.user.name}
-                className="w-10 h-10 rounded-full object-cover ring-2 ring-stone-100"
+                className="w-10 h-10 rounded-full object-cover ring-2 ring-[#EAE3D6]"
               />
               <div>
-                <p className="text-xs font-normal text-[#717171]">
+                <p className="text-xs font-normal text-[#8C827A]">
                   {targetTalent.category} • {targetTalent.proficiencyLevel}
                 </p>
-                <h4 className="text-sm font-medium text-[#222222] mt-0.5">
+                <h4 className="text-sm font-semibold text-[#2D2623] mt-0.5">
                   {targetTalent.title}
                 </h4>
-                <div className="flex items-center gap-2 text-xs text-[#717171] mt-0.5">
+                <div className="flex items-center gap-2 text-xs text-[#6E645F] mt-0.5">
                   <span>{targetTalent.sessionDurationMins} mins</span>
                   <span>•</span>
                   <span>{targetTalent.format}</span>
@@ -129,63 +129,63 @@ export const HireBookingModal: React.FC<HireBookingModalProps> = ({
             </div>
 
             <div className="text-right shrink-0">
-              <span className="text-xs font-normal text-[#717171] flex items-center justify-end">
+              <span className="text-xs font-normal text-[#8C827A] flex items-center justify-end">
                 Fee <HelpTooltip term="Lesson Fee" text={FINANCE_EXPLANATIONS.lessonFee} />
               </span>
-              <span className="text-lg font-semibold text-[#222222]">
+              <span className="text-lg font-semibold text-[#2D2623]">
                 ${rate}
               </span>
-              <span className="text-xs text-[#717171] block">/{rateType === 'hour' ? 'hr' : 'lesson'}</span>
+              <span className="text-xs text-[#8C827A] block">/{rateType === 'hour' ? 'hr' : 'lesson'}</span>
             </div>
           </div>
 
           {/* Session Timing */}
           <div>
-            <label className="block text-xs font-medium text-[#222222] mb-1.5">
+            <label className="block text-xs font-medium text-[#2D2623] mb-1.5">
               Preferred Date & Time *
             </label>
             <div className="relative">
-              <Calendar className="w-4 h-4 text-[#717171] absolute left-3.5 top-3" />
+              <Calendar className="w-4 h-4 text-[#8C827A] absolute left-3.5 top-3" />
               <input
                 id="hire-session-date-input"
                 type="text"
                 value={sessionDateProposal}
                 onChange={(e) => setSessionDateProposal(e.target.value)}
                 placeholder="e.g. Saturday 2:00 PM UTC"
-                className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-stone-200 text-xs text-[#222222] focus:border-[#FF385C] focus:ring-1 focus:ring-[#FF385C] focus:outline-none bg-white transition-all"
+                className="w-full pl-9 pr-3.5 py-2.5 rounded-2xl border border-[#EAE3D6] text-xs text-[#2D2623] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none bg-white transition-all"
                 required
               />
             </div>
-            <p className="text-[11px] text-[#717171] mt-1">
+            <p className="text-[11px] text-[#8C827A] mt-1">
               Teacher availability: {targetTalent.availability}
             </p>
           </div>
 
           {/* Learning Goals */}
           <div>
-            <label className="block text-xs font-medium text-[#222222] mb-1.5">
-              What would you like help with or focus on? (optional)
+            <label className="block text-xs font-medium text-[#2D2623] mb-1.5">
+              What would you like to explore or focus on? (optional)
             </label>
             <textarea
               id="hire-learner-goals-input"
               rows={3}
               value={learnerGoals}
               onChange={(e) => setLearnerGoals(e.target.value)}
-              placeholder="e.g. I need help debugging an issue and reviewing best practices..."
-              className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs text-[#222222] focus:border-[#FF385C] focus:ring-1 focus:ring-[#FF385C] focus:outline-none bg-white transition-all"
+              placeholder="e.g. I'd love help reviewing fundamentals and building real projects..."
+              className="w-full px-3.5 py-2.5 rounded-2xl border border-[#EAE3D6] text-xs text-[#2D2623] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none bg-white transition-all leading-relaxed"
             />
           </div>
 
           {/* Payment Safety Note */}
-          <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/60 flex items-start gap-3 text-xs text-[#717171]">
-            <ShieldCheck className="w-4 h-4 text-[#FF385C] shrink-0 mt-0.5" />
+          <div className="p-4 rounded-2xl bg-[#FFF8EB] border border-[#FDE68A] flex items-start gap-3 text-xs text-[#6E645F]">
+            <ShieldCheck className="w-4 h-4 text-[#D95338] shrink-0 mt-0.5" />
             <div className="space-y-0.5">
-              <span className="font-semibold text-[#222222] flex items-center">
-                100% Payment Protection
+              <span className="font-semibold text-[#2D2623] flex items-center">
+                Protected Escrow Guarantee
                 <HelpTooltip term="Payment Protection" text={FINANCE_EXPLANATIONS.escrow} />
               </span>
-              <p className="text-[11px] text-stone-700 leading-relaxed">
-                Your payment of ${rate}.00 is held safely until the session is confirmed, then released to {targetTalent.user.name} or refunded automatically if either of you cancels.
+              <p className="text-[11px] text-[#6E645F] leading-relaxed">
+                Your payment of ${rate}.00 is held safely until the session is completed, then released to {targetTalent.user.name} or promptly refunded if plans change.
               </p>
             </div>
           </div>
@@ -195,7 +195,7 @@ export const HireBookingModal: React.FC<HireBookingModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-full text-xs font-medium text-[#717171] hover:text-[#222222] transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-full text-xs font-medium text-[#6E645F] hover:text-[#2D2623] transition-colors cursor-pointer"
             >
               Cancel
             </button>
@@ -203,7 +203,7 @@ export const HireBookingModal: React.FC<HireBookingModalProps> = ({
               id="confirm-hire-booking-btn"
               type="submit"
               disabled={isSubmitting}
-              className="px-6 py-2.5 rounded-full text-xs font-semibold text-white bg-[#FF385C] hover:bg-[#E00B41] transition-all flex items-center gap-1.5 cursor-pointer shadow-xs disabled:opacity-50"
+              className="px-6 py-2.5 rounded-full text-xs font-semibold text-white bg-[#D95338] hover:bg-[#C84634] active:scale-[0.98] transition-all duration-300 ease-out flex items-center gap-1.5 cursor-pointer shadow-sm shadow-[#D95338]/20 disabled:opacity-50"
             >
               <CreditCard className="w-3.5 h-3.5" />
               {isSubmitting ? 'Booking...' : `Proceed to Payment ($${rate})`}

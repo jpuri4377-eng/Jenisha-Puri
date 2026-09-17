@@ -32,30 +32,30 @@ const getCoverImage = (category: string, title: string) => {
   const t = (title || '').toLowerCase();
   
   if (t.includes('python') || t.includes('django') || cat.includes('tech') || cat.includes('programming') || cat.includes('code')) {
-    return 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&auto=format&fit=crop&q=80';
+    return 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&auto=format&fit=crop&q=80';
   }
   if (t.includes('spanish') || cat.includes('language') || t.includes('conversation')) {
-    return 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&auto=format&fit=crop&q=80';
+    return 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&auto=format&fit=crop&q=80';
   }
   if (t.includes('figma') || cat.includes('design') || cat.includes('creative') || t.includes('ui/ux')) {
-    return 'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=600&auto=format&fit=crop&q=80';
+    return 'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=600&auto=format&fit=crop&q=80';
   }
   if (t.includes('breath') || t.includes('yoga') || cat.includes('wellness') || cat.includes('fitness')) {
-    return 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&auto=format&fit=crop&q=80';
+    return 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&auto=format&fit=crop&q=80';
   }
   if (t.includes('piano') || t.includes('guitar') || cat.includes('music') || cat.includes('audio')) {
-    return 'https://images.unsplash.com/photo-1520523839898-50712743e9d7?w=600&auto=format&fit=crop&q=80';
+    return 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=600&auto=format&fit=crop&q=80';
   }
   if (t.includes('financial') || t.includes('startup') || cat.includes('business') || cat.includes('finance')) {
-    return 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop&q=80';
+    return 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&auto=format&fit=crop&q=80';
   }
   if (cat.includes('academic') || cat.includes('science')) {
-    return 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&auto=format&fit=crop&q=80';
+    return 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&auto=format&fit=crop&q=80';
   }
   if (cat.includes('craft') || cat.includes('diy')) {
     return 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=600&auto=format&fit=crop&q=80';
   }
-  return 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&auto=format&fit=crop&q=80';
+  return 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&auto=format&fit=crop&q=80';
 };
 
 export const TalentCard: React.FC<TalentCardProps> = ({
@@ -72,19 +72,19 @@ export const TalentCard: React.FC<TalentCardProps> = ({
   const isSwap = talent.availableForSwap !== false;
   const isHire = Boolean(talent.availableForHire);
 
-  // Friendly plain-English badges
+  // Friendly plain-English badges with warm styling
   let modeBadge = 'Free Skill Trade';
-  let modeBadgeStyle = 'bg-white/95 text-stone-800 shadow-2xs font-medium';
+  let modeBadgeStyle = 'bg-white/95 text-[#2D2623] border border-[#EAE3D6] shadow-2xs font-medium';
 
   if (isSwap && isHire) {
     modeBadge = 'Trade or Paid Lesson';
-    modeBadgeStyle = 'bg-[#FFF0F2]/95 text-[#FF385C] shadow-2xs font-semibold';
+    modeBadgeStyle = 'bg-[#FDF2EE] text-[#D95338] border border-[#FAD5C8] shadow-2xs font-semibold';
   } else if (isHire) {
     modeBadge = 'Paid Lesson';
-    modeBadgeStyle = 'bg-stone-900/90 text-white shadow-2xs font-medium';
+    modeBadgeStyle = 'bg-[#FFF8EB] text-[#B45309] border border-[#FDE68A] shadow-2xs font-medium';
   } else {
     modeBadge = 'Free Skill Trade';
-    modeBadgeStyle = 'bg-white/95 text-stone-800 shadow-2xs font-medium';
+    modeBadgeStyle = 'bg-white/95 text-[#2D2623] border border-[#EAE3D6] shadow-2xs font-medium';
   }
 
   const coverImageUrl = getCoverImage(talent.category, talent.title);
@@ -93,12 +93,12 @@ export const TalentCard: React.FC<TalentCardProps> = ({
   return (
     <>
       <article 
-        className="bg-white rounded-2xl shadow-xs hover:shadow-md transition-all duration-300 p-3 sm:p-3.5 flex flex-col justify-between group cursor-pointer border-0"
+        className="bg-white rounded-3xl shadow-[0_4px_20px_-4px_rgba(44,37,35,0.05)] hover:shadow-[0_12px_28px_-6px_rgba(44,37,35,0.1)] hover:-translate-y-1 transition-all duration-300 ease-out p-3.5 sm:p-4 flex flex-col justify-between group cursor-pointer border border-[#EFE9DF]"
         onClick={() => setIsDetailModalOpen(true)}
       >
         <div>
           {/* Large Friendly Photo / Visual Area */}
-          <div className="aspect-[16/10] sm:aspect-[4/3] rounded-xl overflow-hidden relative bg-stone-100 mb-3">
+          <div className="aspect-[16/10] sm:aspect-[4/3] rounded-2xl overflow-hidden relative bg-[#F4EFE7] mb-3">
             <img 
               src={coverImageUrl} 
               alt={talent.title}
@@ -124,53 +124,53 @@ export const TalentCard: React.FC<TalentCardProps> = ({
                 setIsLiked(!isLiked);
               }}
               title={isLiked ? "Saved" : "Save listing"}
-              className="absolute top-2.5 right-2.5 z-10 w-7 h-7 rounded-full bg-white/80 backdrop-blur-xs flex items-center justify-center hover:bg-white hover:scale-110 transition-all cursor-pointer shadow-2xs"
+              className="absolute top-2.5 right-2.5 z-10 w-7 h-7 rounded-full bg-white/85 backdrop-blur-xs flex items-center justify-center hover:bg-white hover:scale-110 transition-all duration-200 cursor-pointer shadow-2xs"
             >
               <Heart 
                 className={`w-3.5 h-3.5 transition-colors ${
-                  isLiked ? 'fill-[#FF385C] text-[#FF385C]' : 'text-stone-700'
+                  isLiked ? 'fill-[#D95338] text-[#D95338]' : 'text-stone-500'
                 }`} 
               />
             </button>
           </div>
 
           {/* Essential Info Area - Clean & Uncluttered */}
-          <div className="space-y-1 px-0.5">
+          <div className="space-y-1.5 px-0.5">
             {/* Top row: Teacher Name & Location + Rating */}
             <div className="flex items-center justify-between gap-2 text-xs">
               <div className="flex items-center gap-1.5 min-w-0">
                 <img
                   src={talent.user.avatar}
                   alt={talent.user.name}
-                  className="w-4 h-4 rounded-full object-cover shrink-0"
+                  className="w-4 h-4 rounded-full object-cover shrink-0 ring-1 ring-[#EAE3D6]"
                 />
-                <span className="text-[#222222] font-medium truncate">{talent.user.name}</span>
-                <span className="text-[#717171] truncate">• {talent.user.location}</span>
+                <span className="text-[#2D2623] font-medium truncate">{talent.user.name}</span>
+                <span className="text-[#8C827A] truncate">• {talent.user.location}</span>
               </div>
-              <div className="flex items-center gap-1 shrink-0 font-medium text-[#222222]">
-                <Star className="w-3.5 h-3.5 fill-[#FF385C] text-[#FF385C]" />
+              <div className="flex items-center gap-1 shrink-0 font-medium text-[#2D2623]">
+                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
                 <span>{talent.user.rating.toFixed(2)}</span>
               </div>
             </div>
 
             {/* Title */}
-            <h3 className="text-sm sm:text-[15px] font-medium text-[#222222] tracking-normal leading-snug line-clamp-1 group-hover:text-[#FF385C] transition-colors pt-0.5">
+            <h3 className="text-sm sm:text-[15px] font-semibold text-[#2D2623] tracking-normal leading-snug line-clamp-1 group-hover:text-[#D95338] transition-colors pt-0.5">
               {talent.title}
             </h3>
 
             {/* Plain-language Friendly Subtitle */}
-            <p className="text-xs text-[#717171] line-clamp-1 leading-tight font-normal">
+            <p className="text-xs text-[#6E645F] line-clamp-1 leading-relaxed font-normal">
               {plainSubtitle}
             </p>
 
             {/* Pricing / Terms Line with Tooltip */}
-            <div className="pt-1 flex items-center flex-wrap gap-2 text-xs">
+            <div className="pt-0.5 flex items-center flex-wrap gap-2 text-xs">
               {isHire && (
                 <div className="flex items-center gap-0.5">
-                  <span className="text-sm font-semibold text-[#222222]">
+                  <span className="text-sm font-semibold text-[#2D2623]">
                     ${talent.hireRateUSD || 35}
                   </span>
-                  <span className="text-[#717171]">
+                  <span className="text-[#8C827A]">
                     /{talent.hireRateType === 'hour' ? 'hr' : 'lesson'}
                   </span>
                   <HelpTooltip term="Lesson Fee" text={FINANCE_EXPLANATIONS.lessonFee} />
@@ -178,7 +178,7 @@ export const TalentCard: React.FC<TalentCardProps> = ({
               )}
               {isHire && isSwap && <span className="text-stone-300">•</span>}
               {isSwap && (
-                <div className="text-[#717171] flex items-center gap-0.5 font-normal">
+                <div className="text-[#6E645F] flex items-center gap-0.5 font-normal">
                   <ShieldCheck className="w-3.5 h-3.5 text-stone-400 shrink-0" />
                   <span>${talent.escrowDepositUSD} deposit</span>
                   <HelpTooltip term="Security Deposit" text={FINANCE_EXPLANATIONS.deposit} />
@@ -186,14 +186,14 @@ export const TalentCard: React.FC<TalentCardProps> = ({
               )}
             </div>
 
-            {/* Secondary Info: Appears only on hover (or in modal when clicked) */}
+            {/* Secondary Info: Appears only on hover */}
             <div className="max-h-0 opacity-0 group-hover:max-h-14 group-hover:opacity-100 transition-all duration-300 overflow-hidden">
-              <div className="flex items-center gap-1.5 text-xs text-[#717171] flex-wrap pt-1.5 border-t border-stone-100 mt-1">
-                <span className="text-[#222222] font-medium text-[11px]">{talent.category}</span>
+              <div className="flex items-center gap-1.5 text-xs text-[#6E645F] flex-wrap pt-1.5 border-t border-[#F2EBE0] mt-1">
+                <span className="text-[#2D2623] font-medium text-[11px]">{talent.category}</span>
                 <span>•</span>
                 <span 
                   id={`skill-level-tag-${talent.id}`}
-                  className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-stone-100 text-stone-700"
+                  className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-[#F4EFE7] text-[#2D2623]"
                 >
                   {talent.proficiencyLevel}
                 </span>
@@ -206,13 +206,13 @@ export const TalentCard: React.FC<TalentCardProps> = ({
 
         {/* Bottom Actions Row */}
         <div 
-          className="mt-3.5 pt-3 border-t border-stone-100 flex items-center justify-between gap-2"
+          className="mt-3.5 pt-3 border-t border-[#F2EBE0] flex items-center justify-between gap-2"
           onClick={(e) => e.stopPropagation()}
         >
           <button
             type="button"
             onClick={() => setIsDetailModalOpen(true)}
-            className="text-xs text-[#717171] hover:text-[#222222] font-medium transition-colors cursor-pointer"
+            className="text-xs text-[#6E645F] hover:text-[#2D2623] font-medium transition-colors cursor-pointer"
           >
             Details
           </button>
@@ -220,14 +220,14 @@ export const TalentCard: React.FC<TalentCardProps> = ({
           <div className="flex items-center gap-1.5 flex-wrap justify-end">
             {isOwnListing ? (
               <div className="flex items-center gap-1.5">
-                <span className="text-xs font-normal text-[#717171] px-2.5 py-1 rounded-full bg-stone-100">
+                <span className="text-xs font-normal text-[#6E645F] px-2.5 py-1 rounded-full bg-[#F4EFE7]">
                   Your Listing
                 </span>
                 {onDeleteTalent && (
                   <button
                     onClick={() => onDeleteTalent(talent.id)}
                     title="Delete Listing"
-                    className="p-1.5 text-stone-400 hover:text-rose-600 hover:bg-stone-100 rounded-full transition-colors cursor-pointer"
+                    className="p-1.5 text-stone-400 hover:text-rose-600 hover:bg-[#F4EFE7] rounded-full transition-colors cursor-pointer"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
@@ -238,7 +238,7 @@ export const TalentCard: React.FC<TalentCardProps> = ({
               <button
                 id={`book-pay-btn-${talent.id}`}
                 onClick={() => onInitiateHire(talent)}
-                className="px-3.5 py-1.5 rounded-full text-xs font-semibold text-white bg-[#FF385C] hover:bg-[#E00B41] transition-all flex items-center gap-1.5 shadow-2xs cursor-pointer"
+                className="px-3.5 py-1.5 rounded-full text-xs font-semibold text-white bg-[#D95338] hover:bg-[#C84634] active:scale-[0.98] transition-all duration-300 ease-out flex items-center gap-1.5 shadow-sm shadow-[#D95338]/20 cursor-pointer"
               >
                 <CreditCard className="w-3.5 h-3.5" />
                 Book Lesson (${talent.hireRateUSD || 35})
@@ -248,7 +248,7 @@ export const TalentCard: React.FC<TalentCardProps> = ({
               <button
                 id={`request-swap-btn-${talent.id}`}
                 onClick={() => onInitiateSwap(talent)}
-                className="px-3.5 py-1.5 rounded-full text-xs font-semibold text-white bg-[#FF385C] hover:bg-[#E00B41] transition-all flex items-center gap-1.5 shadow-2xs cursor-pointer"
+                className="px-3.5 py-1.5 rounded-full text-xs font-semibold text-white bg-[#D95338] hover:bg-[#C84634] active:scale-[0.98] transition-all duration-300 ease-out flex items-center gap-1.5 shadow-sm shadow-[#D95338]/20 cursor-pointer"
               >
                 <ArrowLeftRight className="w-3.5 h-3.5" />
                 Trade Skills
@@ -259,16 +259,16 @@ export const TalentCard: React.FC<TalentCardProps> = ({
                 <button
                   id={`request-swap-btn-${talent.id}`}
                   onClick={() => onInitiateSwap(talent)}
-                  className="px-3 py-1.5 rounded-full text-xs font-medium text-[#222222] bg-stone-100 hover:bg-stone-200 transition-colors flex items-center gap-1 cursor-pointer"
+                  className="px-3 py-1.5 rounded-full text-xs font-medium text-[#2D2623] bg-[#F4EFE7] hover:bg-[#EAE3D6] transition-colors duration-200 flex items-center gap-1 cursor-pointer"
                   title="Trade skills for free"
                 >
-                  <ArrowLeftRight className="w-3 h-3 text-stone-500" />
+                  <ArrowLeftRight className="w-3 h-3 text-[#6E645F]" />
                   Trade
                 </button>
                 <button
                   id={`book-pay-btn-${talent.id}`}
                   onClick={() => onInitiateHire(talent)}
-                  className="px-3 py-1.5 rounded-full text-xs font-semibold text-white bg-[#FF385C] hover:bg-[#E00B41] transition-all flex items-center gap-1 shadow-2xs cursor-pointer"
+                  className="px-3 py-1.5 rounded-full text-xs font-semibold text-white bg-[#D95338] hover:bg-[#C84634] active:scale-[0.98] transition-all duration-300 ease-out flex items-center gap-1 shadow-sm shadow-[#D95338]/20 cursor-pointer"
                   title="Book a paid lesson directly"
                 >
                   <CreditCard className="w-3 h-3" />
@@ -280,20 +280,20 @@ export const TalentCard: React.FC<TalentCardProps> = ({
         </div>
       </article>
 
-      {/* Airbnb-style Detailed Modal (Revealed on click rather than all at once) */}
+      {/* Detailed Modal */}
       {isDetailModalOpen && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200"
           onClick={() => setIsDetailModalOpen(false)}
         >
           <div 
-            className="bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 space-y-6 relative border-0"
+            className="bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-[0_20px_50px_-12px_rgba(44,37,35,0.18)] p-6 sm:p-8 space-y-6 relative border border-[#EAE3D6]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
             <button
               onClick={() => setIsDetailModalOpen(false)}
-              className="absolute top-5 right-5 p-2 rounded-full hover:bg-stone-100 text-stone-500 transition-colors cursor-pointer"
+              className="absolute top-5 right-5 p-2 rounded-full hover:bg-[#FAF7F2] text-[#8C827A] hover:text-[#2D2623] transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -303,25 +303,25 @@ export const TalentCard: React.FC<TalentCardProps> = ({
               <img
                 src={talent.user.avatar}
                 alt={talent.user.name}
-                className="w-14 h-14 rounded-full object-cover ring-2 ring-stone-100 shrink-0"
+                className="w-14 h-14 rounded-full object-cover ring-2 ring-[#EAE3D6] shrink-0"
               />
               <div>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-[#FF385C]">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-[#D95338]">
                     {talent.category}
                   </span>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-stone-100 text-stone-700 font-medium">
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-[#F4EFE7] text-[#2D2623] font-medium">
                     {talent.proficiencyLevel} Level
                   </span>
                 </div>
-                <h2 className="text-lg sm:text-xl font-semibold text-[#222222] mt-1 leading-snug">
+                <h2 className="text-lg sm:text-xl font-semibold text-[#2D2623] mt-1 leading-snug">
                   {talent.title}
                 </h2>
-                <div className="flex items-center gap-2 text-xs text-[#717171] mt-1">
-                  <span>Taught by <strong className="font-medium text-[#222222]">{talent.user.name}</strong></span>
+                <div className="flex items-center gap-2 text-xs text-[#6E645F] mt-1">
+                  <span>Taught by <strong className="font-medium text-[#2D2623]">{talent.user.name}</strong></span>
                   <span>•</span>
-                  <span className="flex items-center gap-0.5 text-[#222222] font-semibold">
-                    <Star className="w-3 h-3 fill-[#FF385C] text-[#FF385C]" />
+                  <span className="flex items-center gap-0.5 text-[#2D2623] font-semibold">
+                    <Star className="w-3 h-3 fill-amber-400 text-amber-500" />
                     {talent.user.rating.toFixed(2)}
                   </span>
                   <span>•</span>
@@ -332,24 +332,24 @@ export const TalentCard: React.FC<TalentCardProps> = ({
 
             {/* Overview / Bio */}
             <div className="space-y-2">
-              <h4 className="text-xs font-semibold text-[#717171] uppercase tracking-wider">
+              <h4 className="text-xs font-semibold text-[#8C827A] uppercase tracking-wider">
                 About this session
               </h4>
-              <p className="text-sm text-stone-700 leading-relaxed">
+              <p className="text-sm text-[#2D2623] leading-relaxed">
                 {talent.description}
               </p>
             </div>
 
             {/* Curriculum: Topics Covered */}
             {talent.topicsCovered && talent.topicsCovered.length > 0 && (
-              <div className="space-y-2.5 bg-stone-50/80 rounded-2xl p-4">
-                <h4 className="text-xs font-semibold text-[#222222] uppercase tracking-wider">
+              <div className="space-y-2.5 bg-[#FAF7F2] rounded-2xl p-4 border border-[#EAE3D6]">
+                <h4 className="text-xs font-semibold text-[#2D2623] uppercase tracking-wider">
                   What you will learn
                 </h4>
                 <div className="space-y-1.5">
                   {talent.topicsCovered.map((topic, i) => (
-                    <div key={i} className="flex items-start gap-2 text-xs text-stone-700">
-                      <CheckCircle className="w-4 h-4 text-[#FF385C] shrink-0 mt-0.5" />
+                    <div key={i} className="flex items-start gap-2 text-xs text-[#6E645F]">
+                      <CheckCircle className="w-4 h-4 text-[#D95338] shrink-0 mt-0.5" />
                       <span>{topic}</span>
                     </div>
                   ))}
@@ -360,12 +360,12 @@ export const TalentCard: React.FC<TalentCardProps> = ({
             {/* Skills Offered & Wanted */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <span className="text-xs font-semibold text-[#717171] uppercase tracking-wider">
+                <span className="text-xs font-semibold text-[#8C827A] uppercase tracking-wider">
                   Skills Offered
                 </span>
                 <div className="flex flex-wrap gap-1.5">
                   {talent.teachSkills.map((s, idx) => (
-                    <span key={idx} className="px-2.5 py-1 rounded-full text-xs font-medium bg-stone-100 text-stone-800">
+                    <span key={idx} className="px-2.5 py-1 rounded-full text-xs font-medium bg-[#F4EFE7] text-[#2D2623]">
                       {s}
                     </span>
                   ))}
@@ -374,12 +374,12 @@ export const TalentCard: React.FC<TalentCardProps> = ({
 
               {isSwap && talent.wantedSkills && talent.wantedSkills.length > 0 && (
                 <div className="space-y-1.5">
-                  <span className="text-xs font-semibold text-[#717171] uppercase tracking-wider">
+                  <span className="text-xs font-semibold text-[#8C827A] uppercase tracking-wider">
                     Skills Wanted in Exchange
                   </span>
                   <div className="flex flex-wrap gap-1.5">
                     {talent.wantedSkills.map((s, idx) => (
-                      <span key={idx} className="px-2.5 py-1 rounded-full text-xs font-medium bg-stone-100 text-stone-800">
+                      <span key={idx} className="px-2.5 py-1 rounded-full text-xs font-medium bg-[#F4EFE7] text-[#2D2623]">
                         {s}
                       </span>
                     ))}
@@ -389,35 +389,35 @@ export const TalentCard: React.FC<TalentCardProps> = ({
             </div>
 
             {/* Format, Duration & Availability */}
-            <div className="border-t border-stone-100 pt-4 grid grid-cols-2 gap-3 text-xs">
-              <div className="flex items-center gap-2 text-stone-600">
+            <div className="border-t border-[#F2EBE0] pt-4 grid grid-cols-2 gap-3 text-xs">
+              <div className="flex items-center gap-2 text-[#6E645F]">
                 <Clock className="w-4 h-4 text-stone-400" />
                 <span>{talent.sessionDurationMins} minutes ({talent.format})</span>
               </div>
-              <div className="flex items-center gap-2 text-stone-600">
+              <div className="flex items-center gap-2 text-[#6E645F]">
                 <Calendar className="w-4 h-4 text-stone-400" />
                 <span>{talent.availability || 'Flexible availability'}</span>
               </div>
             </div>
 
             {/* Modal Bottom CTA */}
-            <div className="border-t border-stone-100 pt-5 flex items-center justify-between gap-4">
+            <div className="border-t border-[#F2EBE0] pt-5 flex items-center justify-between gap-4">
               <div>
                 {isHire ? (
                   <div>
                     <div className="flex items-center gap-1">
-                      <span className="text-lg font-semibold text-[#222222]">${talent.hireRateUSD || 35}</span>
-                      <span className="text-xs text-[#717171]"> /{talent.hireRateType === 'hour' ? 'hour' : 'lesson'}</span>
+                      <span className="text-lg font-semibold text-[#2D2623]">${talent.hireRateUSD || 35}</span>
+                      <span className="text-xs text-[#8C827A]"> /{talent.hireRateType === 'hour' ? 'hour' : 'lesson'}</span>
                       <HelpTooltip term="Lesson Fee" text={FINANCE_EXPLANATIONS.lessonFee} />
                     </div>
                     {isSwap && (
-                      <span className="text-[11px] text-[#717171] block">Or trade skills for free</span>
+                      <span className="text-[11px] text-[#6E645F] block">Or trade skills for free</span>
                     )}
                   </div>
                 ) : (
                   <div>
-                    <span className="text-sm font-semibold text-[#222222]">Free Skill Trade</span>
-                    <div className="flex items-center gap-0.5 text-xs text-[#717171]">
+                    <span className="text-sm font-semibold text-[#2D2623]">Free Skill Trade</span>
+                    <div className="flex items-center gap-0.5 text-xs text-[#6E645F]">
                       <span>${talent.escrowDepositUSD} security deposit</span>
                       <HelpTooltip term="Security Deposit" text={FINANCE_EXPLANATIONS.deposit} />
                     </div>
@@ -432,7 +432,7 @@ export const TalentCard: React.FC<TalentCardProps> = ({
                       setIsDetailModalOpen(false);
                       onInitiateSwap(talent);
                     }}
-                    className="px-4 py-2.5 rounded-full text-xs font-semibold text-[#222222] bg-stone-100 hover:bg-stone-200 transition-colors cursor-pointer"
+                    className="px-4 py-2.5 rounded-full text-xs font-semibold text-[#2D2623] bg-[#F4EFE7] hover:bg-[#EAE3D6] transition-colors cursor-pointer"
                   >
                     Trade Skills
                   </button>
@@ -443,7 +443,7 @@ export const TalentCard: React.FC<TalentCardProps> = ({
                       setIsDetailModalOpen(false);
                       onInitiateHire(talent);
                     }}
-                    className="px-5 py-2.5 rounded-full text-xs font-semibold text-white bg-[#FF385C] hover:bg-[#E00B41] transition-all shadow-xs cursor-pointer"
+                    className="px-5 py-2.5 rounded-full text-xs font-semibold text-white bg-[#D95338] hover:bg-[#C84634] active:scale-[0.98] transition-all duration-300 ease-out shadow-sm shadow-[#D95338]/20 cursor-pointer"
                   >
                     Book Lesson (${talent.hireRateUSD || 35})
                   </button>

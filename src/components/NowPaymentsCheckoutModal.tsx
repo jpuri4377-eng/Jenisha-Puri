@@ -133,67 +133,67 @@ export const NowPaymentsCheckoutModal: React.FC<NowPaymentsCheckoutModalProps> =
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs overflow-y-auto">
-      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg my-8 overflow-hidden flex flex-col border-0">
+      <div className="bg-white rounded-3xl shadow-[0_20px_50px_-12px_rgba(44,37,35,0.2)] w-full max-w-lg my-8 overflow-hidden flex flex-col border border-[#EAE3D6]">
         
         {/* Header */}
-        <div className="px-6 py-5 border-b border-stone-100 flex items-center justify-between">
+        <div className="px-6 py-5 border-b border-[#F2EBE0] flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold text-[#FF385C] uppercase tracking-wider">
+            <p className="text-xs font-semibold text-[#D95338] uppercase tracking-wider">
               {isHire ? 'Lesson Payment' : 'Refundable Security Deposit'}
             </p>
-            <h2 className="text-lg font-semibold text-[#222222] tracking-normal mt-0.5">
+            <h2 className="text-lg font-semibold text-[#2D2623] tracking-normal mt-0.5">
               Protected Payment
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-full text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors cursor-pointer"
+            className="p-2 rounded-full text-[#8C827A] hover:text-[#2D2623] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-6 sm:p-7 space-y-5 text-[#222222]">
+        <div className="p-6 sm:p-7 space-y-5 text-[#2D2623]">
           {error && (
-            <div className="p-3 rounded-2xl bg-[#FFF0F2] text-[#FF385C] text-xs font-medium flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 shrink-0 text-[#FF385C]" />
+            <div className="p-3 rounded-2xl bg-[#FDF2EE] text-[#D95338] border border-[#FAD5C8] text-xs font-medium flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0 text-[#D95338]" />
               {error}
             </div>
           )}
 
           {/* Plain english notice */}
-          <div className="p-3 rounded-2xl bg-amber-50/80 border border-amber-200/60 text-xs text-[#222222] flex items-start gap-2.5">
-            <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <div className="p-3.5 rounded-2xl bg-[#FFF8EB] border border-[#FDE68A] text-xs text-[#6E645F] flex items-start gap-2.5">
+            <ShieldCheck className="w-4 h-4 text-[#B45309] shrink-0 mt-0.5" />
             <p className="leading-relaxed">
               Your payment is held safely until the session is confirmed, then released or refunded automatically.
             </p>
           </div>
 
           {/* Swap Summary */}
-          <div className="p-4 rounded-2xl bg-stone-50 border border-stone-100 flex items-center justify-between">
+          <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#EAE3D6] flex items-center justify-between">
             <div>
-              <span className="text-xs font-normal text-[#717171] block">
+              <span className="text-xs font-normal text-[#8C827A] block">
                 {isHire ? 'Lesson' : 'Skill Exchange'}
               </span>
-              <p className="text-sm font-medium text-[#222222] mt-0.5">
+              <p className="text-sm font-semibold text-[#2D2623] mt-0.5">
                 {isHire ? (
                   <>Hiring {swap.recipient.name}</>
                 ) : (
                   <>{swap.requester.name} ↔ {swap.recipient.name}</>
                 )}
               </p>
-              <p className="text-xs text-[#717171] truncate max-w-xs">{swap.talentListing.title}</p>
+              <p className="text-xs text-[#6E645F] truncate max-w-xs">{swap.talentListing.title}</p>
             </div>
             <div className="text-right">
-              <span className="text-xs font-normal text-[#717171] block flex items-center justify-end">
+              <span className="text-xs font-normal text-[#8C827A] block flex items-center justify-end">
                 {isHire ? 'Lesson Fee' : 'Security Deposit'}
                 <HelpTooltip 
                   term={isHire ? 'Lesson Fee' : 'Security Deposit'} 
                   text={isHire ? FINANCE_EXPLANATIONS.lessonFee : FINANCE_EXPLANATIONS.securityDeposit} 
                 />
               </span>
-              <span className="text-lg font-semibold text-[#222222]">
+              <span className="text-lg font-semibold text-[#2D2623]">
                 ${swap.escrowDepositUSD}.00 USD
               </span>
             </div>
@@ -201,15 +201,15 @@ export const NowPaymentsCheckoutModal: React.FC<NowPaymentsCheckoutModalProps> =
 
           {/* If already completed/locked */}
           {isFinished ? (
-            <div className="p-6 rounded-2xl bg-stone-50 border border-stone-100 text-center space-y-3">
-              <div className="w-12 h-12 rounded-full bg-[#FFF0F2] text-[#FF385C] mx-auto flex items-center justify-center">
+            <div className="p-6 rounded-2xl bg-[#FAF7F2] border border-[#EAE3D6] text-center space-y-3">
+              <div className="w-12 h-12 rounded-full bg-[#FDF2EE] text-[#D95338] mx-auto flex items-center justify-center">
                 <Check className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-base font-medium text-[#222222]">
+                <h3 className="text-base font-semibold text-[#2D2623]">
                   {isHire ? 'Payment Protected in Escrow' : 'Deposit Protected in Escrow'}
                 </h3>
-                <p className="text-xs text-[#717171] mt-1 max-w-sm mx-auto leading-relaxed">
+                <p className="text-xs text-[#6E645F] mt-1 max-w-sm mx-auto leading-relaxed">
                   {isHire
                     ? `Your $${swap.escrowDepositUSD} payment is protected and will be released to ${swap.recipient.name} after you confirm your lesson is complete.`
                     : `Your $${swap.escrowDepositUSD} deposit is safely held. You can now proceed to your scheduled learning sessions!`
@@ -220,7 +220,7 @@ export const NowPaymentsCheckoutModal: React.FC<NowPaymentsCheckoutModalProps> =
               <div className="pt-2">
                 <button
                   onClick={onClose}
-                  className="px-6 py-2.5 rounded-full text-xs font-semibold text-white bg-[#FF385C] hover:bg-[#E00B41] transition-all cursor-pointer inline-flex items-center gap-2 shadow-xs"
+                  className="px-6 py-2.5 rounded-full text-xs font-semibold text-white bg-[#D95338] hover:bg-[#C84634] active:scale-[0.98] transition-all duration-300 ease-out cursor-pointer inline-flex items-center gap-2 shadow-sm shadow-[#D95338]/20"
                 >
                   View My Sessions <ArrowRight className="w-4 h-4" />
                 </button>
@@ -230,7 +230,7 @@ export const NowPaymentsCheckoutModal: React.FC<NowPaymentsCheckoutModalProps> =
             <>
               {/* Currency Selector */}
               <div>
-                <label className="block text-xs font-medium text-[#222222] mb-2">
+                <label className="block text-xs font-medium text-[#2D2623] mb-2">
                   Select Crypto Currency:
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -238,10 +238,10 @@ export const NowPaymentsCheckoutModal: React.FC<NowPaymentsCheckoutModalProps> =
                     <button
                       key={coin.code}
                       onClick={() => setSelectedCurrency(coin.code)}
-                      className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                      className={`p-2.5 rounded-2xl border text-left transition-all cursor-pointer ${
                         selectedCurrency === coin.code
-                          ? 'border-[#FF385C] bg-[#FFF0F2] text-[#FF385C] font-semibold'
-                          : 'border-stone-200 bg-white hover:border-stone-300 text-[#222222]'
+                          ? 'border-[#D95338] bg-[#FDF2EE] text-[#D95338] font-semibold'
+                          : 'border-[#EAE3D6] bg-white hover:border-[#DDD4C5] text-[#2D2623]'
                       }`}
                     >
                       <div className="flex items-center justify-between">
@@ -258,75 +258,75 @@ export const NowPaymentsCheckoutModal: React.FC<NowPaymentsCheckoutModalProps> =
 
               {/* QR Code and Address Box */}
               {loading ? (
-                <div className="p-8 text-center bg-stone-50 rounded-2xl border border-stone-100">
-                  <RefreshCw className="w-5 h-5 animate-spin text-[#717171] mx-auto mb-2" />
-                  <p className="text-xs text-[#717171] font-normal">Generating NOWPayments deposit order...</p>
+                <div className="p-8 text-center bg-[#FAF7F2] rounded-2xl border border-[#EAE3D6]">
+                  <RefreshCw className="w-5 h-5 animate-spin text-[#8C827A] mx-auto mb-2" />
+                  <p className="text-xs text-[#6E645F] font-normal">Generating NOWPayments deposit order...</p>
                 </div>
               ) : transaction ? (
-                <div className="p-4 bg-stone-50 rounded-2xl border border-stone-100 space-y-4">
+                <div className="p-4 bg-[#FAF7F2] rounded-2xl border border-[#EAE3D6] space-y-4">
                   <div className="flex flex-col sm:flex-row items-center gap-4">
                     {/* QR Code */}
-                    <div className="bg-white p-2 rounded-xl border border-stone-200 shrink-0">
+                    <div className="bg-white p-2 rounded-2xl border border-[#EAE3D6] shrink-0">
                       {qrCodeUrl && (
-                        <img src={qrCodeUrl} alt="Deposit QR Code" className="w-28 h-28" />
+                        <img src={qrCodeUrl} alt="Deposit QR Code" className="w-28 h-28 rounded-lg" />
                       )}
                     </div>
 
                     {/* Payment Specs */}
                     <div className="flex-1 min-w-0 space-y-2 text-center sm:text-left">
                       <div>
-                        <span className="text-[10px] font-normal text-[#717171] uppercase tracking-wider block">
+                        <span className="text-[10px] font-normal text-[#8C827A] uppercase tracking-wider block">
                           Send Exactly
                         </span>
-                        <span className="text-lg font-mono font-medium text-[#222222]">
+                        <span className="text-lg font-mono font-medium text-[#2D2623]">
                           {transaction.pay_amount} {transaction.pay_currency.toUpperCase()}
                         </span>
-                        <span className="text-xs text-[#717171] block">
-                          Network: <strong className="text-[#222222] font-medium">{transaction.network || 'Mainnet'}</strong>
+                        <span className="text-xs text-[#6E645F] block">
+                          Network: <strong className="text-[#2D2623] font-medium">{transaction.network || 'Mainnet'}</strong>
                         </span>
                       </div>
 
                       {/* Address with copy */}
                       <div>
-                        <span className="text-[10px] font-normal text-[#717171] uppercase tracking-wider block mb-1">
+                        <span className="text-[10px] font-normal text-[#8C827A] uppercase tracking-wider block mb-1">
                           Deposit Address
                         </span>
-                        <div className="flex items-center gap-1.5 bg-white p-1.5 rounded-lg border border-stone-200">
+                        <div className="flex items-center gap-1.5 bg-white p-2 rounded-xl border border-[#EAE3D6]">
                           <input
                             type="text"
                             readOnly
                             value={transaction.pay_address}
-                            className="text-xs font-mono text-[#222222] w-full bg-transparent border-none outline-none truncate"
+                            className="text-xs font-mono text-[#2D2623] w-full bg-transparent border-none outline-none truncate"
                           />
                           <button
                             onClick={handleCopyAddress}
-                            className="p-1 text-[#717171] hover:text-[#222222] hover:bg-stone-100 rounded transition-colors shrink-0 cursor-pointer"
+                            className="p-1 text-[#8C827A] hover:text-[#2D2623] hover:bg-[#FAF7F2] rounded transition-colors shrink-0 cursor-pointer"
                             title="Copy deposit address"
                           >
-                            {copied ? <Check className="w-3.5 h-3.5 text-[#FF385C]" /> : <Copy className="w-3.5 h-3.5" />}
+                            {copied ? <Check className="w-3.5 h-3.5 text-[#D95338]" /> : <Copy className="w-3.5 h-3.5" />}
                           </button>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-stone-100 text-xs text-[#717171]">
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#F4EFE7] text-xs text-[#6E645F]">
                     <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[#FF385C] animate-pulse" />
+                      <span className="w-2 h-2 rounded-full bg-[#D95338] animate-pulse" />
                       <span>Listening on blockchain...</span>
                     </div>
-                    <span className="font-mono text-[11px] text-[#717171]">Order #{transaction.order_id}</span>
+                    <span className="font-mono text-[11px] text-[#8C827A]">Order #{transaction.order_id}</span>
                   </div>
                 </div>
               ) : null}
 
               {/* Instant Simulator Button for AI Studio preview */}
-              <div className="p-4 rounded-2xl bg-stone-50 border border-stone-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#EAE3D6] flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div>
-                  <h4 className="text-xs font-medium text-[#222222] flex items-center gap-1.5">
-                    <Zap className="w-3.5 h-3.5 text-[#FF385C]" /> Quick Preview Demo
+                  <h4 className="text-xs font-semibold text-[#2D2623] flex items-center gap-1.5">
+                    <Zap className="w-3.5 h-3.5 text-[#D95338]" /> Quick Preview Demo
                   </h4>
-                  <p className="text-[11px] text-[#717171] mt-0.5">
+                  <p className="text-[11px] text-[#6E645F] mt-0.5">
                     Test the payment flow instantly without sending real funds.
                   </p>
                 </div>
@@ -334,15 +334,15 @@ export const NowPaymentsCheckoutModal: React.FC<NowPaymentsCheckoutModalProps> =
                   id="simulate-confirm-nowpayments-btn"
                   onClick={handleSimulatePayment}
                   disabled={simulating || loading}
-                  className="px-5 py-2 rounded-full text-xs font-semibold text-white bg-[#FF385C] hover:bg-[#E00B41] transition-all shrink-0 cursor-pointer disabled:opacity-50 flex items-center gap-1.5 shadow-xs"
+                  className="px-5 py-2 rounded-full text-xs font-semibold text-white bg-[#D95338] hover:bg-[#C84634] active:scale-[0.98] transition-all duration-300 ease-out shrink-0 cursor-pointer disabled:opacity-50 flex items-center gap-1.5 shadow-sm shadow-[#D95338]/20"
                 >
                   {simulating ? 'Confirming...' : isHire ? 'Try Demo Payment' : 'Try Demo Deposit'}
                 </button>
               </div>
 
               {/* Protection explanation */}
-              <div className="flex items-start gap-2 text-[11px] text-[#717171]">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#FF385C] shrink-0 mt-0.5" />
+              <div className="flex items-start gap-2 text-[11px] text-[#6E645F]">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#D95338] shrink-0 mt-0.5" />
                 <p>
                   Your payment is held safely until the session is confirmed, then released or refunded automatically.
                 </p>
