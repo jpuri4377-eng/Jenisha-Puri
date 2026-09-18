@@ -1,46 +1,28 @@
-# SwapTalent - Django Backend Architecture
+# SwapTalent 🇳🇵
+**Peer-to-Peer Skill Exchange Platform for Nepali Students**
 
-This directory contains the production-ready **Django + Django REST Framework (DRF)** backend codebase for **SwapTalent**, featuring:
+SwapTalent is a full-stack web application that connects students and lifelong learners to exchange skills securely. Built with React, Django, and NOWPayments escrow integration.
 
-1. **Models (`models.py`)**:
+## 🚀 Key Features
+- **Smart Student Mode**: Personalized skill recommendations based on education level (Grade 1 → PhD)
+- **15+ Diverse Categories**: From Programming & Tech to Cooking, Gaming, and Life Skills
+- **NPR Currency Support**: Transparent pricing in Nepali Rupees with crypto escrow protection
+- **Volunteer Mode**: Free community sessions for verified students
+- **Full-Stack Architecture**: React + TypeScript frontend, Django REST API backend, SQLite database
 
-npx localtunnel --port 3000
-   - `UserProfile`: Handles user reputations, completed swap stats, crypto payout wallets, and badges.
-   - `TalentListing`: Post what you want to teach, skills offered, skills wanted in exchange, session format, and NOWPayments commitment deposit.
-   - `SwapRequest`: Peer-to-peer swap proposal lifecycle with mutual delivery confirmation and automatic escrow release.
-   - `NowPaymentTransaction`: Tracks NOWPayments invoices, crypto payment addresses, and blockchain statuses (`waiting` -> `confirming` -> `finished`).
+## ️ Tech Stack
+- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, Lucide Icons
+- **Backend**: Django 4.x, Django REST Framework, SQLite
+- **Payments**: NOWPayments API (Crypto Escrow)
+- **Deployment**: Ngrok tunneling for local demo
 
-2. **Serializers (`serializers.py`)**:
-   - DRF ModelSerializers for seamless JSON input/output validation.
+## ‍💻 Run Locally
 
-3. **Views & Endpoints (`views.py` & `urls.py`)**:
-   - `/api/talents/`: CRUD operations for teaching listings.
-   - `/api/swaps/`: Proposal management, mutual delivery confirmations, and escrow release.
-   - `/api/payments/nowpayments/create-invoice/`: Generates crypto invoices via NOWPayments.
-   - `/api/payments/nowpayments/ipn/`: Secure IPN webhook listener validating HMAC-SHA512 signatures.
-
-4. **NOWPayments Integration (`nowpayments_service.py`)**:
-   - Supports USDT (TRC20/ERC20), BTC, ETH, SOL, MATIC, and other coins.
-   - HMAC-SHA512 verification to securely confirm blockchain transactions.
-
-## Quickstart (Django Local Setup)
-
+### Backend (Django)
 ```bash
-# 1. Install dependencies
-pip install django djangorestframework django-cors-headers requests
-
-# 2. Add to INSTALLED_APPS in settings.py:
-# 'rest_framework',
-# 'corsheaders',
-# 'backend_django',
-
-# 3. Configure environment variables in .env:
-# NOWPAYMENTS_API_KEY="your-nowpayments-api-key"
-# NOWPAYMENTS_IPN_SECRET="your-ipn-secret"
-# NOWPAYMENTS_SANDBOX=True
-
-# 4. Migrate and run
-python manage.py makemigrations
+cd backend_django
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
 python manage.py migrate
-python manage.py runserver 8000
-```
+python manage.py runserver 
