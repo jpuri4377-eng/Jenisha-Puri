@@ -15,7 +15,13 @@ import {
   Briefcase,
   Heart,
   GraduationCap,
-  Scissors
+  Scissors,
+  Sparkles,
+  Gamepad2,
+  CookingPot,
+  Camera,
+  Dumbbell,
+  BookOpen
 } from 'lucide-react';
 
 import { Navbar } from './components/Navbar';
@@ -33,6 +39,7 @@ import { SearchWithSuggestions } from './components/SearchWithSuggestions';
 
 import { TalentListing, SwapRequest, User, SkillCategory, ProficiencyLevel } from './types';
 
+// ✅ EXPANDED CATEGORIES FOR ALL SKILLS
 const CATEGORIES: ('All' | SkillCategory)[] = [
   'All',
   'Programming & Tech',
@@ -42,7 +49,13 @@ const CATEGORIES: ('All' | SkillCategory)[] = [
   'Business & Finance',
   'Fitness & Wellness',
   'Academics & Science',
-  'Crafts & DIY'
+  'Crafts & DIY',
+  'Gaming & Esports',
+  'Cooking & Food',
+  'Photography & Video',
+  'Sports & Recreation',
+  'Life Skills & Hobbies',
+  'Volunteering & Community'
 ];
 
 const CATEGORY_ICONS: Record<string, React.ElementType> = {
@@ -53,8 +66,14 @@ const CATEGORY_ICONS: Record<string, React.ElementType> = {
   'Music & Audio': Music,
   'Business & Finance': Briefcase,
   'Fitness & Wellness': Heart,
-  'Academics & Science': GraduationCap,
-  'Crafts & DIY': Scissors
+  'Academics & Science': BookOpen,
+  'Crafts & DIY': Scissors,
+  'Gaming & Esports': Gamepad2,
+  'Cooking & Food': CookingPot,
+  'Photography & Video': Camera,
+  'Sports & Recreation': Dumbbell,
+  'Life Skills & Hobbies': Sparkles,
+  'Volunteering & Community': GraduationCap
 };
 
 const SKILL_LEVELS: ('All' | ProficiencyLevel)[] = [
@@ -65,11 +84,51 @@ const SKILL_LEVELS: ('All' | ProficiencyLevel)[] = [
   'Expert'
 ];
 
+// Helper to map Django API response to Frontend Types
+const mapDjangoTalent = (t: any): TalentListing => ({
+  id: String(t.id),
+  userId: String(t.teacher?.id || ''),
+  user: {
+    id: String(t.teacher?.id || ''),
+    name: t.teacher?.title || t.teacher?.user?.username || 'Unknown Teacher',
+    avatar: t.teacher?.avatar_url || '/placeholder-avatar.svg',
+    bio: t.teacher?.bio || '',
+    rating: Number(t.teacher?.rating) || 4.5,
+    reviewCount: t.teacher?.review_count || 0,
+    completedSwaps: t.teacher?.completed_swaps || 0,
+    joinedDate: new Date().toISOString(),
+    badges: t.teacher?.badges || [],
+  },
+  title: t.title || 'Untitled Listing',
+  category: (t.category as SkillCategory) || 'Other',
+  description: t.description || '',
+  topicsCovered: t.topics_covered || [],
+  teachSkills: t.teach_skills || [],
+  wantedSkills: t.wanted_skills || [],
+  proficiencyLevel: (t.proficiency_level as ProficiencyLevel) || 'Intermediate',
+  format: (t.session_format as any) || '1-on-1 Live Video',
+  sessionDurationMins: t.session_duration_mins || 60,
+  availability: t.availability || 'Flexible',
+  escrowDepositUSD: t.escrow_deposit_usd || 0,
+  engagementMode: t.is_volunteer ? 'volunteer' : (t.available_for_hire ? 'swap_or_hire' : 'swap_only'),
+  availableForSwap: !t.is_volunteer,
+  availableForHire: !t.is_volunteer,
+  hireRateUSD: t.is_volunteer ? 0 : (t.escrow_deposit_usd || 0),
+  hireRateType: 'session',
+  studentPrerequisites: t.student_prerequisites,
+  portfolioUrl: t.portfolio_url,
+  isVolunteer: t.is_volunteer || false,
+});
+
 export default function App() {
   const [users, setUsers] = useState<User[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [talents, setTalents] = useState<TalentListing[]>([]);
   const [swaps, setSwaps] = useState<SwapRequest[]>([]);
+  
+  // ✅ INCLUSIVE STUDENT MODE STATE (Grade 1 → Masters+)
+  const [isStudentMode, setIsStudentMode] = useState(false);
+  const [studentYear, setStudentYear] = useState<string>('grade-6');
   
   const [activeTab, setActiveTab] = useState<'explore' | 'swaps' | 'vault' | 'django'>('explore');
   const [searchQuery, setSearchQuery] = useState('');
@@ -88,59 +147,124 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [bannerNotice, setBannerNotice] = useState<string | null>(null);
 
-  // Initial load
+  // ✅ REAL DJANGO API INTEGRATION
   useEffect(() => {
-    fetchInitialData();
+    const loadRealData = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch('http://127.0.0.1:8000/api/talents/');
+        
+        if (res.ok) {
+          const data = await res.json();
+          const rawList = Array.isArray(data) ? data : (data.results || []);
+          const mapped = rawList.map(mapDjangoTalent);
+          setTalents(mapped);
+          
+          if (mapped.length > 0 && !currentUser) {
+            setCurrentUser(mapped[0].user);
+          }
+          
+          console.log(`✅ Loaded ${mapped.length} real talents from Django!`);
+        } else {
+          console.warn('⚠️ Django API returned error:', res.status);
+        }
+      } catch (err) {
+        console.error('❌ Failed to connect to Django backend.', err);
+        setBannerNotice('Backend offline. Showing cached/local data only.');
+        setTimeout(() => setBannerNotice(null), 4000);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadRealData();
   }, []);
 
-  const fetchInitialData = async () => {
-    setLoading(true);
-    try {
-      const [usersRes, talentsRes, swapsRes] = await Promise.all([
-        fetch('/api/users'),
-        fetch('/api/talents'),
-        fetch('/api/swaps')
-      ]);
-
-      if (usersRes.ok) {
-        const uList = await usersRes.json();
-        setUsers(uList);
-        if (uList.length > 0 && !currentUser) {
-          setCurrentUser(uList[0]);
-        }
-      }
-
-      if (talentsRes.ok) {
-        setTalents(await talentsRes.json());
-      }
-
-      if (swapsRes.ok) {
-        setSwaps(await swapsRes.json());
-      }
-    } catch (err) {
-      console.error('Failed to load SwapTalent data', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Filter talents
+  // ✅ SMART FILTER LOGIC WITH INCLUSIVE STUDENT MODE
   const filteredTalents = talents.filter((t) => {
+    // 1. Basic Filters
     const matchesSearch = searchQuery === '' || 
       t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       t.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       t.teachSkills.some(s => s.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      t.wantedSkills.some(s => s.toLowerCase().includes(searchQuery.toLowerCase())) ||
       t.user.name.toLowerCase().includes(searchQuery.toLowerCase());
 
     const matchesCategory = selectedCategory === 'All' || t.category === selectedCategory;
     const matchesLevel = selectedLevel === 'All' || t.proficiencyLevel === selectedLevel;
-    const matchesFormat = selectedFormat === 'All' || t.format === selectedFormat;
     const matchesMode = selectedMode === 'All' || 
-      (selectedMode === 'swap' && (t.engagementMode === 'swap_only' || t.engagementMode === 'swap_or_hire' || !t.engagementMode)) ||
-      (selectedMode === 'hire' && (t.engagementMode === 'hire_only' || t.engagementMode === 'swap_or_hire'));
+      (selectedMode === 'swap' && t.availableForSwap) ||
+      (selectedMode === 'hire' && t.availableForHire);
 
-    return matchesSearch && matchesCategory && matchesLevel && matchesFormat && matchesMode;
+    // 2. Student Mode Smart Matching (Grade 1 → Masters+)
+    if (isStudentMode) {
+      const techCategories = ['Programming & Tech', 'Design & Creative', 'Academics & Science'];
+      const creativeCategories = ['Music & Audio', 'Crafts & DIY', 'Design & Creative', 'Photography & Video'];
+      const lifeCategories = ['Cooking & Food', 'Life Skills & Hobbies', 'Fitness & Wellness', 'Languages'];
+      
+      // School Levels (Grades 1-12): Focus on basics, creativity, and volunteers
+      if (studentYear.startsWith('grade')) {
+        return matchesSearch && (
+          t.proficiencyLevel === 'Beginner' || 
+          t.isVolunteer || 
+          creativeCategories.includes(t.category) ||
+          lifeCategories.includes(t.category)
+        );
+      }
+      
+      // Undergraduate Years 1-2: Foundational tech + volunteers
+      if (studentYear === 'undergrad-1' || studentYear === 'undergrad-2') {
+        return matchesSearch && (
+          (techCategories.includes(t.category) && ['Beginner', 'Intermediate'].includes(t.proficiencyLevel)) ||
+          t.isVolunteer ||
+          creativeCategories.includes(t.category)
+        );
+      }
+      
+      // Undergraduate Years 3-4+: Advanced tech + specialized skills
+      if (studentYear === 'undergrad-3' || studentYear === 'undergrad-4') {
+        return matchesSearch && (
+          techCategories.includes(t.category) && 
+          ['Intermediate', 'Advanced'].includes(t.proficiencyLevel)
+        );
+      }
+      
+      // Masters / PhD: Expert-level academic and research skills
+      if (studentYear === 'masters' || studentYear === 'phd') {
+        return matchesSearch && (
+          techCategories.includes(t.category) && 
+          ['Advanced', 'Expert'].includes(t.proficiencyLevel)
+        );
+      }
+      
+      // Professional Upskilling: Business, Tech, Advanced skills
+      if (studentYear === 'professional') {
+        return matchesSearch && (
+          ['Business & Finance', 'Programming & Tech', 'Design & Creative'].includes(t.category) &&
+          ['Intermediate', 'Advanced', 'Expert'].includes(t.proficiencyLevel)
+        );
+      }
+      
+      // Hobbyist & Curious Learner: Creative, Life Skills, Volunteers
+      if (studentYear === 'hobbyist') {
+        return matchesSearch && (
+          creativeCategories.includes(t.category) || 
+          lifeCategories.includes(t.category) ||
+          t.isVolunteer ||
+          ['Gaming & Esports', 'Sports & Recreation'].includes(t.category)
+        );
+      }
+      
+      // Retiree & Community: Volunteering, Life Skills, Gentle hobbies
+      if (studentYear === 'retiree') {
+        return matchesSearch && (
+          t.isVolunteer ||
+          lifeCategories.includes(t.category) ||
+          ['Crafts & DIY', 'Music & Audio', 'Languages'].includes(t.category)
+        );
+      }
+    }
+
+    return matchesSearch && matchesCategory && matchesLevel && matchesMode;
   });
 
   // Handlers
@@ -169,11 +293,7 @@ export default function App() {
   const handlePaymentConfirmed = (swapId: string) => {
     setSwaps(prev => prev.map(s => {
       if (s.id === swapId) {
-        return {
-          ...s,
-          status: 'locked_in_escrow',
-          nowPaymentStatus: 'finished'
-        };
+        return { ...s, status: 'locked_in_escrow', nowPaymentStatus: 'finished' };
       }
       return s;
     }));
@@ -183,76 +303,67 @@ export default function App() {
 
   const handleConfirmDelivery = async (swapId: string, role: 'requester' | 'recipient') => {
     try {
-      const res = await fetch(`/api/swaps/${swapId}/confirm-delivery`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/swaps/${swapId}/confirm-delivery`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ role })
       });
-
       if (res.ok) {
         const data = await res.json();
         setSwaps(prev => prev.map(s => s.id === swapId ? data.swap : s));
-
-        if (data.bothCompleted) {
-          setBannerNotice('Both peers confirmed! Escrow funds released.');
-        } else {
-          setBannerNotice('Session delivery confirmed.');
-        }
+        setBannerNotice(data.bothCompleted ? 'Both peers confirmed! Escrow released.' : 'Session delivery confirmed.');
         setTimeout(() => setBannerNotice(null), 5000);
       }
-    } catch (err) {
-      console.error('Error confirming delivery', err);
-    }
+    } catch (err) { console.error('Error confirming delivery', err); }
   };
 
   const handleReleaseEscrow = async (swapId: string) => {
     try {
-      const res = await fetch(`/api/swaps/${swapId}/release-escrow`, { method: 'POST' });
+      const res = await fetch(`http://127.0.0.1:8000/api/swaps/${swapId}/release-escrow`, { method: 'POST' });
       if (res.ok) {
         const data = await res.json();
         setSwaps(prev => prev.map(s => s.id === swapId ? data.swap : s));
         setBannerNotice('Escrow released back to participants.');
         setTimeout(() => setBannerNotice(null), 5000);
       }
-    } catch (err) {
-      console.error('Error releasing escrow', err);
-    }
+    } catch (err) { console.error('Error releasing escrow', err); }
   };
 
   const handleDeleteTalent = async (talentId: string) => {
     try {
-      const res = await fetch(`/api/talents/${talentId}`, { method: 'DELETE' });
+      const res = await fetch(`http://127.0.0.1:8000/api/talents/${talentId}`, { method: 'DELETE' });
       if (res.ok) {
         setTalents(prev => prev.filter(t => t.id !== talentId));
         setBannerNotice('Listing removed.');
         setTimeout(() => setBannerNotice(null), 4000);
       }
-    } catch (err) {
-      console.error('Error deleting talent', err);
-    }
+    } catch (err) { console.error('Error deleting talent', err); }
   };
 
-  if (!currentUser) {
+  if (!currentUser && loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FAF7F2] text-stone-600">
+      <div className="min-h-screen flex items-center justify-center bg-[#FAF8FF] text-violet-900">
         <div className="flex items-center gap-2">
-          <RefreshCw className="w-4 h-4 animate-spin text-[#D95338]" />
-          <span className="text-sm font-medium">Loading SwapTalent...</span>
+          <RefreshCw className="w-4 h-4 animate-spin text-violet-600" />
+          <span className="text-sm font-medium">Connecting to Django Backend...</span>
         </div>
       </div>
     );
   }
 
+  const displayUser = currentUser || {
+    id: 'demo', name: 'Guest User', avatar: '/placeholder-avatar.svg', 
+    bio: '', rating: 0, reviewCount: 0, completedSwaps: 0, 
+    joinedDate: '', badges: []
+  };
+
   const activeSwapsCount = swaps.filter(
-    s => (s.requesterId === currentUser.id || s.recipientId === currentUser.id) &&
+    s => (s.requesterId === displayUser.id || s.recipientId === displayUser.id) &&
          (s.status === 'locked_in_escrow' || s.status === 'escrow_deposit_required')
   ).length;
 
-  const hasActiveFilters = searchQuery !== '' || selectedCategory !== 'All' || selectedLevel !== 'All' || selectedFormat !== 'All' || selectedMode !== 'All';
-
-  const activeFilterCount = (selectedCategory !== 'All' ? 1 : 0) + 
-                            (selectedMode !== 'All' ? 1 : 0) + 
-                            (selectedLevel !== 'All' ? 1 : 0);
+  const hasActiveFilters = searchQuery !== '' || selectedCategory !== 'All' || selectedLevel !== 'All' || selectedMode !== 'All';
+  const activeFilterCount = (selectedCategory !== 'All' ? 1 : 0) + (selectedMode !== 'All' ? 1 : 0) + (selectedLevel !== 'All' ? 1 : 0);
 
   const resetFilters = () => {
     setSearchQuery('');
@@ -263,258 +374,198 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2] text-[#2D2623] flex flex-col font-sans selection:bg-[#FED7AA] selection:text-[#9A3412]">
-      {/* Navigation */}
+    <div className="min-h-screen bg-[#FAF8FF] text-[#2E1065] flex flex-col font-sans selection:bg-violet-200 selection:text-violet-900">
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        users={users}
-        currentUser={currentUser}
+        users={[displayUser]}
+        currentUser={displayUser}
         setCurrentUser={setCurrentUser}
         onOpenPostModal={() => setIsPostModalOpen(true)}
         onOpenHowItWorks={() => setIsHowItWorksOpen(true)}
         activeSwapsCount={activeSwapsCount}
       />
 
-      {/* Floating Notice Toast */}
       {bannerNotice && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#2D2623] text-[#FAF7F2] px-5 py-3 rounded-full shadow-[0_12px_32px_-8px_rgba(44,37,35,0.22)] border border-stone-800 flex items-center gap-3 text-xs animate-in fade-in slide-in-from-bottom-2">
+        <div className="fixed bottom-6 right-6 z-50 bg-violet-900 text-white px-5 py-3 rounded-full shadow-lg border border-violet-700 flex items-center gap-3 text-xs animate-in fade-in slide-in-from-bottom-2">
           <p className="font-normal">{bannerNotice}</p>
-          <button
-            onClick={() => setBannerNotice(null)}
-            className="text-stone-400 hover:text-white ml-1 cursor-pointer"
-          >
-            ✕
-          </button>
+          <button onClick={() => setBannerNotice(null)} className="text-violet-300 hover:text-white ml-1 cursor-pointer">✕</button>
         </div>
       )}
 
-      {/* Main Content with generous side breathing room */}
       <main className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-12 py-10 sm:py-16 flex-1 w-full">
-        {/* TAB 1: EXPLORE TALENTS */}
         {activeTab === 'explore' && (
           <div className="space-y-12 sm:space-y-16">
-            {/* Hero Section: Single essential line with generous spacing */}
-            <header className="text-center max-w-2xl mx-auto space-y-3 pb-2 sm:pb-4">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-[#2D2623] leading-tight">
-                Teach what you know. Learn what you love.
+            {/* ✅ HERO SECTION WITH FREDOKA FONT */}
+            <header className="text-center max-w-3xl mx-auto space-y-4 py-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-100 text-violet-700 text-xs font-bold uppercase tracking-wider mb-2 border border-violet-200">
+                <Sparkles className="w-3 h-3" /> Peer-to-Peer Learning
+              </div>
+              <h1 
+                className="text-5xl md:text-6xl font-bold text-violet-950 tracking-tight leading-tight" 
+                style={{ fontFamily: "'Fredoka', sans-serif" }}
+              >
+                Swap Skills. <span className="text-violet-600">Grow Together.</span>
               </h1>
-              <p className="text-sm sm:text-base text-[#6E645F] font-normal leading-relaxed">
-                Exchange skills 1-on-1 with friendly peers nearby, or book a relaxed lesson with built-in escrow protection.
+              <p className="text-lg text-gray-600 max-w-xl mx-auto leading-relaxed">
+                Connect with peers for personalized learning. Verified students get free access to volunteer mentors.
               </p>
             </header>
 
-            {/* Streamlined Search & Collapsed Filter Control */}
+            {/* ✅ INCLUSIVE STUDENT MODE TOGGLE */}
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <button 
+                onClick={() => setIsStudentMode(!isStudentMode)}
+                className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 flex items-center gap-2 shadow-sm ${
+                  isStudentMode 
+                    ? 'bg-violet-600 text-white shadow-violet-200 ring-2 ring-violet-100' 
+                    : 'bg-white text-gray-600 border border-gray-200 hover:border-violet-300 hover:text-violet-700'
+                }`}
+              >
+                <GraduationCap className="w-4 h-4" />
+                {isStudentMode ? 'Student Mode Active' : 'Switch to Student Mode'}
+              </button>
+              
+              {isStudentMode && (
+                <select 
+                  value={studentYear} 
+                  onChange={(e) => setStudentYear(e.target.value)}
+                  className="px-4 py-2.5 rounded-full text-sm font-medium border border-violet-200 bg-white text-violet-900 focus:ring-2 focus:ring-violet-500 outline-none shadow-sm cursor-pointer min-w-[220px]"
+                >
+                  <optgroup label="🏫 School">
+                    <option value="grade-1">Grade 1-5 (Elementary)</option>
+                    <option value="grade-6">Grade 6-8 (Middle School)</option>
+                    <option value="grade-9">Grade 9-12 (High School)</option>
+                  </optgroup>
+                  <optgroup label=" University">
+                    <option value="undergrad-1">Undergraduate Year 1</option>
+                    <option value="undergrad-2">Undergraduate Year 2</option>
+                    <option value="undergrad-3">Undergraduate Year 3</option>
+                    <option value="undergrad-4">Undergraduate Year 4+</option>
+                  </optgroup>
+                  <optgroup label="🔬 Postgraduate">
+                    <option value="masters">Masters / MPhil</option>
+                    <option value="phd">PhD / Research</option>
+                  </optgroup>
+                  <optgroup label="🌱 Lifelong Learning">
+                    <option value="professional">Professional Upskilling</option>
+                    <option value="hobbyist">Hobbyist & Curious Learner</option>
+                    <option value="retiree">Retiree & Community</option>
+                  </optgroup>
+                </select>
+              )}
+            </div>
+
+            {/* Search & Filters */}
             <div className="max-w-2xl mx-auto w-full space-y-3">
-              {/* Primary Search Bar with single Filters button */}
               <div className="flex items-center gap-2.5">
                 <SearchWithSuggestions
                   id="explore-search-input"
                   value={searchQuery}
                   onChange={setSearchQuery}
                   availableTalents={talents}
-                  placeholder="Search any skill, teacher, or topic (e.g. React, Cooking, Guitar)..."
+                  placeholder="Search any skill, teacher, or topic..."
                 />
-
-                {/* Single Filters Button */}
                 <button
-                  id="toggle-filters-panel-btn"
                   onClick={() => setIsFiltersOpen(!isFiltersOpen)}
                   className={`px-4 sm:px-5 py-3.5 rounded-full text-xs font-medium transition-all duration-300 ease-out flex items-center gap-2 cursor-pointer shrink-0 border ${
                     isFiltersOpen || activeFilterCount > 0
-                      ? 'bg-[#2D2623] text-white border-[#2D2623] shadow-xs'
-                      : 'bg-white text-[#2D2623] border-[#EAE3D6] hover:bg-[#FAF7F2] shadow-2xs'
+                      ? 'bg-violet-900 text-white border-violet-900 shadow-xs'
+                      : 'bg-violet-50/30 text-violet-900 border-violet-200 hover:bg-violet-100 shadow-2xs'
                   }`}
                 >
                   <SlidersHorizontal className="w-3.5 h-3.5" />
                   <span>Filters</span>
                   {activeFilterCount > 0 && (
-                    <span className="w-4 h-4 rounded-full bg-[#D95338] text-white text-[10px] font-bold flex items-center justify-center">
+                    <span className="w-4 h-4 rounded-full bg-violet-500 text-white text-[10px] font-bold flex items-center justify-center">
                       {activeFilterCount}
                     </span>
                   )}
                 </button>
               </div>
 
-              {/* Collapsed Filter Panel (Category, Mode, and Level together) */}
               {isFiltersOpen && (
-                <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#EAE3D6] shadow-[0_12px_32px_-8px_rgba(44,37,35,0.08)] space-y-5 animate-in fade-in slide-in-from-top-2 duration-200">
-                  {/* Header */}
-                  <div className="flex items-center justify-between pb-3 border-b border-[#F2EBE0]">
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-sm text-[#2D2623]">Refine Listings</span>
-                      {activeFilterCount > 0 && (
-                        <span className="text-xs text-[#6E645F]">({activeFilterCount} active)</span>
-                      )}
-                    </div>
+                <div className="bg-white rounded-3xl p-6 sm:p-7 border border-violet-100 shadow-xl space-y-5 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="flex items-center justify-between pb-3 border-b border-violet-50">
+                    <span className="font-semibold text-sm text-violet-950">Refine Listings</span>
                     {hasActiveFilters && (
-                      <button
-                        onClick={resetFilters}
-                        className="text-xs text-[#D95338] hover:text-[#C84634] font-semibold cursor-pointer transition-colors"
-                      >
-                        Reset all
-                      </button>
+                      <button onClick={resetFilters} className="text-xs text-violet-600 hover:text-violet-800 font-semibold cursor-pointer">Reset all</button>
                     )}
                   </div>
-
-                  {/* Section 1: Engagement Mode */}
+                  
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-[#2D2623] block">
-                      Learning Format
-                    </label>
-                    <div id="mode-filter-bar" className="flex items-center gap-2 flex-wrap">
-                      {(['All', 'swap', 'hire'] as const).map((m) => {
-                        const label = m === 'All' ? 'All Formats' : m === 'swap' ? 'Skill Trade (Free)' : 'Paid Lesson';
-                        const isSelected = selectedMode === m;
-                        return (
-                          <button
-                            key={m}
-                            id={`filter-mode-${m}`}
-                            onClick={() => setSelectedMode(m)}
-                            className={`px-3.5 py-1.5 rounded-full text-xs transition-all duration-200 cursor-pointer border ${
-                              isSelected
-                                ? 'bg-[#2D2623] text-white border-[#2D2623] font-semibold shadow-2xs'
-                                : 'bg-[#FAF7F2] text-[#6E645F] border-[#EAE3D6] hover:border-[#DDD4C5] hover:text-[#2D2623]'
-                            }`}
-                          >
-                            {label}
-                          </button>
-                        );
-                      })}
+                    <label className="text-xs font-semibold text-violet-950 block">Learning Format</label>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {(['All', 'swap', 'hire'] as const).map((m) => (
+                        <button key={m} onClick={() => setSelectedMode(m)}
+                          className={`px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer border ${
+                            selectedMode === m ? 'bg-violet-900 text-white border-violet-900' : 'bg-violet-50/30 text-gray-600 border-violet-100 hover:border-violet-300'
+                          }`}
+                        >
+                          {m === 'All' ? 'All Formats' : m === 'swap' ? 'Skill Trade' : 'Paid Lesson'}
+                        </button>
+                      ))}
                     </div>
                   </div>
 
-                  {/* Section 2: Proficiency Level */}
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-[#2D2623] block">
-                      Skill Level
-                    </label>
-                    <div id="skill-level-filter-bar" className="flex items-center gap-2 flex-wrap">
-                      {SKILL_LEVELS.map((lvl) => {
-                        const isSelected = selectedLevel === lvl;
-                        return (
-                          <button
-                            key={lvl}
-                            id={`filter-level-${lvl.toLowerCase()}`}
-                            onClick={() => setSelectedLevel(lvl)}
-                            className={`px-3.5 py-1.5 rounded-full text-xs transition-all duration-200 cursor-pointer border ${
-                              isSelected
-                                ? 'bg-[#2D2623] text-white border-[#2D2623] font-semibold shadow-2xs'
-                                : 'bg-[#FAF7F2] text-[#6E645F] border-[#EAE3D6] hover:border-[#DDD4C5] hover:text-[#2D2623]'
-                            }`}
-                          >
-                            {lvl === 'All' ? 'All Levels' : lvl}
-                          </button>
-                        );
-                      })}
+                    <label className="text-xs font-semibold text-violet-950 block">Skill Level</label>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {SKILL_LEVELS.map((lvl) => (
+                        <button key={lvl} onClick={() => setSelectedLevel(lvl)}
+                          className={`px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer border ${
+                            selectedLevel === lvl ? 'bg-violet-900 text-white border-violet-900' : 'bg-violet-50/30 text-gray-600 border-violet-100 hover:border-violet-300'
+                          }`}
+                        >
+                          {lvl === 'All' ? 'All Levels' : lvl}
+                        </button>
+                      ))}
                     </div>
                   </div>
 
-                  {/* Section 3: Categories */}
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-[#2D2623] block">
-                      Topic Area
-                    </label>
-                    <div id="category-filter-bar" className="flex items-center gap-2 flex-wrap">
+                    <label className="text-xs font-semibold text-violet-950 block">Topic Area</label>
+                    <div className="flex items-center gap-2 flex-wrap max-h-48 overflow-y-auto">
                       {CATEGORIES.map((cat) => {
-                        const isSelected = selectedCategory === cat;
                         const Icon = CATEGORY_ICONS[cat] || Compass;
                         return (
-                          <button
-                            key={cat}
-                            id={`category-pill-${cat.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}
-                            onClick={() => setSelectedCategory(cat)}
-                            className={`px-3.5 py-1.5 rounded-full text-xs whitespace-nowrap transition-all duration-200 cursor-pointer flex items-center gap-1.5 border ${
-                              isSelected
-                                ? 'bg-[#D95338] text-white border-[#D95338] font-semibold shadow-2xs'
-                                : 'bg-[#FAF7F2] text-[#6E645F] border-[#EAE3D6] hover:border-[#DDD4C5] hover:text-[#2D2623]'
+                          <button key={cat} onClick={() => setSelectedCategory(cat)}
+                            className={`px-3.5 py-1.5 rounded-full text-xs whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border ${
+                              selectedCategory === cat ? 'bg-violet-600 text-white border-violet-600' : 'bg-violet-50/30 text-gray-600 border-violet-100 hover:border-violet-300'
                             }`}
                           >
-                            <Icon className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-[#6E645F]'}`} />
+                            <Icon className="w-3.5 h-3.5" />
                             <span>{cat}</span>
                           </button>
                         );
                       })}
                     </div>
                   </div>
-
-                  {/* Footer Action */}
-                  <div className="pt-2 border-t border-[#F2EBE0] flex items-center justify-between">
-                    <span className="text-xs text-[#6E645F]">
-                      {filteredTalents.length} {filteredTalents.length === 1 ? 'match found' : 'matches found'}
-                    </span>
-                    <button
-                      onClick={() => setIsFiltersOpen(false)}
-                      className="px-5 py-2 rounded-full text-xs font-semibold text-white bg-[#2D2623] hover:bg-black transition-all cursor-pointer shadow-xs"
-                    >
-                      Show Matches
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* Minimalist Active Filters Summary Pill (Shown when panel is closed and filters exist) */}
-              {!isFiltersOpen && activeFilterCount > 0 && (
-                <div className="flex items-center justify-center gap-2 flex-wrap pt-1 text-xs text-[#6E645F]">
-                  <span>Active filters:</span>
-                  {selectedCategory !== 'All' && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white border border-[#EAE3D6] text-[#2D2623] text-[11px]">
-                      {selectedCategory}
-                      <button onClick={() => setSelectedCategory('All')} className="text-stone-400 hover:text-stone-700 cursor-pointer">✕</button>
-                    </span>
-                  )}
-                  {selectedMode !== 'All' && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white border border-[#EAE3D6] text-[#2D2623] text-[11px]">
-                      {selectedMode === 'swap' ? 'Swap' : 'Hire'}
-                      <button onClick={() => setSelectedMode('All')} className="text-stone-400 hover:text-stone-700 cursor-pointer">✕</button>
-                    </span>
-                  )}
-                  {selectedLevel !== 'All' && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white border border-[#EAE3D6] text-[#2D2623] text-[11px]">
-                      {selectedLevel}
-                      <button onClick={() => setSelectedLevel('All')} className="text-stone-400 hover:text-stone-700 cursor-pointer">✕</button>
-                    </span>
-                  )}
-                  <button
-                    onClick={resetFilters}
-                    className="text-[#D95338] hover:underline font-medium text-[11px] ml-1 cursor-pointer"
-                  >
-                    Clear all
-                  </button>
                 </div>
               )}
             </div>
 
-            {/* Talent Cards Grid (Airbnb 3-column layout with generous spacing) */}
+            {/* Talent Cards Grid - INCREASED GAP FOR BREATHING ROOM */}
             {loading ? (
-              <div className="py-20 text-center text-[#6E645F]">
-                <RefreshCw className="w-5 h-5 animate-spin mx-auto mb-2 text-[#D95338]" />
+              <div className="py-20 text-center text-violet-400">
+                <RefreshCw className="w-5 h-5 animate-spin mx-auto mb-2 text-violet-600" />
                 <p className="text-xs font-normal">Finding learning sessions...</p>
               </div>
             ) : filteredTalents.length === 0 ? (
-              <div className="bg-white rounded-3xl p-12 text-center space-y-4 shadow-[0_4px_20px_-4px_rgba(44,37,35,0.05)] border border-[#EAE3D6]">
-                <h3 className="text-base font-semibold text-[#2D2623]">
-                  No listings found yet
-                </h3>
-                <p className="text-xs text-[#6E645F] max-w-sm mx-auto leading-relaxed">
-                  Try adjusting your search query, clearing specific filters, or be the first to share a skill you love teaching.
-                </p>
-                <div className="pt-2">
-                  <button
-                    onClick={() => setIsPostModalOpen(true)}
-                    className="px-5 py-2.5 rounded-full text-xs font-semibold text-white bg-[#D95338] hover:bg-[#C84634] active:scale-[0.98] transition-all duration-300 ease-out cursor-pointer shadow-sm shadow-[#D95338]/20"
-                  >
-                    Share What You Teach
-                  </button>
-                </div>
+              <div className="bg-white rounded-3xl p-12 text-center space-y-4 shadow-sm border border-violet-100">
+                <h3 className="text-base font-semibold text-violet-950">No listings found yet</h3>
+                <p className="text-xs text-gray-500 max-w-sm mx-auto">Try adjusting your search query or be the first to share a skill.</p>
+                <button onClick={() => setIsPostModalOpen(true)} className="px-5 py-2.5 rounded-full text-xs font-semibold text-white bg-violet-600 hover:bg-violet-700 transition-all cursor-pointer shadow-md shadow-violet-200">
+                  Share What You Teach
+                </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredTalents.map((talent) => (
                   <TalentCard
                     key={talent.id}
                     talent={talent}
-                    currentUser={currentUser}
+                    currentUser={displayUser}
                     onInitiateSwap={(t) => setProposalTargetTalent(t)}
                     onInitiateHire={(t) => setHireTargetTalent(t)}
                     onDeleteTalent={handleDeleteTalent}
@@ -525,110 +576,34 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 2: MY SWAPS & ESCROW TRANSACTIONS */}
         {activeTab === 'swaps' && (
-          <MySwapsView
-            swaps={swaps}
-            currentUser={currentUser}
-            onOpenCheckout={(s) => setCheckoutSwap(s)}
-            onConfirmDelivery={handleConfirmDelivery}
-            onReleaseEscrow={handleReleaseEscrow}
-            onOpenPostModal={() => setIsPostModalOpen(true)}
-          />
+          <MySwapsView swaps={swaps} currentUser={displayUser} onOpenCheckout={(s) => setCheckoutSwap(s)} onConfirmDelivery={handleConfirmDelivery} onReleaseEscrow={handleReleaseEscrow} onOpenPostModal={() => setIsPostModalOpen(true)} />
         )}
-
-        {/* TAB 3: NOWPAYMENTS VAULT */}
-        {activeTab === 'vault' && (
-          <NowPaymentsVaultView />
-        )}
-
-        {/* TAB 4: HOW IT WORKS */}
-        {activeTab === 'how-it-works' && (
-          <HowItWorksView
-            onExplore={() => setActiveTab('explore')}
-            onPostSkill={() => setIsPostModalOpen(true)}
-          />
-        )}
-
-        {/* TAB 5: DJANGO REFERENCE */}
-        {activeTab === 'django' && (
-          <DjangoReferenceView />
-        )}
+        {activeTab === 'vault' && <NowPaymentsVaultView />}
+        {activeTab === 'how-it-works' && <HowItWorksView onExplore={() => setActiveTab('explore')} onPostSkill={() => setIsPostModalOpen(true)} />}
+        {activeTab === 'django' && <DjangoReferenceView />}
       </main>
 
-      {/* MODAL 1: Step-by-Step Post What You Teach */}
-      <PostTalentModal
-        isOpen={isPostModalOpen}
-        onClose={() => setIsPostModalOpen(false)}
-        currentUser={currentUser}
-        onTalentCreated={handleTalentCreated}
-      />
+      <PostTalentModal isOpen={isPostModalOpen} onClose={() => setIsPostModalOpen(false)} currentUser={displayUser} onTalentCreated={handleTalentCreated} />
+      <SwapProposalModal isOpen={Boolean(proposalTargetTalent)} onClose={() => setProposalTargetTalent(null)} targetTalent={proposalTargetTalent} currentUser={displayUser} onSwapProposed={handleSwapProposed} />
+      <NowPaymentsCheckoutModal isOpen={Boolean(checkoutSwap)} onClose={() => setCheckoutSwap(null)} swap={checkoutSwap} onPaymentConfirmed={handlePaymentConfirmed} />
+      <HireBookingModal isOpen={Boolean(hireTargetTalent)} onClose={() => setHireTargetTalent(null)} targetTalent={hireTargetTalent} currentUser={displayUser} onHireBooked={handleHireBooked} />
+      <HowItWorksModal isOpen={isHowItWorksOpen} onClose={() => setIsHowItWorksOpen(false)} onGetStarted={() => { setIsHowItWorksOpen(false); setActiveTab('explore'); }} />
 
-      {/* MODAL 2: Propose Swap */}
-      <SwapProposalModal
-        isOpen={Boolean(proposalTargetTalent)}
-        onClose={() => setProposalTargetTalent(null)}
-        targetTalent={proposalTargetTalent}
-        currentUser={currentUser}
-        onSwapProposed={handleSwapProposed}
-      />
-
-      {/* MODAL 3: NOWPayments Escrow Checkout */}
-      <NowPaymentsCheckoutModal
-        isOpen={Boolean(checkoutSwap)}
-        onClose={() => setCheckoutSwap(null)}
-        swap={checkoutSwap}
-        onPaymentConfirmed={handlePaymentConfirmed}
-      />
-
-      {/* MODAL 4: Book & Pay (Hire Mode) */}
-      <HireBookingModal
-        isOpen={Boolean(hireTargetTalent)}
-        onClose={() => setHireTargetTalent(null)}
-        targetTalent={hireTargetTalent}
-        currentUser={currentUser}
-        onHireBooked={handleHireBooked}
-      />
-
-      {/* MODAL 5: How It Works Walkthrough */}
-      <HowItWorksModal
-        isOpen={isHowItWorksOpen}
-        onClose={() => setIsHowItWorksOpen(false)}
-        onGetStarted={() => {
-          setIsHowItWorksOpen(false);
-          setActiveTab('explore');
-        }}
-      />
-
-      {/* Footer */}
-      <footer className="mt-auto border-t border-[#EAE3D6] bg-white/70 py-8">
-        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#6E645F]">
+      <footer className="mt-auto border-t border-violet-100 bg-white/50 py-8">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
           <div className="flex items-center gap-3">
-            <span className="font-semibold text-[#2D2623]">SwapTalent</span>
+            <span className="font-semibold text-violet-950">SwapTalent</span>
             <span>•</span>
             <span>Peer-to-Peer Skill Exchange</span>
-            <span>•</span>
-            <span>Protected Escrow Payments</span>
           </div>
           <div className="flex items-center gap-5">
-            <button onClick={() => setActiveTab('explore')} className="hover:text-[#D95338] transition-colors cursor-pointer">
-              Explore Skills
-            </button>
-            <button onClick={() => setActiveTab('how-it-works')} className="hover:text-[#D95338] transition-colors cursor-pointer">
-              How it works
-            </button>
-            <button onClick={() => setActiveTab('swaps')} className="hover:text-[#D95338] transition-colors cursor-pointer">
-              My Sessions
-            </button>
-            <button onClick={() => setActiveTab('vault')} className="hover:text-[#D95338] transition-colors cursor-pointer">
-              Protected Payments
-            </button>
-            <button onClick={() => setActiveTab('django')} className="hover:text-[#D95338] transition-colors cursor-pointer">
-              Django Specs
-            </button>
+            <button onClick={() => setActiveTab('explore')} className="hover:text-violet-600 transition-colors cursor-pointer">Explore</button>
+            <button onClick={() => setActiveTab('swaps')} className="hover:text-violet-600 transition-colors cursor-pointer">My Sessions</button>
+            <button onClick={() => setActiveTab('vault')} className="hover:text-violet-600 transition-colors cursor-pointer">Payments</button>
           </div>
         </div>
       </footer>
     </div>
   );
-}
+} 

@@ -13,7 +13,8 @@ import {
   Calendar,
   Clock,
   Sparkles,
-  UserCheck
+  UserCheck,
+  GraduationCap
 } from 'lucide-react';
 import { TalentListing, User } from '../types';
 import { HelpTooltip } from './HelpTooltip';
@@ -55,6 +56,9 @@ const getCoverImage = (category: string, title: string) => {
   if (cat.includes('craft') || cat.includes('diy')) {
     return 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=600&auto=format&fit=crop&q=80';
   }
+  if (cat.includes('volunteer') || t.includes('free')) {
+    return 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=600&auto=format&fit=crop&q=80';
+  }
   return 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&auto=format&fit=crop&q=80';
 };
 
@@ -69,22 +73,26 @@ export const TalentCard: React.FC<TalentCardProps> = ({
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   const isOwnListing = talent.userId === currentUser.id;
-  const isSwap = talent.availableForSwap !== false;
-  const isHire = Boolean(talent.availableForHire);
+  const isVolunteer = Boolean(talent.isVolunteer);
+  const isSwap = talent.availableForSwap !== false && !isVolunteer;
+  const isHire = Boolean(talent.availableForHire) && !isVolunteer;
 
-  // Friendly plain-English badges with warm styling
+  // NPR Conversion
+  const nprAmount = Number(talent.hireRateUSD || talent.escrowDepositUSD || 0) * 135;
+
+  // Dynamic Badges for Lavender Theme
   let modeBadge = 'Free Skill Trade';
-  let modeBadgeStyle = 'bg-white/95 text-[#2D2623] border border-[#EAE3D6] shadow-2xs font-medium';
+  let modeBadgeStyle = 'bg-violet-100 text-violet-800 border border-violet-200 font-medium';
 
-  if (isSwap && isHire) {
+  if (isVolunteer) {
+    modeBadge = 'VOLUNTEER • FREE';
+    modeBadgeStyle = 'bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold';
+  } else if (isSwap && isHire) {
     modeBadge = 'Trade or Paid Lesson';
-    modeBadgeStyle = 'bg-[#FDF2EE] text-[#D95338] border border-[#FAD5C8] shadow-2xs font-semibold';
+    modeBadgeStyle = 'bg-violet-50 text-violet-700 border border-violet-200 font-semibold';
   } else if (isHire) {
     modeBadge = 'Paid Lesson';
-    modeBadgeStyle = 'bg-[#FFF8EB] text-[#B45309] border border-[#FDE68A] shadow-2xs font-medium';
-  } else {
-    modeBadge = 'Free Skill Trade';
-    modeBadgeStyle = 'bg-white/95 text-[#2D2623] border border-[#EAE3D6] shadow-2xs font-medium';
+    modeBadgeStyle = 'bg-amber-50 text-amber-700 border border-amber-200 font-medium';
   }
 
   const coverImageUrl = getCoverImage(talent.category, talent.title);
@@ -93,12 +101,12 @@ export const TalentCard: React.FC<TalentCardProps> = ({
   return (
     <>
       <article 
-        className="bg-white rounded-3xl shadow-[0_4px_20px_-4px_rgba(44,37,35,0.05)] hover:shadow-[0_12px_28px_-6px_rgba(44,37,35,0.1)] hover:-translate-y-1 transition-all duration-300 ease-out p-3.5 sm:p-4 flex flex-col justify-between group cursor-pointer border border-[#EFE9DF]"
+        className="group relative bg-white/80 backdrop-blur-sm rounded-3xl border border-violet-100 shadow-sm hover:shadow-xl hover:shadow-violet-100/50 transition-all duration-300 ease-out p-4 flex flex-col justify-between cursor-pointer overflow-hidden"
         onClick={() => setIsDetailModalOpen(true)}
       >
         <div>
           {/* Large Friendly Photo / Visual Area */}
-          <div className="aspect-[16/10] sm:aspect-[4/3] rounded-2xl overflow-hidden relative bg-[#F4EFE7] mb-3">
+          <div className="aspect-[4/3] rounded-2xl overflow-hidden relative bg-violet-50 mb-4">
             <img 
               src={coverImageUrl} 
               alt={talent.title}
@@ -106,99 +114,95 @@ export const TalentCard: React.FC<TalentCardProps> = ({
               loading="lazy"
             />
 
-            {/* Engagement Mode Badge (Single essential badge on top-left in plain language) */}
-            <div className="absolute top-2.5 left-2.5 z-10">
+            {/* Engagement Mode Badge */}
+            <div className="absolute top-3 left-3 z-10">
               <span 
                 id={`mode-badge-${talent.id}`}
-                className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] backdrop-blur-xs ${modeBadgeStyle}`}
+                className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] uppercase tracking-wide backdrop-blur-md ${modeBadgeStyle}`}
               >
+                {isVolunteer && <Sparkles className="w-3 h-3 mr-1" />}
                 {modeBadge}
               </span>
             </div>
 
-            {/* Heart Favorite Button (Top-Right) */}
+            {/* Heart Favorite Button */}
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 setIsLiked(!isLiked);
               }}
-              title={isLiked ? "Saved" : "Save listing"}
-              className="absolute top-2.5 right-2.5 z-10 w-7 h-7 rounded-full bg-white/85 backdrop-blur-xs flex items-center justify-center hover:bg-white hover:scale-110 transition-all duration-200 cursor-pointer shadow-2xs"
+              className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center hover:bg-white hover:scale-110 transition-all duration-200 shadow-sm cursor-pointer"
             >
               <Heart 
-                className={`w-3.5 h-3.5 transition-colors ${
-                  isLiked ? 'fill-[#D95338] text-[#D95338]' : 'text-stone-500'
+                className={`w-4 h-4 transition-colors ${
+                  isLiked ? 'fill-violet-600 text-violet-600' : 'text-gray-400'
                 }`} 
               />
             </button>
           </div>
 
-          {/* Essential Info Area - Clean & Uncluttered */}
-          <div className="space-y-1.5 px-0.5">
-            {/* Top row: Teacher Name & Location + Rating */}
+          {/* Essential Info Area */}
+          <div className="space-y-2 px-1">
+            {/* Top row: Teacher Name & Rating */}
             <div className="flex items-center justify-between gap-2 text-xs">
-              <div className="flex items-center gap-1.5 min-w-0">
+              <div className="flex items-center gap-2 min-w-0">
                 <img
                   src={talent.user.avatar}
                   alt={talent.user.name}
-                  className="w-4 h-4 rounded-full object-cover shrink-0 ring-1 ring-[#EAE3D6]"
+                  className="w-5 h-5 rounded-full object-cover shrink-0 ring-2 ring-violet-100"
                 />
-                <span className="text-[#2D2623] font-medium truncate">{talent.user.name}</span>
-                <span className="text-[#8C827A] truncate">• {talent.user.location}</span>
+                <span className="text-violet-950 font-semibold truncate">{talent.user.name}</span>
               </div>
-              <div className="flex items-center gap-1 shrink-0 font-medium text-[#2D2623]">
-                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
-                <span>{talent.user.rating.toFixed(2)}</span>
+              <div className="flex items-center gap-1 shrink-0 font-bold text-violet-950 bg-violet-50 px-2 py-0.5 rounded-full">
+                <Star className="w-3 h-3 fill-amber-400 text-amber-500" />
+                <span>{Number(talent.user.rating).toFixed(1)}</span>
               </div>
             </div>
 
             {/* Title */}
-            <h3 className="text-sm sm:text-[15px] font-semibold text-[#2D2623] tracking-normal leading-snug line-clamp-1 group-hover:text-[#D95338] transition-colors pt-0.5">
+            <h3 className="text-base font-bold text-violet-950 tracking-tight leading-snug line-clamp-1 group-hover:text-violet-600 transition-colors">
               {talent.title}
             </h3>
 
-            {/* Plain-language Friendly Subtitle */}
-            <p className="text-xs text-[#6E645F] line-clamp-1 leading-relaxed font-normal">
+            {/* Plain-language Subtitle */}
+            <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed font-normal">
               {plainSubtitle}
             </p>
 
-            {/* Pricing / Terms Line with Tooltip */}
-            <div className="pt-0.5 flex items-center flex-wrap gap-2 text-xs">
-              {isHire && (
-                <div className="flex items-center gap-0.5">
-                  <span className="text-sm font-semibold text-[#2D2623]">
-                    ${talent.hireRateUSD || 35}
-                  </span>
-                  <span className="text-[#8C827A]">
-                    /{talent.hireRateType === 'hour' ? 'hr' : 'lesson'}
-                  </span>
-                  <HelpTooltip term="Lesson Fee" text={FINANCE_EXPLANATIONS.lessonFee} />
+            {/* Pricing / Terms Line - NOW IN NPR */}
+            <div className="pt-1 flex items-center flex-wrap gap-2 text-xs font-medium">
+              {isVolunteer ? (
+                <div className="flex items-center gap-1.5 text-emerald-700 bg-emerald-50 px-2 py-1 rounded-lg">
+                  <GraduationCap className="w-3.5 h-3.5" />
+                  <span>Free Community Session</span>
                 </div>
-              )}
-              {isHire && isSwap && <span className="text-stone-300">•</span>}
-              {isSwap && (
-                <div className="text-[#6E645F] flex items-center gap-0.5 font-normal">
-                  <ShieldCheck className="w-3.5 h-3.5 text-stone-400 shrink-0" />
-                  <span>${talent.escrowDepositUSD} deposit</span>
-                  <HelpTooltip term="Security Deposit" text={FINANCE_EXPLANATIONS.deposit} />
-                </div>
+              ) : (
+                <>
+                  <div className="flex items-center gap-0.5 text-violet-950">
+                    <span className="text-base font-bold">रु {nprAmount.toLocaleString()}</span>
+                    <span className="text-gray-400 text-[10px]">NPR</span>
+                  </div>
+                  {isSwap && (
+                    <div className="flex items-center gap-1 text-violet-600 bg-violet-50 px-2 py-1 rounded-lg">
+                      <ShieldCheck className="w-3 h-3" />
+                      <span>Escrow Protected</span>
+                    </div>
+                  )}
+                </>
               )}
             </div>
 
             {/* Secondary Info: Appears only on hover */}
-            <div className="max-h-0 opacity-0 group-hover:max-h-14 group-hover:opacity-100 transition-all duration-300 overflow-hidden">
-              <div className="flex items-center gap-1.5 text-xs text-[#6E645F] flex-wrap pt-1.5 border-t border-[#F2EBE0] mt-1">
-                <span className="text-[#2D2623] font-medium text-[11px]">{talent.category}</span>
+            <div className="max-h-0 opacity-0 group-hover:max-h-12 group-hover:opacity-100 transition-all duration-300 overflow-hidden">
+              <div className="flex items-center gap-2 text-[10px] text-gray-500 flex-wrap pt-2 border-t border-violet-50 mt-2">
+                <span className="font-semibold text-violet-700">{talent.category}</span>
                 <span>•</span>
-                <span 
-                  id={`skill-level-tag-${talent.id}`}
-                  className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-[#F4EFE7] text-[#2D2623]"
-                >
+                <span className="px-1.5 py-0.5 rounded bg-violet-50 text-violet-700 font-medium">
                   {talent.proficiencyLevel}
                 </span>
                 <span>•</span>
-                <span className="text-[11px]">{talent.sessionDurationMins}m session</span>
+                <span>{talent.sessionDurationMins} mins</span>
               </div>
             </div>
           </div>
@@ -206,73 +210,71 @@ export const TalentCard: React.FC<TalentCardProps> = ({
 
         {/* Bottom Actions Row */}
         <div 
-          className="mt-3.5 pt-3 border-t border-[#F2EBE0] flex items-center justify-between gap-2"
+          className="mt-4 pt-3 border-t border-violet-50 flex items-center justify-between gap-2"
           onClick={(e) => e.stopPropagation()}
         >
           <button
             type="button"
             onClick={() => setIsDetailModalOpen(true)}
-            className="text-xs text-[#6E645F] hover:text-[#2D2623] font-medium transition-colors cursor-pointer"
+            className="text-xs text-gray-500 hover:text-violet-700 font-medium transition-colors cursor-pointer px-2 py-1 rounded-lg hover:bg-violet-50"
           >
-            Details
+            View Details
           </button>
 
-          <div className="flex items-center gap-1.5 flex-wrap justify-end">
+          <div className="flex items-center gap-2 flex-wrap justify-end">
             {isOwnListing ? (
-              <div className="flex items-center gap-1.5">
-                <span className="text-xs font-normal text-[#6E645F] px-2.5 py-1 rounded-full bg-[#F4EFE7]">
-                  Your Listing
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-bold text-violet-600 px-2 py-1 rounded-full bg-violet-50 border border-violet-100">
+                  YOUR LISTING
                 </span>
                 {onDeleteTalent && (
                   <button
                     onClick={() => onDeleteTalent(talent.id)}
-                    title="Delete Listing"
-                    className="p-1.5 text-stone-400 hover:text-rose-600 hover:bg-[#F4EFE7] rounded-full transition-colors cursor-pointer"
+                    className="p-1.5 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded-full transition-colors cursor-pointer"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 )}
               </div>
-            ) : isHire && !isSwap ? (
-              // Hire Only
+            ) : isVolunteer ? (
               <button
-                id={`book-pay-btn-${talent.id}`}
+                onClick={() => onInitiateSwap(talent)}
+                className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 active:scale-95 transition-all shadow-md shadow-emerald-200 flex items-center gap-1.5"
+              >
+                <Heart className="w-3.5 h-3.5" />
+                Connect Free
+              </button>
+            ) : isHire && !isSwap ? (
+              <button
                 onClick={() => onInitiateHire(talent)}
-                className="px-3.5 py-1.5 rounded-full text-xs font-semibold text-white bg-[#D95338] hover:bg-[#C84634] active:scale-[0.98] transition-all duration-300 ease-out flex items-center gap-1.5 shadow-sm shadow-[#D95338]/20 cursor-pointer"
+                className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-violet-600 hover:bg-violet-700 active:scale-95 transition-all shadow-md shadow-violet-200 flex items-center gap-1.5"
               >
                 <CreditCard className="w-3.5 h-3.5" />
-                Book Lesson (${talent.hireRateUSD || 35})
+                Book Lesson
               </button>
             ) : !isHire && isSwap ? (
-              // Swap Only
               <button
-                id={`request-swap-btn-${talent.id}`}
                 onClick={() => onInitiateSwap(talent)}
-                className="px-3.5 py-1.5 rounded-full text-xs font-semibold text-white bg-[#D95338] hover:bg-[#C84634] active:scale-[0.98] transition-all duration-300 ease-out flex items-center gap-1.5 shadow-sm shadow-[#D95338]/20 cursor-pointer"
+                className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-violet-600 hover:bg-violet-700 active:scale-95 transition-all shadow-md shadow-violet-200 flex items-center gap-1.5"
               >
                 <ArrowLeftRight className="w-3.5 h-3.5" />
                 Trade Skills
               </button>
             ) : (
-              // Swap or Hire (Both available)
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-2">
                 <button
-                  id={`request-swap-btn-${talent.id}`}
                   onClick={() => onInitiateSwap(talent)}
-                  className="px-3 py-1.5 rounded-full text-xs font-medium text-[#2D2623] bg-[#F4EFE7] hover:bg-[#EAE3D6] transition-colors duration-200 flex items-center gap-1 cursor-pointer"
-                  title="Trade skills for free"
+                  className="px-3 py-2 rounded-xl text-xs font-bold text-violet-700 bg-violet-50 hover:bg-violet-100 border border-violet-200 transition-all flex items-center gap-1"
                 >
-                  <ArrowLeftRight className="w-3 h-3 text-[#6E645F]" />
+                  <ArrowLeftRight className="w-3 h-3" />
                   Trade
                 </button>
                 <button
-                  id={`book-pay-btn-${talent.id}`}
                   onClick={() => onInitiateHire(talent)}
-                  className="px-3 py-1.5 rounded-full text-xs font-semibold text-white bg-[#D95338] hover:bg-[#C84634] active:scale-[0.98] transition-all duration-300 ease-out flex items-center gap-1 shadow-sm shadow-[#D95338]/20 cursor-pointer"
-                  title="Book a paid lesson directly"
+                  className="px-3 py-2 rounded-xl text-xs font-bold text-white bg-violet-600 hover:bg-violet-700 active:scale-95 transition-all shadow-sm flex items-center gap-1"
                 >
                   <CreditCard className="w-3 h-3" />
-                  Book (${talent.hireRateUSD || 35})
+                  Book
                 </button>
               </div>
             )}
@@ -280,76 +282,75 @@ export const TalentCard: React.FC<TalentCardProps> = ({
         </div>
       </article>
 
-      {/* Detailed Modal */}
+      {/* Detailed Modal - LAVENDER THEME */}
       {isDetailModalOpen && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-violet-950/40 backdrop-blur-sm animate-in fade-in duration-200"
           onClick={() => setIsDetailModalOpen(false)}
         >
           <div 
-            className="bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-[0_20px_50px_-12px_rgba(44,37,35,0.18)] p-6 sm:p-8 space-y-6 relative border border-[#EAE3D6]"
+            className="bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 space-y-6 relative border border-violet-100"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
             <button
               onClick={() => setIsDetailModalOpen(false)}
-              className="absolute top-5 right-5 p-2 rounded-full hover:bg-[#FAF7F2] text-[#8C827A] hover:text-[#2D2623] transition-colors cursor-pointer"
+              className="absolute top-5 right-5 p-2 rounded-full hover:bg-violet-50 text-gray-400 hover:text-violet-700 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
 
-            {/* Header: Teacher & Category */}
+            {/* Header */}
             <div className="flex items-start gap-4 pr-10">
               <img
                 src={talent.user.avatar}
                 alt={talent.user.name}
-                className="w-14 h-14 rounded-full object-cover ring-2 ring-[#EAE3D6] shrink-0"
+                className="w-16 h-16 rounded-full object-cover ring-4 ring-violet-50 shrink-0"
               />
               <div>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-[#D95338]">
+                <div className="flex items-center gap-2 flex-wrap mb-1">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-violet-600 bg-violet-50 px-2 py-0.5 rounded-full">
                     {talent.category}
                   </span>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-[#F4EFE7] text-[#2D2623] font-medium">
-                    {talent.proficiencyLevel} Level
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 font-medium">
+                    {talent.proficiencyLevel}
                   </span>
+                  {isVolunteer && (
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center gap-1">
+                      <Sparkles className="w-3 h-3" /> Volunteer
+                    </span>
+                  )}
                 </div>
-                <h2 className="text-lg sm:text-xl font-semibold text-[#2D2623] mt-1 leading-snug">
+                <h2 className="text-xl font-bold text-violet-950 mt-1 leading-snug">
                   {talent.title}
                 </h2>
-                <div className="flex items-center gap-2 text-xs text-[#6E645F] mt-1">
-                  <span>Taught by <strong className="font-medium text-[#2D2623]">{talent.user.name}</strong></span>
+                <div className="flex items-center gap-2 text-xs text-gray-500 mt-2">
+                  <span>Taught by <strong className="font-bold text-violet-950">{talent.user.name}</strong></span>
                   <span>•</span>
-                  <span className="flex items-center gap-0.5 text-[#2D2623] font-semibold">
+                  <span className="flex items-center gap-0.5 text-violet-950 font-bold">
                     <Star className="w-3 h-3 fill-amber-400 text-amber-500" />
-                    {talent.user.rating.toFixed(2)}
+                    {Number(talent.user.rating).toFixed(1)}
                   </span>
-                  <span>•</span>
-                  <span>{talent.user.location}</span>
                 </div>
               </div>
             </div>
 
-            {/* Overview / Bio */}
+            {/* Overview */}
             <div className="space-y-2">
-              <h4 className="text-xs font-semibold text-[#8C827A] uppercase tracking-wider">
-                About this session
-              </h4>
-              <p className="text-sm text-[#2D2623] leading-relaxed">
+              <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">About this session</h4>
+              <p className="text-sm text-violet-950 leading-relaxed">
                 {talent.description}
               </p>
             </div>
 
-            {/* Curriculum: Topics Covered */}
+            {/* Curriculum */}
             {talent.topicsCovered && talent.topicsCovered.length > 0 && (
-              <div className="space-y-2.5 bg-[#FAF7F2] rounded-2xl p-4 border border-[#EAE3D6]">
-                <h4 className="text-xs font-semibold text-[#2D2623] uppercase tracking-wider">
-                  What you will learn
-                </h4>
-                <div className="space-y-1.5">
+              <div className="space-y-3 bg-violet-50/50 rounded-2xl p-5 border border-violet-100">
+                <h4 className="text-[10px] font-bold text-violet-700 uppercase tracking-widest">What you will learn</h4>
+                <div className="space-y-2">
                   {talent.topicsCovered.map((topic, i) => (
-                    <div key={i} className="flex items-start gap-2 text-xs text-[#6E645F]">
-                      <CheckCircle className="w-4 h-4 text-[#D95338] shrink-0 mt-0.5" />
+                    <div key={i} className="flex items-start gap-3 text-sm text-violet-900">
+                      <CheckCircle className="w-4 h-4 text-violet-500 shrink-0 mt-0.5" />
                       <span>{topic}</span>
                     </div>
                   ))}
@@ -357,15 +358,13 @@ export const TalentCard: React.FC<TalentCardProps> = ({
               </div>
             )}
 
-            {/* Skills Offered & Wanted */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <span className="text-xs font-semibold text-[#8C827A] uppercase tracking-wider">
-                  Skills Offered
-                </span>
-                <div className="flex flex-wrap gap-1.5">
+            {/* Skills Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Skills Offered</span>
+                <div className="flex flex-wrap gap-2">
                   {talent.teachSkills.map((s, idx) => (
-                    <span key={idx} className="px-2.5 py-1 rounded-full text-xs font-medium bg-[#F4EFE7] text-[#2D2623]">
+                    <span key={idx} className="px-3 py-1.5 rounded-lg text-xs font-bold bg-violet-100 text-violet-800 border border-violet-200">
                       {s}
                     </span>
                   ))}
@@ -373,13 +372,11 @@ export const TalentCard: React.FC<TalentCardProps> = ({
               </div>
 
               {isSwap && talent.wantedSkills && talent.wantedSkills.length > 0 && (
-                <div className="space-y-1.5">
-                  <span className="text-xs font-semibold text-[#8C827A] uppercase tracking-wider">
-                    Skills Wanted in Exchange
-                  </span>
-                  <div className="flex flex-wrap gap-1.5">
+                <div className="space-y-2">
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Wanted in Exchange</span>
+                  <div className="flex flex-wrap gap-2">
                     {talent.wantedSkills.map((s, idx) => (
-                      <span key={idx} className="px-2.5 py-1 rounded-full text-xs font-medium bg-[#F4EFE7] text-[#2D2623]">
+                      <span key={idx} className="px-3 py-1.5 rounded-lg text-xs font-bold bg-gray-100 text-gray-700 border border-gray-200">
                         {s}
                       </span>
                     ))}
@@ -388,64 +385,64 @@ export const TalentCard: React.FC<TalentCardProps> = ({
               )}
             </div>
 
-            {/* Format, Duration & Availability */}
-            <div className="border-t border-[#F2EBE0] pt-4 grid grid-cols-2 gap-3 text-xs">
-              <div className="flex items-center gap-2 text-[#6E645F]">
-                <Clock className="w-4 h-4 text-stone-400" />
-                <span>{talent.sessionDurationMins} minutes ({talent.format})</span>
+            {/* Format & Duration */}
+            <div className="border-t border-violet-50 pt-4 grid grid-cols-2 gap-4 text-xs text-gray-600">
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-violet-400" />
+                <span className="font-medium">{talent.sessionDurationMins} minutes</span>
+                <span className="text-gray-400">({talent.format})</span>
               </div>
-              <div className="flex items-center gap-2 text-[#6E645F]">
-                <Calendar className="w-4 h-4 text-stone-400" />
-                <span>{talent.availability || 'Flexible availability'}</span>
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-violet-400" />
+                <span className="font-medium">{talent.availability || 'Flexible'}</span>
               </div>
             </div>
 
             {/* Modal Bottom CTA */}
-            <div className="border-t border-[#F2EBE0] pt-5 flex items-center justify-between gap-4">
+            <div className="border-t border-violet-100 pt-6 flex items-center justify-between gap-4 bg-violet-50/30 -mx-8 -mb-8 p-8 rounded-b-3xl">
               <div>
-                {isHire ? (
+                {isVolunteer ? (
+                  <div className="flex flex-col">
+                    <span className="text-lg font-bold text-emerald-700">Free Session</span>
+                    <span className="text-[10px] text-emerald-600 font-medium">No payment or exchange required</span>
+                  </div>
+                ) : isHire ? (
                   <div>
                     <div className="flex items-center gap-1">
-                      <span className="text-lg font-semibold text-[#2D2623]">${talent.hireRateUSD || 35}</span>
-                      <span className="text-xs text-[#8C827A]"> /{talent.hireRateType === 'hour' ? 'hour' : 'lesson'}</span>
-                      <HelpTooltip term="Lesson Fee" text={FINANCE_EXPLANATIONS.lessonFee} />
+                      <span className="text-xl font-bold text-violet-950">रु {nprAmount.toLocaleString()}</span>
+                      <span className="text-xs text-gray-500 font-medium">NPR</span>
                     </div>
-                    {isSwap && (
-                      <span className="text-[11px] text-[#6E645F] block">Or trade skills for free</span>
-                    )}
+                    {isSwap && <span className="text-[10px] text-violet-600 font-medium block mt-0.5">Or trade skills for free</span>}
                   </div>
                 ) : (
                   <div>
-                    <span className="text-sm font-semibold text-[#2D2623]">Free Skill Trade</span>
-                    <div className="flex items-center gap-0.5 text-xs text-[#6E645F]">
+                    <span className="text-sm font-bold text-violet-950">Free Skill Trade</span>
+                    <div className="flex items-center gap-1 text-[10px] text-gray-500 mt-0.5">
+                      <ShieldCheck className="w-3 h-3" />
                       <span>${talent.escrowDepositUSD} security deposit</span>
-                      <HelpTooltip term="Security Deposit" text={FINANCE_EXPLANATIONS.deposit} />
                     </div>
                   </div>
                 )}
               </div>
 
-              <div className="flex items-center gap-2">
-                {isSwap && (
+              <div className="flex items-center gap-3">
+                {isSwap && !isVolunteer && (
                   <button
-                    onClick={() => {
-                      setIsDetailModalOpen(false);
-                      onInitiateSwap(talent);
-                    }}
-                    className="px-4 py-2.5 rounded-full text-xs font-semibold text-[#2D2623] bg-[#F4EFE7] hover:bg-[#EAE3D6] transition-colors cursor-pointer"
+                    onClick={() => { setIsDetailModalOpen(false); onInitiateSwap(talent); }}
+                    className="px-5 py-3 rounded-xl text-xs font-bold text-violet-700 bg-white hover:bg-violet-50 border border-violet-200 transition-all shadow-sm cursor-pointer"
                   >
                     Trade Skills
                   </button>
                 )}
-                {isHire && (
+                {(isHire || isVolunteer) && (
                   <button
-                    onClick={() => {
-                      setIsDetailModalOpen(false);
-                      onInitiateHire(talent);
-                    }}
-                    className="px-5 py-2.5 rounded-full text-xs font-semibold text-white bg-[#D95338] hover:bg-[#C84634] active:scale-[0.98] transition-all duration-300 ease-out shadow-sm shadow-[#D95338]/20 cursor-pointer"
+                    onClick={() => { setIsDetailModalOpen(false); isVolunteer ? onInitiateSwap(talent) : onInitiateHire(talent); }}
+                    className={`px-6 py-3 rounded-xl text-xs font-bold text-white active:scale-95 transition-all shadow-lg cursor-pointer flex items-center gap-2 ${
+                      isVolunteer ? 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-200' : 'bg-violet-600 hover:bg-violet-700 shadow-violet-200'
+                    }`}
                   >
-                    Book Lesson (${talent.hireRateUSD || 35})
+                    {isVolunteer ? <Heart className="w-4 h-4" /> : <CreditCard className="w-4 h-4" />}
+                    {isVolunteer ? 'Connect Free' : `Book Lesson`}
                   </button>
                 )}
               </div>
@@ -455,4 +452,4 @@ export const TalentCard: React.FC<TalentCardProps> = ({
       )}
     </>
   );
-};
+}; 

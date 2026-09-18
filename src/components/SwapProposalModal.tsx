@@ -74,7 +74,7 @@ export const SwapProposalModal: React.FC<SwapProposalModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs overflow-y-auto">
-      <div className="bg-white rounded-3xl shadow-[0_20px_50px_-12px_rgba(44,37,35,0.2)] w-full max-w-lg flex flex-col my-8 overflow-hidden border border-[#EAE3D6]">
+      <div className="bg-violet-50/30 rounded-3xl shadow-[0_20px_50px_-12px_rgba(44,37,35,0.2)] w-full max-w-lg flex flex-col my-8 overflow-hidden border border-violet-200">
         
         {/* Header */}
         <div className="px-6 py-5 border-b border-[#F2EBE0] flex items-center justify-between">
@@ -82,20 +82,20 @@ export const SwapProposalModal: React.FC<SwapProposalModalProps> = ({
             <p className="text-xs font-semibold text-[#D95338] uppercase tracking-wider">
               Free Skill Trade
             </p>
-            <h2 className="text-lg font-semibold text-[#2D2623] tracking-normal mt-0.5">
+            <h2 className="text-lg font-semibold text-[#2E1065] tracking-normal mt-0.5">
               Trade Skills with {targetTalent.user.name}
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-full text-[#8C827A] hover:text-[#2D2623] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
+            className="p-2 rounded-full text-[#8C827A] hover:text-[#2E1065] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-6 sm:p-7 space-y-5 text-[#2D2623]">
+        <form onSubmit={handleSubmit} className="p-6 sm:p-7 space-y-5 text-[#2E1065]">
           {error && (
             <div className="p-3 rounded-2xl bg-[#FDF2EE] text-[#D95338] border border-[#FAD5C8] text-xs font-medium">
               {error}
@@ -103,7 +103,7 @@ export const SwapProposalModal: React.FC<SwapProposalModalProps> = ({
           )}
 
           {/* Target talent info */}
-          <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#EAE3D6] flex items-start gap-3">
+          <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-violet-200 flex items-start gap-3">
             <img
               src={targetTalent.user.avatar}
               alt={targetTalent.user.name}
@@ -113,7 +113,7 @@ export const SwapProposalModal: React.FC<SwapProposalModalProps> = ({
               <span className="text-[11px] font-normal text-[#8C827A] uppercase tracking-wider block">
                 You will learn from {targetTalent.user.name} ({targetTalent.proficiencyLevel})
               </span>
-              <p className="font-semibold text-[#2D2623] text-sm mt-0.5 leading-snug truncate">
+              <p className="font-semibold text-[#2E1065] text-sm mt-0.5 leading-snug truncate">
                 {targetTalent.title}
               </p>
               <p className="text-xs text-[#6E645F] mt-1">
@@ -124,7 +124,7 @@ export const SwapProposalModal: React.FC<SwapProposalModalProps> = ({
 
           {/* What you offer */}
           <div>
-            <label className="block text-xs font-medium text-[#2D2623] mb-1.5">
+            <label className="block text-xs font-medium text-[#2E1065] mb-1.5">
               What skill would you love to teach in exchange? *
             </label>
             <input
@@ -134,12 +134,12 @@ export const SwapProposalModal: React.FC<SwapProposalModalProps> = ({
               placeholder="e.g. Conversational Spanish or Baking Sourdough"
               value={offerTitle}
               onChange={(e) => setOfferTitle(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-2xl border border-[#EAE3D6] text-xs text-[#2D2623] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none transition-all"
+              className="w-full px-3.5 py-2.5 rounded-2xl border border-violet-200 text-xs text-[#2E1065] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none transition-all"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-[#2D2623] mb-1.5">
+            <label className="block text-xs font-medium text-[#2E1065] mb-1.5">
               Briefly describe what you can share *
             </label>
             <textarea
@@ -149,12 +149,12 @@ export const SwapProposalModal: React.FC<SwapProposalModalProps> = ({
               placeholder="Share a little about your background, what you enjoy teaching, and how you can help them..."
               value={offerDescription}
               onChange={(e) => setOfferDescription(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-2xl border border-[#EAE3D6] text-xs text-[#2D2623] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none transition-all leading-relaxed"
+              className="w-full px-3.5 py-2.5 rounded-2xl border border-violet-200 text-xs text-[#2E1065] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none transition-all leading-relaxed"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-[#2D2623] mb-1.5">
+            <label className="block text-xs font-medium text-[#2E1065] mb-1.5">
               Preferred Date & Time
             </label>
             <div className="relative">
@@ -165,14 +165,14 @@ export const SwapProposalModal: React.FC<SwapProposalModalProps> = ({
                 placeholder="e.g. Saturday 2:00 PM UTC"
                 value={proposedDate}
                 onChange={(e) => setProposedDate(e.target.value)}
-                className="w-full pl-10 pr-3.5 py-2.5 rounded-2xl border border-[#EAE3D6] text-xs text-[#2D2623] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none transition-all"
+                className="w-full pl-10 pr-3.5 py-2.5 rounded-2xl border border-violet-200 text-xs text-[#2E1065] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none transition-all"
               />
             </div>
           </div>
 
           {/* Refundable deposit note */}
           <div className="p-4 rounded-2xl bg-[#FFF8EB] border border-[#FDE68A] text-xs text-[#6E645F] space-y-1">
-            <div className="flex items-center justify-between font-semibold text-[#2D2623]">
+            <div className="flex items-center justify-between font-semibold text-[#2E1065]">
               <span className="flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-[#D95338]" />
                 Refundable Deposit: ${targetTalent.escrowDepositUSD}
@@ -190,7 +190,7 @@ export const SwapProposalModal: React.FC<SwapProposalModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-full text-xs font-medium text-[#6E645F] hover:text-[#2D2623] transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-full text-xs font-medium text-[#6E645F] hover:text-[#2E1065] transition-colors cursor-pointer"
             >
               Cancel
             </button>

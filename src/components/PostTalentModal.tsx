@@ -208,7 +208,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs overflow-y-auto">
-      <div className="bg-white rounded-3xl shadow-[0_20px_50px_-12px_rgba(44,37,35,0.2)] w-full max-w-xl flex flex-col my-6 overflow-hidden border border-[#EAE3D6]">
+      <div className="bg-violet-50/30 rounded-3xl shadow-[0_20px_50px_-12px_rgba(44,37,35,0.2)] w-full max-w-xl flex flex-col my-6 overflow-hidden border border-violet-200">
         
         {/* Modal Header */}
         <div className="px-6 py-5 border-b border-[#F2EBE0] flex items-center justify-between">
@@ -216,14 +216,14 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
             <span className="text-xs font-semibold text-[#D95338] uppercase tracking-wider">
               Step {currentStep} of 5 • {stepTitles[currentStep - 1]}
             </span>
-            <h2 className="text-lg font-semibold text-[#2D2623] tracking-normal mt-0.5">
+            <h2 className="text-lg font-semibold text-[#2E1065] tracking-normal mt-0.5">
               Teach a Skill
             </h2>
           </div>
           <button
             id="close-post-talent-modal"
             onClick={onClose}
-            className="p-2 rounded-full text-[#8C827A] hover:text-[#2D2623] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
+            className="p-2 rounded-full text-[#8C827A] hover:text-[#2E1065] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -257,7 +257,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
           {currentStep === 1 && (
             <div className="space-y-4 flex-1">
               <div>
-                <label className="block text-sm font-medium text-[#2D2623] mb-1">
+                <label className="block text-sm font-medium text-[#2E1065] mb-1">
                   What skill or craft do you want to teach?
                 </label>
                 <p className="text-xs text-[#6E645F] mb-2.5 leading-relaxed">
@@ -271,12 +271,12 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter') handleNext(); }}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#EAE3D6] text-sm text-[#2D2623] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none transition-all bg-[#FAF7F2]/50 focus:bg-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-violet-200 text-sm text-[#2E1065] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none transition-all bg-[#FAF7F2]/50 focus:bg-violet-50/30"
                 />
               </div>
 
               <div className="pt-2">
-                <label className="block text-sm font-medium text-[#2D2623] mb-1">
+                <label className="block text-sm font-medium text-[#2E1065] mb-1">
                   Teaching overview
                 </label>
                 <p className="text-xs text-[#6E645F] mb-2.5 leading-relaxed">
@@ -288,7 +288,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                   placeholder="I will walk you through real-world examples, review your code, and answer any tricky questions..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#EAE3D6] text-sm text-[#2D2623] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none transition-all bg-[#FAF7F2]/50 focus:bg-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-violet-200 text-sm text-[#2E1065] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none transition-all bg-[#FAF7F2]/50 focus:bg-violet-50/30"
                 />
               </div>
             </div>
@@ -298,7 +298,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
           {currentStep === 2 && (
             <div className="space-y-4 flex-1">
               <div>
-                <label className="block text-sm font-medium text-[#2D2623] mb-1">
+                <label className="block text-sm font-medium text-[#2E1065] mb-1">
                   Skill Category
                 </label>
                 <p className="text-xs text-[#6E645F] mb-3 leading-relaxed">
@@ -312,7 +312,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter') handleNext(); }}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#EAE3D6] text-sm text-[#2D2623] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none transition-all bg-[#FAF7F2]/50 focus:bg-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-violet-200 text-sm text-[#2E1065] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none transition-all bg-[#FAF7F2]/50 focus:bg-violet-50/30"
                 />
               </div>
 
@@ -331,10 +331,10 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                         className={`p-2.5 rounded-2xl border text-left transition-all cursor-pointer ${
                           isSelected
                             ? 'border-[#D95338] bg-[#FDF2EE] text-[#D95338] font-semibold'
-                            : 'border-[#EAE3D6] bg-white hover:border-[#D5CBBF] text-[#2D2623]'
+                            : 'border-violet-200 bg-violet-50/30 hover:border-[#D5CBBF] text-[#2E1065]'
                         }`}
                       >
-                        <p className={`text-xs font-medium ${isSelected ? 'text-[#D95338]' : 'text-[#2D2623]'}`}>
+                        <p className={`text-xs font-medium ${isSelected ? 'text-[#D95338]' : 'text-[#2E1065]'}`}>
                           {cat.label}
                         </p>
                         <p className={`text-[11px] mt-0.5 leading-snug ${isSelected ? 'text-[#C84634]' : 'text-[#6E645F]'}`}>
@@ -352,7 +352,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
           {currentStep === 3 && (
             <div className="space-y-4 flex-1">
               <div>
-                <label className="block text-sm font-medium text-[#2D2623] mb-1">
+                <label className="block text-sm font-medium text-[#2E1065] mb-1">
                   What skill level are you teaching at?
                 </label>
                 <p className="text-xs text-[#6E645F] mb-2.5 leading-relaxed">
@@ -370,10 +370,10 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                         className={`p-2.5 rounded-2xl border text-left transition-all cursor-pointer ${
                           isSelected
                             ? 'border-[#D95338] bg-[#FDF2EE] text-[#D95338] font-semibold'
-                            : 'border-[#EAE3D6] bg-white hover:border-[#D5CBBF] text-[#2D2623]'
+                            : 'border-violet-200 bg-violet-50/30 hover:border-[#D5CBBF] text-[#2E1065]'
                         }`}
                       >
-                        <span className={`text-xs font-medium block ${isSelected ? 'text-[#D95338]' : 'text-[#2D2623]'}`}>
+                        <span className={`text-xs font-medium block ${isSelected ? 'text-[#D95338]' : 'text-[#2E1065]'}`}>
                           {lvl.level}
                         </span>
                         <span className={`text-[10px] block mt-0.5 ${isSelected ? 'text-[#C84634]' : 'text-[#6E645F]'}`}>
@@ -386,7 +386,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
               </div>
 
               <div className="pt-2">
-                <label className="block text-sm font-medium text-[#2D2623] mb-1">
+                <label className="block text-sm font-medium text-[#2E1065] mb-1">
                   Specific skills or tools (comma-separated) *
                 </label>
                 <input
@@ -396,7 +396,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                   value={teachSkills}
                   onChange={(e) => setTeachSkills(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter') handleNext(); }}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#EAE3D6] text-sm text-[#2D2623] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none transition-all bg-[#FAF7F2]/50 focus:bg-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-violet-200 text-sm text-[#2E1065] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none transition-all bg-[#FAF7F2]/50 focus:bg-violet-50/30"
                 />
               </div>
 
@@ -410,7 +410,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                   placeholder="1. Architecture and setups&#10;2. Production deployment"
                   value={topicsCovered}
                   onChange={(e) => setTopicsCovered(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-[#EAE3D6] text-xs text-[#2D2623] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none bg-[#FAF7F2]/50 focus:bg-white"
+                  className="w-full px-3 py-2 rounded-xl border border-violet-200 text-xs text-[#2E1065] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none bg-[#FAF7F2]/50 focus:bg-violet-50/30"
                 />
               </div>
             </div>
@@ -420,7 +420,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
           {currentStep === 4 && (
             <div className="space-y-4 flex-1">
               <div>
-                <label className="block text-sm font-medium text-[#2D2623] mb-1">
+                <label className="block text-sm font-medium text-[#2E1065] mb-1">
                   How can learners connect with you?
                 </label>
                 <p className="text-xs text-[#6E645F] mb-2.5 leading-relaxed">
@@ -434,7 +434,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                   className={`p-3.5 rounded-2xl border transition-all ${
                     availableForSwap 
                       ? 'border-[#D95338]/60 bg-[#FDF2EE]/60' 
-                      : 'border-[#EAE3D6] bg-white'
+                      : 'border-violet-200 bg-violet-50/30'
                   }`}
                 >
                   <label className="flex items-start gap-3 cursor-pointer">
@@ -443,10 +443,10 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                       id="available-for-swap-check"
                       checked={availableForSwap}
                       onChange={(e) => setAvailableForSwap(e.target.checked)}
-                      className="mt-0.5 rounded border-[#EAE3D6] text-[#D95338] focus:ring-[#D95338] cursor-pointer"
+                      className="mt-0.5 rounded border-violet-200 text-[#D95338] focus:ring-[#D95338] cursor-pointer"
                     />
                     <div className="flex-1">
-                      <span className="text-xs font-semibold text-[#2D2623] block">
+                      <span className="text-xs font-semibold text-[#2E1065] block">
                         Free Skill Trade
                       </span>
                       <span className="text-[11px] text-[#6E645F] block mt-0.5 leading-relaxed">
@@ -457,8 +457,8 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
 
                   {/* Skills wanted in exchange */}
                   {availableForSwap && (
-                    <div className="mt-3 pt-3 border-t border-[#EAE3D6] space-y-1.5">
-                      <label className="block text-xs font-medium text-[#2D2623]">
+                    <div className="mt-3 pt-3 border-t border-violet-200 space-y-1.5">
+                      <label className="block text-xs font-medium text-[#2E1065]">
                         What skills would you like to learn in return? *
                       </label>
                       <input
@@ -467,7 +467,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                         placeholder="e.g. Conversational Spanish, Acoustic Guitar, Figma, Cooking"
                         value={wantedSkills}
                         onChange={(e) => setWantedSkills(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#EAE3D6] text-xs text-[#2D2623] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none bg-white"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-violet-200 text-xs text-[#2E1065] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none bg-violet-50/30"
                       />
                     </div>
                   )}
@@ -478,7 +478,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                   className={`p-3.5 rounded-2xl border transition-all ${
                     availableForHire 
                       ? 'border-[#D95338]/60 bg-[#FDF2EE]/60' 
-                      : 'border-[#EAE3D6] bg-white'
+                      : 'border-violet-200 bg-violet-50/30'
                   }`}
                 >
                   <label className="flex items-start gap-3 cursor-pointer">
@@ -487,11 +487,11 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                       id="available-for-hire-check"
                       checked={availableForHire}
                       onChange={(e) => setAvailableForHire(e.target.checked)}
-                      className="mt-0.5 rounded border-[#EAE3D6] text-[#D95338] focus:ring-[#D95338] cursor-pointer"
+                      className="mt-0.5 rounded border-violet-200 text-[#D95338] focus:ring-[#D95338] cursor-pointer"
                     />
                     <div className="flex-1">
                       <div className="flex items-center gap-1.5">
-                        <span className="text-xs font-semibold text-[#2D2623] block">
+                        <span className="text-xs font-semibold text-[#2E1065] block">
                           Paid Lessons
                         </span>
                       </div>
@@ -503,8 +503,8 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
 
                   {/* Hire rate input */}
                   {availableForHire && (
-                    <div className="mt-3 pt-3 border-t border-[#EAE3D6] space-y-2">
-                      <label className="block text-xs font-medium text-[#2D2623] flex items-center">
+                    <div className="mt-3 pt-3 border-t border-violet-200 space-y-2">
+                      <label className="block text-xs font-medium text-[#2E1065] flex items-center">
                         Your Lesson Fee *
                         <HelpTooltip term="Lesson Fee" text={FINANCE_EXPLANATIONS.lessonFee} />
                       </label>
@@ -518,19 +518,19 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                             max="500"
                             value={hireRateUSD}
                             onChange={(e) => setHireRateUSD(Number(e.target.value))}
-                            className="w-full pl-6 pr-3 py-2 rounded-xl border border-[#EAE3D6] text-xs text-[#2D2623] font-semibold focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none bg-white"
+                            className="w-full pl-6 pr-3 py-2 rounded-xl border border-violet-200 text-xs text-[#2E1065] font-semibold focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none bg-violet-50/30"
                           />
                         </div>
 
                         {/* Rate Type Selector */}
-                        <div className="flex items-center rounded-full bg-[#FAF7F2] p-1 border border-[#EAE3D6] text-xs">
+                        <div className="flex items-center rounded-full bg-[#FAF7F2] p-1 border border-violet-200 text-xs">
                           <button
                             type="button"
                             onClick={() => setHireRateType('session')}
                             className={`px-3 py-1 rounded-full text-xs transition-colors cursor-pointer ${
                               hireRateType === 'session'
-                                ? 'bg-white text-[#2D2623] font-semibold shadow-xs'
-                                : 'text-[#6E645F] hover:text-[#2D2623]'
+                                ? 'bg-violet-50/30 text-[#2E1065] font-semibold shadow-xs'
+                                : 'text-[#6E645F] hover:text-[#2E1065]'
                             }`}
                           >
                             per lesson
@@ -540,8 +540,8 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                             onClick={() => setHireRateType('hour')}
                             className={`px-3 py-1 rounded-full text-xs transition-colors cursor-pointer ${
                               hireRateType === 'hour'
-                                ? 'bg-white text-[#2D2623] font-semibold shadow-xs'
-                                : 'text-[#6E645F] hover:text-[#2D2623]'
+                                ? 'bg-violet-50/30 text-[#2E1065] font-semibold shadow-xs'
+                                : 'text-[#6E645F] hover:text-[#2E1065]'
                             }`}
                           >
                             per hour
@@ -558,7 +558,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
 
               {/* Format selection */}
               <div className="pt-2">
-                <label className="block text-xs font-medium text-[#2D2623] mb-1.5">
+                <label className="block text-xs font-medium text-[#2E1065] mb-1.5">
                   Preferred session format
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -570,7 +570,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                       className={`p-2 rounded-xl border text-left transition-all cursor-pointer ${
                         format === f
                           ? 'border-[#D95338] bg-[#FDF2EE] text-[#D95338] font-semibold'
-                          : 'border-[#EAE3D6] bg-white hover:border-[#D5CBBF] text-[#2D2623]'
+                          : 'border-violet-200 bg-violet-50/30 hover:border-[#D5CBBF] text-[#2E1065]'
                       }`}
                     >
                       <span className="text-[11px] block">{f}</span>
@@ -585,7 +585,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
           {currentStep === 5 && (
             <div className="space-y-4 flex-1">
               <div>
-                <label className="block text-sm font-medium text-[#2D2623] mb-1">
+                <label className="block text-sm font-medium text-[#2E1065] mb-1">
                   Session length
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-1.5">
@@ -597,7 +597,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                       className={`p-2.5 rounded-xl border text-center transition-all cursor-pointer ${
                         sessionDurationMins === d.mins
                           ? 'border-[#D95338] bg-[#FDF2EE] text-[#D95338] font-semibold'
-                          : 'border-[#EAE3D6] bg-white hover:border-[#D5CBBF] text-[#2D2623]'
+                          : 'border-violet-200 bg-violet-50/30 hover:border-[#D5CBBF] text-[#2E1065]'
                       }`}
                     >
                       <span className="text-xs block">{d.mins}m</span>
@@ -608,7 +608,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                 <div>
-                  <label className="block text-xs font-medium text-[#2D2623] mb-1">
+                  <label className="block text-xs font-medium text-[#2E1065] mb-1">
                     Availability / Timezone
                   </label>
                   <input
@@ -617,13 +617,13 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                     placeholder="e.g. Evenings & Weekends UTC"
                     value={availability}
                     onChange={(e) => setAvailability(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#EAE3D6] text-xs text-[#2D2623] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none bg-[#FAF7F2]/50 focus:bg-white"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-violet-200 text-xs text-[#2E1065] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none bg-[#FAF7F2]/50 focus:bg-violet-50/30"
                   />
                 </div>
 
                 {availableForSwap && (
                   <div>
-                    <label className="block text-xs font-medium text-[#2D2623] mb-1 flex items-center">
+                    <label className="block text-xs font-medium text-[#2E1065] mb-1 flex items-center">
                       Security Deposit
                       <HelpTooltip term="Security Deposit" text={FINANCE_EXPLANATIONS.securityDeposit} />
                     </label>
@@ -636,7 +636,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                           className={`flex-1 py-2 rounded-xl text-xs border transition-colors cursor-pointer ${
                             escrowDepositUSD === amt
                               ? 'border-[#D95338] bg-[#FDF2EE] text-[#D95338] font-semibold'
-                              : 'border-[#EAE3D6] bg-white text-[#2D2623] hover:border-[#D5CBBF]'
+                              : 'border-violet-200 bg-violet-50/30 text-[#2E1065] hover:border-[#D5CBBF]'
                           }`}
                         >
                           ${amt}
@@ -648,18 +648,18 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
               </div>
 
               {/* Review summary box */}
-              <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#EAE3D6] text-xs space-y-1.5">
+              <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-violet-200 text-xs space-y-1.5">
                 <div className="flex justify-between text-[#6E645F]">
                   <span>Category:</span>
-                  <span className="font-medium text-[#2D2623]">{category}</span>
+                  <span className="font-medium text-[#2E1065]">{category}</span>
                 </div>
                 <div className="flex justify-between text-[#6E645F]">
                   <span>Level:</span>
-                  <span className="font-medium text-[#2D2623]">{proficiencyLevel}</span>
+                  <span className="font-medium text-[#2E1065]">{proficiencyLevel}</span>
                 </div>
                 <div className="flex justify-between text-[#6E645F]">
                   <span>Lesson Mode:</span>
-                  <span className="font-semibold text-[#2D2623]">
+                  <span className="font-semibold text-[#2E1065]">
                     {availableForSwap && availableForHire 
                       ? 'Free Skill Trade or Paid Lesson' 
                       : availableForHire 
@@ -670,7 +670,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                 {availableForHire && (
                   <div className="flex justify-between text-[#6E645F]">
                     <span>Lesson Fee:</span>
-                    <span className="font-semibold text-[#2D2623]">
+                    <span className="font-semibold text-[#2E1065]">
                       ${hireRateUSD} USD / {hireRateType === 'session' ? 'lesson' : 'hour'}
                     </span>
                   </div>
@@ -678,12 +678,12 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
                 {availableForSwap && (
                   <div className="flex justify-between text-[#6E645F]">
                     <span>Security Deposit:</span>
-                    <span className="font-medium text-[#2D2623]">${escrowDepositUSD} USD (100% refundable)</span>
+                    <span className="font-medium text-[#2E1065]">${escrowDepositUSD} USD (100% refundable)</span>
                   </div>
                 )}
                 <div className="flex justify-between text-[#6E645F]">
                   <span>Lesson Length:</span>
-                  <span className="font-medium text-[#2D2623]">{sessionDurationMins} minutes</span>
+                  <span className="font-medium text-[#2E1065]">{sessionDurationMins} minutes</span>
                 </div>
               </div>
             </div>
@@ -695,7 +695,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
               <button
                 type="button"
                 onClick={handleBack}
-                className="px-4 py-2 rounded-full text-xs font-medium text-[#6E645F] hover:text-[#2D2623] hover:bg-[#FAF7F2] transition-colors flex items-center gap-1.5 cursor-pointer"
+                className="px-4 py-2 rounded-full text-xs font-medium text-[#6E645F] hover:text-[#2E1065] hover:bg-[#FAF7F2] transition-colors flex items-center gap-1.5 cursor-pointer"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 Back
@@ -704,7 +704,7 @@ export const PostTalentModal: React.FC<PostTalentModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 rounded-full text-xs font-medium text-[#6E645F] hover:text-[#2D2623] transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-full text-xs font-medium text-[#6E645F] hover:text-[#2E1065] transition-colors cursor-pointer"
               >
                 Cancel
               </button>

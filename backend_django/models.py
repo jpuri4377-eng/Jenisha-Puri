@@ -43,6 +43,7 @@ class TalentListing(models.Model):
         ("Fitness & Wellness", "Fitness & Wellness"),
         ("Academics & Science", "Academics & Science"),
         ("Crafts & DIY", "Crafts & DIY"),
+        ("Volunteering & Community", "Volunteering & Community"),  # NEW CATEGORY
     ]
 
     FORMAT_CHOICES = [
@@ -100,6 +101,13 @@ class TalentListing(models.Model):
         default=15.00,
         help_text="Refundable commitment deposit in USD processed via NOWPayments crypto escrow",
     )
+    
+    # ✅ NEW FIELD: Volunteer Mode
+    is_volunteer = models.BooleanField(
+        default=False, 
+        help_text="If True, this listing is free - no escrow or exchange needed"
+    )
+    
     student_prerequisites = models.TextField(
         blank=True, default="Basic curiosity and laptop with browser"
     )
@@ -217,3 +225,4 @@ class NowPaymentTransaction(models.Model):
 
     def __str__(self):
         return f"NOWPayment {self.payment_id} [{self.payment_status}] for Swap #{self.swap.id}"
+    

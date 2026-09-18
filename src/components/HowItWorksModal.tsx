@@ -40,7 +40,7 @@ export const HowItWorksModal: React.FC<HowItWorksModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs overflow-y-auto animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl shadow-[0_20px_50px_-12px_rgba(44,37,35,0.2)] w-full max-w-lg flex flex-col my-6 overflow-hidden border border-[#EAE3D6]">
+      <div className="bg-violet-50/30 rounded-3xl shadow-[0_20px_50px_-12px_rgba(44,37,35,0.2)] w-full max-w-lg flex flex-col my-6 overflow-hidden border border-violet-200">
         
         {/* Header */}
         <div className="px-6 sm:px-7 pt-6 pb-4 flex items-center justify-between border-b border-[#F2EBE0]">
@@ -49,7 +49,7 @@ export const HowItWorksModal: React.FC<HowItWorksModalProps> = ({
               <Sparkles className="w-4 h-4" />
             </span>
             <div>
-              <h2 className="text-base sm:text-lg font-semibold text-[#2D2623]">
+              <h2 className="text-base sm:text-lg font-semibold text-[#2E1065]">
                 Welcome to SwapTalent
               </h2>
               <p className="text-xs text-[#6E645F]">Here is how skill sharing works in 3 easy steps</p>
@@ -57,7 +57,7 @@ export const HowItWorksModal: React.FC<HowItWorksModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-full text-[#8C827A] hover:text-[#2D2623] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
+            className="p-2 rounded-full text-[#8C827A] hover:text-[#2E1065] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
             aria-label="Close walkthrough"
           >
             <X className="w-4 h-4" />
@@ -71,7 +71,7 @@ export const HowItWorksModal: React.FC<HowItWorksModalProps> = ({
             return (
               <div 
                 key={step.number}
-                className="flex items-start gap-4 p-4 rounded-2xl bg-[#FAF7F2] border border-[#EAE3D6] transition-all hover:border-[#DDD4C5]"
+                className="flex items-start gap-4 p-4 rounded-2xl bg-[#FAF7F2] border border-violet-200 transition-all hover:border-[#DDD4C5]"
               >
                 <div className={`w-10 h-10 rounded-2xl ${step.color} flex items-center justify-center shrink-0 shadow-2xs`}>
                   <Icon className="w-5 h-5" />
@@ -82,7 +82,7 @@ export const HowItWorksModal: React.FC<HowItWorksModalProps> = ({
                       Step {step.number}
                     </span>
                   </div>
-                  <h3 className="text-sm font-semibold text-[#2D2623] leading-snug">
+                  <h3 className="text-sm font-semibold text-[#2E1065] leading-snug">
                     {step.title}
                   </h3>
                   <p className="text-xs text-[#6E645F] leading-relaxed">
@@ -98,7 +98,7 @@ export const HowItWorksModal: React.FC<HowItWorksModalProps> = ({
         <div className="px-6 sm:px-7 py-4 bg-[#FAF7F2] border-t border-[#F2EBE0] flex items-center justify-between">
           <button
             onClick={onClose}
-            className="text-xs text-[#6E645F] hover:text-[#2D2623] font-medium cursor-pointer transition-colors"
+            className="text-xs text-[#6E645F] hover:text-[#2E1065] font-medium cursor-pointer transition-colors"
           >
             Skip for now
           </button>

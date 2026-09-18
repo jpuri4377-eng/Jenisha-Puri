@@ -1,34 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
 @import "tailwindcss";
 
 @layer base {
   html, body {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: #FAF7F2;
-    color: #2D2623;
-    letter-spacing: 0.012em;
+    background-color: #FAF8FF;
+    color: #2E1065;
   }
-
-  /* Soft warm rounded scrollbar */
-  ::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
+  
+  /* Make all small/subtitle text italic */
+  p, .text-xs, .text-sm, span:not(.font-bold):not(.font-semibold) {
+    font-style: italic;
   }
-  ::-webkit-scrollbar-track {
-    background: transparent;
+  
+  /* Keep headings and buttons non-italic */
+  h1, h2, h3, h4, button, .font-bold, .font-semibold {
+    font-style: normal;
   }
-  ::-webkit-scrollbar-thumb {
-    background: #E8E1D5;
-    border-radius: 9999px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #D8CEBE;
-  }
-
-  ::selection {
-    background-color: #FED7AA;
-    color: #9A3412;
-  }
-}
-
+} 

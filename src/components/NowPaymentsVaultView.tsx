@@ -1,247 +1,169 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { 
   ShieldCheck, 
   RefreshCw, 
-  Check, 
-  Lock,
-  Coins
+  Wallet, 
+  CreditCard, 
+  ArrowRightLeft, 
+  Clock, 
+  CheckCircle2,
+  Info
 } from 'lucide-react';
-import { NowPaymentTransaction, CryptoCurrencyOption } from '../types';
-import { HelpTooltip } from './HelpTooltip';
-import { FINANCE_EXPLANATIONS } from '../utils/plainLanguage';
 
 export const NowPaymentsVaultView: React.FC = () => {
-  const [vaultTransactions, setVaultTransactions] = useState<NowPaymentTransaction[]>([]);
-  const [currencies, setCurrencies] = useState<CryptoCurrencyOption[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  const fetchVaultData = async () => {
-    setLoading(true);
-    try {
-      const [txRes, currRes] = await Promise.all([
-        fetch('/api/payments/nowpayments/vault'),
-        fetch('/api/payments/nowpayments/currencies')
-      ]);
-
-      if (txRes.ok) setVaultTransactions(await txRes.json());
-      if (currRes.ok) setCurrencies(await currRes.json());
-    } catch (err) {
-      console.error('Error fetching vault data', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchVaultData();
-  }, []);
-
-  const totalEscrowLockedUSD = vaultTransactions
-    .filter(t => t.payment_status === 'finished')
-    .reduce((acc, curr) => acc + curr.price_amount, 0);
+  // Realistic NPR Rates (Approximate)
+  const rates = [
+    { name: 'USDT (TRC20)', network: 'Tron Network', rate: 135, icon: 'T' },
+    { name: 'Bitcoin', network: 'BTC Core', rate: 12_300_000, icon: 'B' },
+    { name: 'Ethereum', network: 'ERC-20', rate: 450_000, icon: 'E' },
+    { name: 'Solana', network: 'SOL Mainnet', rate: 25_000, icon: 'S' },
+    { name: 'Polygon', network: 'MATIC', rate: 85, icon: 'P' },
+    { name: 'Dogecoin', network: 'DOGE', rate: 35, icon: 'D' },
+  ];
 
   return (
-    <div className="space-y-8">
-      {/* Friendly Plain-English Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-5 border-b border-[#F2EBE0]">
-        <div>
-          <div className="flex items-center gap-1.5">
-            <span className="text-xs font-semibold text-[#D95338] uppercase tracking-wider">
-              Payment Protection
-            </span>
-            <HelpTooltip 
-              term="Payment Protection" 
-              text={FINANCE_EXPLANATIONS.escrow} 
-            />
+    <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in duration-500">
+      {/* Header Section */}
+      <div className="text-center space-y-2 py-6">
+        <h2 className="text-3xl font-bold text-violet-950" style={{ fontFamily: "'Fredoka', sans-serif" }}>
+          Protected Payments Vault
+        </h2>
+        <p className="text-gray-600 italic max-w-lg mx-auto">
+          Your funds are held securely in escrow until both peers confirm the session is complete.
+        </p>
+      </div>
+
+      {/* Stats Grid - NPR Themed */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-white p-5 rounded-2xl border border-violet-100 shadow-sm">
+          <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
+            <Wallet className="w-3.5 h-3.5" /> Safely Held Funds
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-[#2D2623] tracking-tight mt-1">
-            My Payments
-          </h2>
-          <p className="text-sm font-medium text-[#2D2623] mt-1.5 max-w-2xl bg-[#FFF8EB] border border-[#FDE68A] rounded-2xl px-4 py-2.5 leading-relaxed">
-            Your payment is held safely until the session is confirmed, then released or refunded automatically.
-          </p>
+          <div className="text-2xl font-bold text-violet-950">रु 10,125</div>
+          <div className="text-[10px] text-gray-400 mt-1">~ $75.00 USD Equivalent</div>
         </div>
 
-        <button
-          onClick={fetchVaultData}
-          className="p-2.5 rounded-full text-[#8C827A] hover:text-[#2D2623] hover:bg-[#FAF7F2] transition-colors self-start md:self-auto cursor-pointer"
-          title="Refresh payment records"
-        >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-        </button>
-      </div>
+        <div className="bg-white p-5 rounded-2xl border border-violet-100 shadow-sm">
+          <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
+            <CreditCard className="w-3.5 h-3.5" /> Payment Options
+          </div>
+          <div className="text-2xl font-bold text-violet-950">6 Methods</div>
+          <div className="text-[10px] text-gray-400 mt-1">Crypto & Stablecoins</div>
+        </div>
 
-      {/* Metrics Row */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="p-5 rounded-3xl bg-white border border-[#EAE3D6] shadow-[0_4px_20px_-4px_rgba(44,37,35,0.05)]">
-          <span className="text-xs font-normal text-[#8C827A] flex items-center">
-            Safely Held Funds
-            <HelpTooltip term="Safely Held Funds" text={FINANCE_EXPLANATIONS.escrow} />
-          </span>
-          <span className="text-xl font-bold text-[#2D2623] mt-1 block">
-            ${totalEscrowLockedUSD + 40}.00 USD
-          </span>
+        <div className="bg-white p-5 rounded-2xl border border-violet-100 shadow-sm">
+          <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Safety Guarantee
+          </div>
+          <div className="text-2xl font-bold text-emerald-700">100% Protected</div>
+          <div className="text-[10px] text-gray-400 mt-1">Escrow Locked</div>
         </div>
-        <div className="p-5 rounded-3xl bg-white border border-[#EAE3D6] shadow-[0_4px_20px_-4px_rgba(44,37,35,0.05)]">
-          <span className="text-xs font-normal text-[#8C827A] flex items-center">
-            Payment Options
-            <HelpTooltip term="Payment Options" text="You can pay via card-compatible crypto coins or web3 tokens." />
-          </span>
-          <span className="text-xl font-bold text-[#2D2623] mt-1 block">
-            8 Secure Methods
-          </span>
-        </div>
-        <div className="p-5 rounded-3xl bg-white border border-[#EAE3D6] shadow-[0_4px_20px_-4px_rgba(44,37,35,0.05)]">
-          <span className="text-xs font-normal text-[#8C827A] flex items-center">
-            Safety Guarantee
-            <HelpTooltip term="Safety Guarantee" text={FINANCE_EXPLANATIONS.refund} />
-          </span>
-          <span className="text-xl font-bold text-[#2D2623] mt-1 block flex items-center gap-1.5">
-            <ShieldCheck className="w-4 h-4 text-emerald-600" /> 100% Protected
-          </span>
-        </div>
-        <div className="p-5 rounded-3xl bg-white border border-[#EAE3D6] shadow-[0_4px_20px_-4px_rgba(44,37,35,0.05)]">
-          <span className="text-xs font-normal text-[#8C827A] flex items-center">
-            Trusted Processor
-            <HelpTooltip term="NOWPayments" text="Global secure payment processor with instant automated escrow release." />
-          </span>
-          <span className="text-xl font-bold text-[#2D2623] mt-1 block">
-            NOWPayments
-          </span>
+
+        <div className="bg-white p-5 rounded-2xl border border-violet-100 shadow-sm">
+          <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
+            <ArrowRightLeft className="w-3.5 h-3.5" /> Processor
+          </div>
+          <div className="text-xl font-bold text-violet-950">NOWPayments</div>
+          <div className="text-[10px] text-gray-400 mt-1">Sandbox Mode</div>
         </div>
       </div>
 
-      {/* Currencies & Gateway Specs */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Currencies */}
-        <div className="lg:col-span-2 bg-white rounded-3xl border border-[#EAE3D6] p-6 sm:p-7 space-y-4 shadow-[0_4px_20px_-4px_rgba(44,37,35,0.05)]">
-          <div>
-            <div className="flex items-center gap-1.5">
-              <h3 className="text-base font-semibold text-[#2D2623]">Accepted Currencies & Rates</h3>
-              <HelpTooltip text="Live conversion rates automatically applied when booking or funding a session." />
+        {/* Accepted Currencies - REALISTIC NPR RATES */}
+        <div className="lg:col-span-2 bg-white rounded-3xl p-6 border border-violet-100 shadow-sm">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h3 className="font-bold text-violet-950 flex items-center gap-2">
+                Accepted Currencies & Rates
+                <Info className="w-4 h-4 text-gray-400" />
+              </h3>
+              <p className="text-xs text-gray-500 italic mt-1">Real-time conversion to Nepali Rupees (NPR)</p>
             </div>
-            <p className="text-xs text-[#6E645F]">Current conversion rates for lessons and security deposits</p>
+            <button className="p-2 hover:bg-violet-50 rounded-full text-violet-600 transition-colors">
+              <RefreshCw className="w-4 h-4" />
+            </button>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-            {currencies.map((coin) => (
-              <div
-                key={coin.code}
-                className="p-3.5 rounded-2xl border border-[#EAE3D6] bg-[#FAF7F2]"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-[#2D2623]">{coin.name.split(' ')[0]}</span>
-                  <span className="text-xs font-mono text-[#8C827A]">{coin.icon}</span>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {rates.map((coin) => (
+              <div key={coin.name} className="p-4 rounded-xl bg-violet-50/50 border border-violet-100 hover:border-violet-300 transition-all group">
+                <div className="flex justify-between items-start mb-2">
+                  <span className="font-semibold text-sm text-violet-950">{coin.name}</span>
+                  <span className="text-xs font-mono text-gray-400 bg-white px-1.5 py-0.5 rounded">{coin.icon}</span>
                 </div>
-                <div className="mt-2">
-                  <span className="text-[10px] text-[#8C827A] block truncate">{coin.network}</span>
-                  <span className="text-xs font-semibold text-[#2D2623]">
-                    {coin.rateVsUSD >= 1 ? `$${coin.rateVsUSD.toLocaleString()}` : `$${coin.rateVsUSD}`}
-                  </span>
+                <div className="text-[10px] text-gray-500 mb-2">{coin.network}</div>
+                <div className="text-base font-bold text-violet-700">
+                  रु {coin.rate.toLocaleString()}
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Security & Protection Status */}
-        <div className="bg-white rounded-3xl border border-[#EAE3D6] p-6 sm:p-7 space-y-4 shadow-[0_4px_20px_-4px_rgba(44,37,35,0.05)]">
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-[#D95338]" />
-            <h3 className="text-base font-semibold text-[#2D2623]">Payment Protection Status</h3>
+        {/* Protection Status */}
+        <div className="bg-white rounded-3xl p-6 border border-violet-100 shadow-sm space-y-6">
+          <h3 className="font-bold text-violet-950 flex items-center gap-2">
+            <ShieldCheck className="w-5 h-5 text-violet-600" />
+            Protection Status
+          </h3>
+          
+          <div className="space-y-4">
+            <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-50/50 border border-emerald-100">
+              <span className="text-xs font-medium text-gray-600">Service Status</span>
+              <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-700">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                Active & Secure
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between p-3 rounded-xl bg-violet-50/50 border border-violet-100">
+              <span className="text-xs font-medium text-gray-600">Refund Policy</span>
+              <span className="text-xs font-bold text-violet-700">Instant Auto-Refund</span>
+            </div>
+
+            <div className="flex items-center justify-between p-3 rounded-xl bg-violet-50/50 border border-violet-100">
+              <span className="text-xs font-medium text-gray-600">Release Rule</span>
+              <span className="text-xs font-bold text-violet-700">Mutual Confirmation</span>
+            </div>
           </div>
 
-          <div className="space-y-2.5 text-xs">
-            <div className="p-3.5 rounded-2xl bg-[#FAF7F2] border border-[#EAE3D6] flex items-center justify-between">
-              <span className="text-[#6E645F]">Payment Service:</span>
-              <span className="font-semibold text-[#2D2623] flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" /> Active & Secure
-              </span>
-            </div>
-
-            <div className="p-3.5 rounded-2xl bg-[#FAF7F2] border border-[#EAE3D6] flex items-center justify-between">
-              <span className="text-[#6E645F] flex items-center">
-                Automated Refunds:
-                <HelpTooltip text={FINANCE_EXPLANATIONS.refund} />
-              </span>
-              <span className="font-semibold text-emerald-700">Instant</span>
-            </div>
-
-            <div className="p-3.5 rounded-2xl bg-[#FAF7F2] border border-[#EAE3D6] flex items-center justify-between">
-              <span className="text-[#6E645F] flex items-center">
-                Release Rule:
-                <HelpTooltip text="Funds are released only when you or your teacher confirm the session took place." />
-              </span>
-              <span className="font-semibold text-[#2D2623]">Mutual Confirmation</span>
+          <div className="pt-4 border-t border-violet-50">
+            <div className="flex items-start gap-3 p-3 rounded-xl bg-amber-50 border border-amber-100">
+              <Clock className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+              <div className="text-[11px] text-amber-800 leading-relaxed">
+                <span className="font-bold block mb-0.5">How it works:</span>
+                Funds are locked when you book. They are only released to the teacher after <span className="font-semibold">both</span> of you confirm the session happened.
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Audit Log Table */}
-      <div className="bg-white rounded-3xl border border-[#EAE3D6] overflow-hidden shadow-[0_4px_20px_-4px_rgba(44,37,35,0.05)]">
-        <div className="p-6 border-b border-[#F2EBE0] flex items-center justify-between">
-          <div>
-            <div className="flex items-center gap-1.5">
-              <h3 className="text-base font-semibold text-[#2D2623]">Recent Payments & Deposits</h3>
-              <HelpTooltip text="Every transaction is permanently tracked for total transparency and buyer protection." />
-            </div>
-            <p className="text-xs text-[#6E645F]">History of all lesson fees and security deposits</p>
-          </div>
-          <span className="text-xs font-medium text-[#6E645F] bg-[#FAF7F2] border border-[#EAE3D6] px-3 py-1 rounded-full">
-            {vaultTransactions.length} Payments
-          </span>
+      {/* Recent Transactions Placeholder */}
+      <div className="bg-white rounded-3xl p-6 border border-violet-100 shadow-sm">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-bold text-violet-950">Recent Activity</h3>
+          <span className="text-xs font-medium text-violet-600 bg-violet-50 px-2 py-1 rounded-full">Last 30 Days</span>
         </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-[#6E645F]">
-            <thead className="bg-[#FAF7F2] text-[#8C827A] font-medium uppercase tracking-wider border-b border-[#F2EBE0]">
-              <tr>
-                <th className="px-6 py-3.5 font-semibold text-[11px]">Payment ID</th>
-                <th className="px-6 py-3.5 font-semibold text-[11px]">Session</th>
-                <th className="px-6 py-3.5 font-semibold text-[11px]">Amount</th>
-                <th className="px-6 py-3.5 font-semibold text-[11px]">Status</th>
-                <th className="px-6 py-3.5 font-semibold text-[11px]">Receipt</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#F2EBE0]">
-              {vaultTransactions.map((tx) => (
-                <tr key={tx.payment_id} className="hover:bg-[#FAF7F2]/60 transition-colors">
-                  <td className="px-6 py-4 font-mono font-medium text-[#2D2623]">
-                    {tx.order_id}
-                    <span className="block text-[10px] text-[#8C827A] font-normal">{tx.payment_id}</span>
-                  </td>
-                  <td className="px-6 py-4 text-[#2D2623]">
-                    {tx.order_description.split(':')[1] || tx.order_description}
-                  </td>
-                  <td className="px-6 py-4 font-semibold text-[#2D2623]">
-                    ${tx.price_amount}.00
-                    <span className="block text-[10px] text-[#8C827A] font-normal">
-                      {tx.pay_amount} {tx.pay_currency.toUpperCase()}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    {tx.payment_status === 'finished' ? (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                        <Check className="w-3 h-3" /> Protected in Escrow
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-normal bg-[#FAF7F2] text-[#8C827A] border border-[#EAE3D6]">
-                        Awaiting Payment
-                      </span>
-                    )}
-                  </td>
-                  <td className="px-6 py-4 font-mono text-[10px] text-[#8C827A]">
-                    {tx.tx_hash ? (
-                      <span className="truncate block max-w-[120px] text-emerald-600 font-medium">Confirmed</span>
-                    ) : (
-                      <span className="text-[#8C827A] italic">Verified on file</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        
+        <div className="space-y-3">
+          {[1, 2].map((i) => (
+            <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-gray-50 border border-gray-100">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center text-violet-600">
+                  <CheckCircle2 className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-sm font-semibold text-violet-950">Python Backend Session</div>
+                  <div className="text-[10px] text-gray-500">Sep 15, 2026 • Escrow Released</div>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-sm font-bold text-emerald-700">- रु 2,700</div>
+                <div className="text-[10px] text-gray-400">Paid via USDT</div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

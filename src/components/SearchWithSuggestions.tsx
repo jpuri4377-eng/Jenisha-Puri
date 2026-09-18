@@ -140,7 +140,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
         }}
         onKeyDown={handleKeyDown}
         autoComplete="off"
-        className="w-full pl-11 pr-10 py-3.5 rounded-full bg-white text-sm text-[#2D2623] placeholder:text-[#8C827A] shadow-[0_2px_12px_-2px_rgba(44,37,35,0.06)] border border-[#EAE3D6] focus:border-[#D95338] focus:ring-2 focus:ring-[#D95338]/20 focus:outline-none transition-all duration-300 ease-out"
+        className="w-full pl-11 pr-10 py-3.5 rounded-full bg-violet-50/30 text-sm text-[#2E1065] placeholder:text-[#8C827A] shadow-[0_2px_12px_-2px_rgba(44,37,35,0.06)] border border-violet-200 focus:border-[#D95338] focus:ring-2 focus:ring-[#D95338]/20 focus:outline-none transition-all duration-300 ease-out"
       />
 
       {value && (
@@ -151,7 +151,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
             setIsOpen(false);
             inputRef.current?.focus();
           }}
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-[#2D2623] text-xs p-1 cursor-pointer z-10"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-[#2E1065] text-xs p-1 cursor-pointer z-10"
           aria-label="Clear search"
         >
           <X className="w-3.5 h-3.5" />
@@ -162,7 +162,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
       {isOpen && (
         <div 
           id="search-skills-dropdown"
-          className="absolute left-0 right-0 top-full mt-2 bg-white rounded-3xl shadow-[0_16px_36px_-8px_rgba(44,37,35,0.12)] border border-[#EAE3D6] py-2.5 z-50 overflow-hidden animate-in fade-in slide-in-from-top-1 duration-200"
+          className="absolute left-0 right-0 top-full mt-2 bg-violet-50/30 rounded-3xl shadow-[0_16px_36px_-8px_rgba(44,37,35,0.12)] border border-violet-200 py-2.5 z-50 overflow-hidden animate-in fade-in slide-in-from-top-1 duration-200"
         >
           {/* Header */}
           <div className="px-4 py-1.5 flex items-center justify-between text-[11px] font-semibold text-[#8C827A] uppercase tracking-wider border-b border-[#F2EBE0] mb-1">
@@ -194,12 +194,12 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
                     className={`w-full px-3.5 py-2.5 rounded-2xl flex items-center justify-between text-left transition-all duration-200 cursor-pointer ${
                       isSelected 
                         ? 'bg-[#FDF2EE] text-[#D95338]' 
-                        : 'hover:bg-[#FAF7F2] text-[#2D2623]'
+                        : 'hover:bg-[#FAF7F2] text-[#2E1065]'
                     }`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
                       <div className={`w-7 h-7 rounded-xl flex items-center justify-center shrink-0 ${
-                        isSelected ? 'bg-white text-[#D95338] shadow-2xs' : 'bg-[#F4EFE7] text-[#6E645F]'
+                        isSelected ? 'bg-violet-50/30 text-[#D95338] shadow-2xs' : 'bg-[#F4EFE7] text-[#6E645F]'
                       }`}>
                         <TrendingUp className="w-3.5 h-3.5" />
                       </div>
@@ -207,7 +207,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
                         {matchPos >= 0 ? (
                           <>
                             {keyword.substring(0, matchPos)}
-                            <span className="font-bold underline decoration-[#D95338]/40 text-[#2D2623]">
+                            <span className="font-bold underline decoration-[#D95338]/40 text-[#2E1065]">
                               {keyword.substring(matchPos, matchPos + query.length)}
                             </span>
                             {keyword.substring(matchPos + query.length)}
@@ -221,7 +221,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
                     <div className="flex items-center gap-1.5 shrink-0 ml-2">
                       <span className={`text-[10px] px-2 py-0.5 rounded-full ${
                         isSelected 
-                          ? 'bg-white text-[#D95338] font-semibold shadow-2xs' 
+                          ? 'bg-violet-50/30 text-[#D95338] font-semibold shadow-2xs' 
                           : 'bg-[#F4EFE7] text-[#6E645F]'
                       }`}>
                         Skill
@@ -245,7 +245,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
                       key={sk}
                       type="button"
                       onClick={() => handleSelect(sk)}
-                      className="px-3 py-1 rounded-full text-[11px] bg-[#F4EFE7] hover:bg-[#FDF2EE] hover:text-[#D95338] text-[#2D2623] transition-colors duration-200 cursor-pointer font-medium"
+                      className="px-3 py-1 rounded-full text-[11px] bg-[#F4EFE7] hover:bg-[#FDF2EE] hover:text-[#D95338] text-[#2E1065] transition-colors duration-200 cursor-pointer font-medium"
                     >
                       {sk}
                     </button>
@@ -265,7 +265,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
                     key={sk}
                     type="button"
                     onClick={() => handleSelect(sk)}
-                    className="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#F4EFE7] hover:bg-[#FDF2EE] hover:text-[#D95338] text-[#2D2623] transition-colors duration-200 cursor-pointer"
+                    className="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#F4EFE7] hover:bg-[#FDF2EE] hover:text-[#D95338] text-[#2E1065] transition-colors duration-200 cursor-pointer"
                   >
                     {sk}
                   </button>

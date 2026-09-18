@@ -76,7 +76,7 @@ export const HireBookingModal: React.FC<HireBookingModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs overflow-y-auto">
-      <div className="bg-white rounded-3xl shadow-[0_20px_50px_-12px_rgba(44,37,35,0.2)] w-full max-w-lg flex flex-col my-8 overflow-hidden border border-[#EAE3D6]">
+      <div className="bg-violet-50/30 rounded-3xl shadow-[0_20px_50px_-12px_rgba(44,37,35,0.2)] w-full max-w-lg flex flex-col my-8 overflow-hidden border border-violet-200">
         
         {/* Header */}
         <div className="px-6 py-5 border-b border-[#F2EBE0] flex items-center justify-between">
@@ -84,21 +84,21 @@ export const HireBookingModal: React.FC<HireBookingModalProps> = ({
             <p className="text-xs font-semibold text-[#D95338] uppercase tracking-wider">
               Book a Lesson
             </p>
-            <h2 className="text-lg font-semibold text-[#2D2623] tracking-normal mt-0.5">
+            <h2 className="text-lg font-semibold text-[#2E1065] tracking-normal mt-0.5">
               Book Session with {targetTalent.user.name}
             </h2>
           </div>
           <button
             id="close-hire-booking-modal"
             onClick={onClose}
-            className="p-2 rounded-full text-[#8C827A] hover:text-[#2D2623] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
+            className="p-2 rounded-full text-[#8C827A] hover:text-[#2E1065] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-6 sm:p-7 space-y-5 text-[#2D2623]">
+        <form onSubmit={handleSubmit} className="p-6 sm:p-7 space-y-5 text-[#2E1065]">
           {error && (
             <div className="p-3 rounded-2xl bg-[#FDF2EE] text-[#D95338] border border-[#FAD5C8] text-xs font-medium">
               {error}
@@ -106,7 +106,7 @@ export const HireBookingModal: React.FC<HireBookingModalProps> = ({
           )}
 
           {/* Teacher & Session Summary Card */}
-          <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#EAE3D6] flex items-center justify-between gap-3">
+          <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-violet-200 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <img
                 src={targetTalent.user.avatar}
@@ -117,7 +117,7 @@ export const HireBookingModal: React.FC<HireBookingModalProps> = ({
                 <p className="text-xs font-normal text-[#8C827A]">
                   {targetTalent.category} • {targetTalent.proficiencyLevel}
                 </p>
-                <h4 className="text-sm font-semibold text-[#2D2623] mt-0.5">
+                <h4 className="text-sm font-semibold text-[#2E1065] mt-0.5">
                   {targetTalent.title}
                 </h4>
                 <div className="flex items-center gap-2 text-xs text-[#6E645F] mt-0.5">
@@ -132,7 +132,7 @@ export const HireBookingModal: React.FC<HireBookingModalProps> = ({
               <span className="text-xs font-normal text-[#8C827A] flex items-center justify-end">
                 Fee <HelpTooltip term="Lesson Fee" text={FINANCE_EXPLANATIONS.lessonFee} />
               </span>
-              <span className="text-lg font-semibold text-[#2D2623]">
+              <span className="text-lg font-semibold text-[#2E1065]">
                 ${rate}
               </span>
               <span className="text-xs text-[#8C827A] block">/{rateType === 'hour' ? 'hr' : 'lesson'}</span>
@@ -141,7 +141,7 @@ export const HireBookingModal: React.FC<HireBookingModalProps> = ({
 
           {/* Session Timing */}
           <div>
-            <label className="block text-xs font-medium text-[#2D2623] mb-1.5">
+            <label className="block text-xs font-medium text-[#2E1065] mb-1.5">
               Preferred Date & Time *
             </label>
             <div className="relative">
@@ -152,7 +152,7 @@ export const HireBookingModal: React.FC<HireBookingModalProps> = ({
                 value={sessionDateProposal}
                 onChange={(e) => setSessionDateProposal(e.target.value)}
                 placeholder="e.g. Saturday 2:00 PM UTC"
-                className="w-full pl-9 pr-3.5 py-2.5 rounded-2xl border border-[#EAE3D6] text-xs text-[#2D2623] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none bg-white transition-all"
+                className="w-full pl-9 pr-3.5 py-2.5 rounded-2xl border border-violet-200 text-xs text-[#2E1065] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none bg-violet-50/30 transition-all"
                 required
               />
             </div>
@@ -163,7 +163,7 @@ export const HireBookingModal: React.FC<HireBookingModalProps> = ({
 
           {/* Learning Goals */}
           <div>
-            <label className="block text-xs font-medium text-[#2D2623] mb-1.5">
+            <label className="block text-xs font-medium text-[#2E1065] mb-1.5">
               What would you like to explore or focus on? (optional)
             </label>
             <textarea
@@ -172,7 +172,7 @@ export const HireBookingModal: React.FC<HireBookingModalProps> = ({
               value={learnerGoals}
               onChange={(e) => setLearnerGoals(e.target.value)}
               placeholder="e.g. I'd love help reviewing fundamentals and building real projects..."
-              className="w-full px-3.5 py-2.5 rounded-2xl border border-[#EAE3D6] text-xs text-[#2D2623] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none bg-white transition-all leading-relaxed"
+              className="w-full px-3.5 py-2.5 rounded-2xl border border-violet-200 text-xs text-[#2E1065] focus:border-[#D95338] focus:ring-1 focus:ring-[#D95338] focus:outline-none bg-violet-50/30 transition-all leading-relaxed"
             />
           </div>
 
@@ -180,7 +180,7 @@ export const HireBookingModal: React.FC<HireBookingModalProps> = ({
           <div className="p-4 rounded-2xl bg-[#FFF8EB] border border-[#FDE68A] flex items-start gap-3 text-xs text-[#6E645F]">
             <ShieldCheck className="w-4 h-4 text-[#D95338] shrink-0 mt-0.5" />
             <div className="space-y-0.5">
-              <span className="font-semibold text-[#2D2623] flex items-center">
+              <span className="font-semibold text-[#2E1065] flex items-center">
                 Protected Escrow Guarantee
                 <HelpTooltip term="Payment Protection" text={FINANCE_EXPLANATIONS.escrow} />
               </span>
@@ -195,7 +195,7 @@ export const HireBookingModal: React.FC<HireBookingModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-full text-xs font-medium text-[#6E645F] hover:text-[#2D2623] transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-full text-xs font-medium text-[#6E645F] hover:text-[#2E1065] transition-colors cursor-pointer"
             >
               Cancel
             </button>

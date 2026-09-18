@@ -245,12 +245,12 @@ python manage.py runserver 8000`
   return (
     <div className="space-y-8">
       {/* Title */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-[#EAE3D6]">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-violet-200">
         <div>
           <p className="text-xs font-semibold text-[#D95338] uppercase tracking-wider">
             Backend Architecture
           </p>
-          <h2 className="text-xl sm:text-2xl font-bold text-[#2D2623] tracking-normal mt-1">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#2E1065] tracking-normal mt-1">
             Django REST Specification
           </h2>
           <p className="text-xs text-[#6E645F] mt-1 leading-relaxed">
@@ -259,7 +259,7 @@ python manage.py runserver 8000`
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs font-medium text-[#2D2623] bg-[#F4EFE7] border border-[#EAE3D6] px-3.5 py-1.5 rounded-full flex items-center gap-1.5">
+          <span className="text-xs font-medium text-[#2E1065] bg-[#F4EFE7] border border-violet-200 px-3.5 py-1.5 rounded-full flex items-center gap-1.5">
             <Server className="w-3.5 h-3.5 text-[#D95338]" /> Django 5.x / DRF
           </span>
         </div>

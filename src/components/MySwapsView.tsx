@@ -53,7 +53,7 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
           <p className="text-xs font-semibold text-[#D95338] uppercase tracking-wider">
             My Learning Sessions
           </p>
-          <h2 className="text-xl sm:text-2xl font-bold text-[#2D2623] tracking-tight mt-1">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#2E1065] tracking-tight mt-1">
             My Sessions
           </h2>
           <p className="text-xs text-[#6E645F] mt-1 leading-relaxed">
@@ -68,7 +68,7 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
             className={`px-4 py-1.5 rounded-full text-xs transition-colors cursor-pointer ${
               filter === 'all' 
                 ? 'bg-[#2D2623] text-white font-semibold' 
-                : 'bg-[#FAF7F2] border border-[#EAE3D6] text-[#6E645F] hover:text-[#2D2623]'
+                : 'bg-[#FAF7F2] border border-violet-200 text-[#6E645F] hover:text-[#2E1065]'
             }`}
           >
             All ({userSwaps.length})
@@ -78,7 +78,7 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
             className={`px-4 py-1.5 rounded-full text-xs transition-colors cursor-pointer ${
               filter === 'active' 
                 ? 'bg-[#2D2623] text-white font-semibold' 
-                : 'bg-[#FAF7F2] border border-[#EAE3D6] text-[#6E645F] hover:text-[#2D2623]'
+                : 'bg-[#FAF7F2] border border-violet-200 text-[#6E645F] hover:text-[#2E1065]'
             }`}
           >
             In Progress
@@ -88,7 +88,7 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
             className={`px-4 py-1.5 rounded-full text-xs transition-colors cursor-pointer ${
               filter === 'pending_escrow' 
                 ? 'bg-[#2D2623] text-white font-semibold' 
-                : 'bg-[#FAF7F2] border border-[#EAE3D6] text-[#6E645F] hover:text-[#2D2623]'
+                : 'bg-[#FAF7F2] border border-violet-200 text-[#6E645F] hover:text-[#2E1065]'
             }`}
           >
             Pending Payment
@@ -98,7 +98,7 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
             className={`px-4 py-1.5 rounded-full text-xs transition-colors cursor-pointer ${
               filter === 'completed' 
                 ? 'bg-[#2D2623] text-white font-semibold' 
-                : 'bg-[#FAF7F2] border border-[#EAE3D6] text-[#6E645F] hover:text-[#2D2623]'
+                : 'bg-[#FAF7F2] border border-violet-200 text-[#6E645F] hover:text-[#2E1065]'
             }`}
           >
             Completed
@@ -108,8 +108,8 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
 
       {/* Swaps List */}
       {filteredSwaps.length === 0 ? (
-        <div className="p-12 text-center bg-white rounded-3xl border border-[#EAE3D6] shadow-[0_4px_20px_-4px_rgba(44,37,35,0.05)] space-y-3">
-          <h3 className="text-base font-semibold text-[#2D2623]">No sessions or trades found</h3>
+        <div className="p-12 text-center bg-violet-50/30 rounded-3xl border border-violet-200 shadow-[0_4px_20px_-4px_rgba(44,37,35,0.05)] space-y-3">
+          <h3 className="text-base font-semibold text-[#2E1065]">No sessions or trades found</h3>
           <p className="text-xs text-[#6E645F] max-w-sm mx-auto leading-relaxed">
             Browse the explore feed to trade skills for free or book a lesson, or teach a skill to receive friendly requests.
           </p>
@@ -135,7 +135,7 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
             return (
               <div
                 key={swap.id}
-                className="bg-white rounded-3xl border border-[#EAE3D6] p-6 sm:p-7 space-y-5 transition-all shadow-[0_4px_20px_-4px_rgba(44,37,35,0.05)]"
+                className="bg-violet-50/30 rounded-3xl border border-violet-200 p-6 sm:p-7 space-y-5 transition-all shadow-[0_4px_20px_-4px_rgba(44,37,35,0.05)]"
               >
                 {/* Peer Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#F2EBE0]">
@@ -147,7 +147,7 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
                     />
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h4 className="font-semibold text-sm text-[#2D2623]">
+                        <h4 className="font-semibold text-sm text-[#2E1065]">
                           {isHire 
                             ? (isRequester ? `Lesson with ${peer.name}` : `Teaching ${peer.name}`)
                             : `Skill Trade with ${peer.name}`
@@ -157,7 +157,7 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
                           className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold ${
                             isHire 
                               ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' 
-                              : 'bg-[#FAF7F2] text-[#2D2623] border border-[#EAE3D6]'
+                              : 'bg-[#FAF7F2] text-[#2E1065] border border-violet-200'
                           }`}
                         >
                           {isHire ? 'Paid Lesson' : 'Free Skill Trade'}
@@ -173,7 +173,7 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
                   {/* Escrow Status with Tooltip */}
                   <div className="flex items-center gap-2">
                     {swap.status === 'completed' ? (
-                      <span className="px-3 py-1 rounded-full text-xs font-medium bg-[#FAF7F2] border border-[#EAE3D6] text-[#2D2623] flex items-center gap-1.5">
+                      <span className="px-3 py-1 rounded-full text-xs font-medium bg-[#FAF7F2] border border-violet-200 text-[#2E1065] flex items-center gap-1.5">
                         <Check className="w-3.5 h-3.5 text-emerald-600" />
                         {isHire ? 'Completed • Payment Released' : 'Completed • Deposit Refunded'}
                         <HelpTooltip text={isHire ? FINANCE_EXPLANATIONS.escrowRelease : FINANCE_EXPLANATIONS.refund} />
@@ -197,7 +197,7 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
                 {isHire ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Session topic & teacher */}
-                    <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#EAE3D6] space-y-1">
+                    <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-violet-200 space-y-1">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-normal text-[#8C827A]">
                           {isRequester ? `Teacher: ${swap.recipient.name}` : `Student: ${swap.requester.name}`}
@@ -212,7 +212,7 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
                           </span>
                         )}
                       </div>
-                      <p className="text-sm font-semibold text-[#2D2623]">
+                      <p className="text-sm font-semibold text-[#2E1065]">
                         {swap.talentListing.title}
                       </p>
                       <p className="text-xs text-[#6E645F]">
@@ -221,7 +221,7 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
                     </div>
 
                     {/* Payment & release status */}
-                    <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#EAE3D6] space-y-1">
+                    <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-violet-200 space-y-1">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-normal text-[#8C827A] flex items-center">
                           Lesson Fee
@@ -242,7 +242,7 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
                           </span>
                         )}
                       </div>
-                      <p className="text-sm font-semibold text-[#2D2623]">
+                      <p className="text-sm font-semibold text-[#2E1065]">
                         ${swap.escrowDepositUSD}.00 USD
                       </p>
                       <p className="text-xs text-[#6E645F] leading-relaxed">
@@ -255,7 +255,7 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* You teach */}
-                    <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#EAE3D6] space-y-1">
+                    <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-violet-200 space-y-1">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-normal text-[#8C827A]">
                           You teach {peer.name}
@@ -270,13 +270,13 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
                           </span>
                         )}
                       </div>
-                      <p className="text-sm font-semibold text-[#2D2623]">
+                      <p className="text-sm font-semibold text-[#2E1065]">
                         {isRequester ? swap.requesterOfferTitle : swap.talentListing.title}
                       </p>
                     </div>
 
                     {/* Peer teaches */}
-                    <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#EAE3D6] space-y-1">
+                    <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-violet-200 space-y-1">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-normal text-[#8C827A]">
                           {peer.name} teaches you
@@ -291,7 +291,7 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
                           </span>
                         )}
                       </div>
-                      <p className="text-sm font-semibold text-[#2D2623]">
+                      <p className="text-sm font-semibold text-[#2E1065]">
                         {isRequester ? swap.talentListing.title : swap.requesterOfferTitle}
                       </p>
                     </div>
@@ -347,7 +347,7 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
                             href={swap.meetingLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-4 py-2 rounded-full text-xs font-medium text-[#2D2623] bg-[#F4EFE7] hover:bg-[#EAE3D6] transition-colors flex items-center gap-1.5"
+                            className="px-4 py-2 rounded-full text-xs font-medium text-[#2E1065] bg-[#F4EFE7] hover:bg-[#EAE3D6] transition-colors flex items-center gap-1.5"
                           >
                             <Video className="w-3.5 h-3.5" />
                             Join Video Call
@@ -378,7 +378,7 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
                                 Mark Lesson Taught
                               </button>
                             ) : (
-                              <div className="px-4 py-2 rounded-full bg-[#FAF7F2] border border-[#EAE3D6] text-xs font-medium text-[#8C827A] flex items-center gap-1.5">
+                              <div className="px-4 py-2 rounded-full bg-[#FAF7F2] border border-violet-200 text-xs font-medium text-[#8C827A] flex items-center gap-1.5">
                                 <Clock className="w-3.5 h-3.5" />
                                 Awaiting Student Confirmation
                               </div>
@@ -396,7 +396,7 @@ export const MySwapsView: React.FC<MySwapsViewProps> = ({
                               Confirm I Taught My Lesson
                             </button>
                           ) : !peerDeliveryDone ? (
-                            <div className="px-4 py-2 rounded-full bg-[#FAF7F2] border border-[#EAE3D6] text-xs font-medium text-[#8C827A] flex items-center gap-1.5">
+                            <div className="px-4 py-2 rounded-full bg-[#FAF7F2] border border-violet-200 text-xs font-medium text-[#8C827A] flex items-center gap-1.5">
                               <Clock className="w-3.5 h-3.5" />
                               Awaiting {peer.name}'s Confirmation
                             </div>
